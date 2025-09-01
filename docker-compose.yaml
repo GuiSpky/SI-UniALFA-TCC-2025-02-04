@@ -30,21 +30,6 @@ services:
     networks:
       - internal
 
-  front-end:
-    build:
-      context: .
-      dockerfile: ./front-end/Dockerfile
-    restart: on-failure
-    depends_on:
-      - back-end
-      - back-end
-    ports:
-      - 80:80
-    env_file:
-      - ./front-end/.env
-    networks:
-      - internal
-
   jaeger:
     image: jaegertracing/all-in-one:latest
     environment:
