@@ -1,43 +1,62 @@
+version: "3.8"
+
 services:
-  back-end:
-    hostname: back-end
+  # Serviço PHP-FPM para rodar o Laravel
+  app:
     build:
       context: .
       dockerfile: ./back-end/Dockerfile
+    container_name: laravel_app
     restart: on-failure
     depends_on:
       - mysql
     volumes:
-      - ./back-end:/home/root/app
-      - private_node_modules:/home/root/app/node_modules
-    ports:
-      - 3000:3000
-    env_file:
-      - ./back-end/.env
+      - ./back-end:/var/www/html
     networks:
       - internal
 
+  # Servidor Nginx para servir o Laravel
+  nginx:
+    image: nginx:alpine
+    container_name: nginx_container
+    restart: on-failure
+    ports:
+      - "8000:80" # acessar pelo http://localhost:8000
+    volumes:
+      - ./back-end:/var/www/html
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - app
+    networks:
+      - internal
+
+  # Banco de dados MySQL
   mysql:
     image: mysql:8.0
     container_name: mysql_container
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword   
-      MYSQL_DATABASE: laravel                                
-      MYSQL_PASSWORD:           
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravel
     ports:
-      - "3306:3306"  
+      - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql   
+      - mysql_data:/var/lib/mysql
+    networks:
+      - internal
 
+  # Serviço de tracing (Jaeger)
   jaeger:
     image: jaegertracing/all-in-one:latest
+    container_name: jaeger_container
     environment:
       - COLLECTOR_OTLP_ENABLED=true
       - COLLECTOR_ZIPKIN_HOST_PORT=:9411
     ports:
-      - "16686:16686"  # UI
-      - "4317:4317"    # OTLP/gRPC
-      - "4318:4318"    # OTLP/HTTP
+      - "16686:16686" # UI
+      - "4317:4317"   # OTLP/gRPC
+      - "4318:4318"   # OTLP/HTTP
     networks:
       - internal
 
@@ -47,4 +66,3 @@ networks:
 
 volumes:
   mysql_data:
-  private_node_modules:
