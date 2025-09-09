@@ -1,32 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\CidadeResouce;
+use App\Http\Controllers\Controller;
 use App\Models\Cidade;
 use Illuminate\Http\Request;
 
 class CidadeController extends Controller
 {
-    /**
-     * Listar todas as cidades
-     */
+    // Listar todas as cidades
     public function index()
     {
         $cidades = Cidade::all();
-        return response()->json($cidades, 200);
+        return CidadeResouce::collection($cidades);
     }
 
-    /**
-     * Criar nova cidade
-     */
+    // Criar uma nova cidade
     public function store(Request $request)
     {
-        // Validação básica
-        $request->validate([
-            'codIbge' => 'required|integer|unique:cidades,codIbge',
-            'nome' => 'required|string|max:150',
-            'uf' => 'required|string|size:2',
-        ]);
 
         $cidade = Cidade::create($request->all());
 
@@ -36,9 +28,7 @@ class CidadeController extends Controller
         ], 201);
     }
 
-    /**
-     * Mostrar cidade específica
-     */
+    // Mostrar cidade específica
     public function show($id)
     {
         $cidade = Cidade::find($id);
@@ -50,9 +40,7 @@ class CidadeController extends Controller
         return response()->json($cidade, 200);
     }
 
-    /**
-     * Atualizar cidade
-     */
+    // Atualizar cidade
     public function update(Request $request, $id)
     {
         $cidade = Cidade::find($id);
@@ -61,7 +49,6 @@ class CidadeController extends Controller
             return response()->json(['error' => 'Cidade não encontrada'], 404);
         }
 
-        // Validação básica
         $request->validate([
             'codIbge' => "required|integer|unique:cidades,codIbge,$id",
             'nome' => 'required|string|max:150',
@@ -76,9 +63,7 @@ class CidadeController extends Controller
         ], 200);
     }
 
-    /**
-     * Deletar cidade
-     */
+    // Deletar cidade
     public function destroy($id)
     {
         $cidade = Cidade::find($id);

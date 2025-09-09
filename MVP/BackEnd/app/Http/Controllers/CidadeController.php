@@ -15,7 +15,6 @@ class CidadeController extends Controller
         // Buscar os clientes no Banco de dados;
         $cidades = Cidade::get(); // :: significa que o método utilizado é estatico
 
-        // Mostrar um FrontEnd listando os clientes.
         return view('cidades.index', [
             'cidades' => $cidades
         ]);
