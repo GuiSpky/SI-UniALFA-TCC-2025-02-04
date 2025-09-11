@@ -10,7 +10,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cidades', function (Blueprint $table) {
-            $table->id("codIbge");
+            $table->unsignedBigInteger('codIbge')->primary(); // Chave primária sem auto incremento
             $table->string("nome", 50);
             $table->string("uf", 2);
             $table->timestamps();

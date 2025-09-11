@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CidadeResouce;
+use App\Http\Resources\CidadeResource;
 use App\Models\Cidade;
 use Illuminate\Http\Request;
 
-class CidadesControler extends Controller
+class CidadesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class CidadesControler extends Controller
     public function index()
     {
         $dados = Cidade::all();
-        return CidadeResouce::collection($dados);
+        return CidadeResource::collection($dados);
     }
 
     /**
