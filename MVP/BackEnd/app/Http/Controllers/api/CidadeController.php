@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CidadeResource;
 use App\Models\Cidade;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,8 @@ class CidadeController extends Controller
      */
     public function index()
     {
-        return Cidade::all();
+        $dados = Cidade::all();
+        return CidadeResource::collection($dados);
     }
 
     /**
@@ -29,7 +31,7 @@ class CidadeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -37,7 +39,9 @@ class CidadeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $cidade = Cidade::findOrFail($id); // Encontra o recurso ou lança um erro 404
+
+        return ($cidade);
     }
 
     /**
