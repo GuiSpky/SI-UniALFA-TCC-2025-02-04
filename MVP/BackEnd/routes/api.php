@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\BairroController;
 use App\Http\Controllers\api\CidadeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -9,4 +10,5 @@ use Illuminate\Support\Facades\Route;
 // })->middleware('auth:sanctum');
 
 Route::apiResource('cidades', CidadeController::class);
+Route::apiResource('bairros', BairroController::class);
 
