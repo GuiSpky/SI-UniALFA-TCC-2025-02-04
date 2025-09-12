@@ -9,34 +9,20 @@ use Illuminate\Http\Request;
 
 class CidadeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $dados = Cidade::all();
         return CidadeResource::collection($dados);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
+        $dados = $request->except('_token');
 
+        Cidade::create($dados);
+        return ($dados);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $cidade = Cidade::findOrFail($id); // Encontra o recurso ou lança um erro 404
@@ -44,27 +30,31 @@ class CidadeController extends Controller
         return ($cidade);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $cidade = Cidade::findOrFail($id);
+
+        $cidade->update([
+            "codIbge"=>$request->codIbge,
+	        "nome"=>$request->nome,
+	        "uf"=>$request->uf,
+        ]);
+
+        $cidade = Cidade::findOrFail($id);
+
+        return ($cidade);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $cidade = Cidade::findOrFail($id); // Encontra o recurso ou lança um erro 404
+
+        // Exclui o ambiente
+        $cidade->delete();
+
+        // Retorna apenas uma mensagem de sucesso
+        return response()->json([
+            'message' => 'Ambiente deletado com sucesso.',
+        ], 200);
     }
 }
