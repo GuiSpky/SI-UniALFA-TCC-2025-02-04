@@ -12,6 +12,6 @@ class Bairro extends Model
     
     protected $fillable = [
         'nome',
-        'codigoIbge',
+        'id_cidade',
     ];
 }

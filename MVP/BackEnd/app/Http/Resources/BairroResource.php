@@ -16,7 +16,7 @@ class BairroResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'codigoIbge'=> $this->codigoIbge,
+            'id_cidade'=> $this->id_cidade,
             'nome'=> $this->nome,
         ];
     }

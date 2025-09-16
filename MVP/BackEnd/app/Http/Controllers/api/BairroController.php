@@ -9,60 +9,52 @@ use Illuminate\Http\Request;
 
 class BairroController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $dados = Bairro::all();
         return BairroResource::collection($dados);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $dados = $request->except('_token');
+
+        Bairro::create($dados);
+        return ($dados);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        $bairro = Bairro::findOrFail($id);
+        $bairro = Bairro::findOrFail($id); // Encontra o recurso ou lança um erro 404
+
+        return ($bairro);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $bairro = Bairro::findOrFail($id);
+
+        $bairro->update([
+            "id_cidade"=>$request->id_cidade,
+	        "nome"=>$request->nome,
+        ]);
+
+        $bairro = Bairro::findOrFail($id);
+
+        return ($bairro);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $bairro = Bairro::findOrFail($id); // Encontra o recurso ou lança um erro 404
+
+        // Exclui o ambiente
+        $bairro->delete();
+
+        // Retorna apenas uma mensagem de sucesso
+        return response()->json([
+            'message' => 'Ambiente deletado com sucesso.',
+        ], 200);
     }
 }
