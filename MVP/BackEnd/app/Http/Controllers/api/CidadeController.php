@@ -19,8 +19,8 @@ class CidadeController extends Controller
     {
         $dados = $request->validate([
         'codIbge' => 'required|bigInteger',
-        'nome' => 'required|string|max:255',
-        'uf' => 'required|string|max:255',
+        'nome' => 'required|string|max:100',
+        'uf' => 'required|string|max:2',
     ]);
 
         Cidade::create($dados);

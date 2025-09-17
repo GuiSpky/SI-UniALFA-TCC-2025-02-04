@@ -19,7 +19,7 @@ class BairroController extends Controller
     public function store(Request $request)
     {
         $dados = $request->validate([
-        'nome' => 'required|string|max:255',
+        'nome' => 'required|string|max:100',
         'id_cidade' => 'required|integer',
     ]);
 

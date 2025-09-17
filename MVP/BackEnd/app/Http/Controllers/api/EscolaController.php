@@ -29,7 +29,7 @@ class EscolaController extends Controller
 
     public function show(string $id)
     {
-        $escola = Escola::findOrFail($id); // Encontra o recurso ou lança um erro 404
+        $escola = Escola::findOrFail($id);
 
         return ($escola);
     }
