@@ -3,63 +3,65 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UsuarioResources;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $dados = Usuario::all();
+        return UsuarioResources::collection($dados);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $dados = $request->validate([
+        'nome' => 'required|string|max:100',
+        'email' => 'required|string|max:100',
+        'telefone' => 'required|string|max:13',
+        'cargo' => 'required|string|max:100',
+        'id_escola' => 'required|integer',
+    ]);
+
+        Usuario::create($dados);
+        return ($dados);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $usuario = Usuario::findOrFail($id);
+        return ($usuario);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $dados = Usuario::findOrFail($id);
+
+        $dados->update([
+            "nome"=>$request->nome,
+	        "email"=>$request->email,
+	        "telefone"=>$request->telefone,
+	        "cargo"=>$request->cargo,
+	        "id_escola"=>$request->id_escola,
+        ]);
+
+        $dados = Escola::findOrFail($id);
+
+        return ($dados);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $usuario = Usuario::findOrFail($id); // Encontra o recurso ou lança um erro 404
+
+        // Exclui o ambiente
+        $usuario->delete();
+
+        // Retorna apenas uma mensagem de sucesso
+        return response()->json([
+            'message' => 'Usuário deletado com sucesso.',
+        ], 200);
     }
 }
