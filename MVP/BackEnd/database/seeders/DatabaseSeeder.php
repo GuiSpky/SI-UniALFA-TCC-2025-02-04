@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
         User::truncate();
         $this->call(CidadeSeeder::class);
         $this->call(BairroSeeder::class);
+        $this->call(EscolaSeeder::class);
+        $this->call(CardapioSeeder::class);
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',

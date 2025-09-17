@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('escolas', function (Blueprint $table) {
+        Schema::create('cardapios', function (Blueprint $table) {
             $table->id();
-            $table->string('nome', 100);
-            $table->bigInteger('id_cidade')->unsigned();
-            $table->foreign('id_cidade')->references('id')->on('cidades');
-            $table->bigInteger('id_bairro')->unsigned();
-            $table->foreign('id_bairro')->references('id')->on('bairros');
+            $table->string("nome")->isNotEmpty();
+            $table->string("item")->isNotEmpty();
+            $table->date("data")->isNotEmpty();
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('escolas');
+        Schema::dropIfExists('cardapios');
     }
 };

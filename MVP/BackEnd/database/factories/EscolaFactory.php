@@ -2,13 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\Bairro;
 use App\Models\Cidade;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Bairro>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Escola>
  */
-class BairroFactory extends Factory
+class EscolaFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,6 +21,7 @@ class BairroFactory extends Factory
         return [
             'nome' => fake()->name(),
             'id_cidade' => Cidade::all()->random()->id,
+            'id_bairro' => Bairro::all()->random()->id,
         ];
     }
 }
