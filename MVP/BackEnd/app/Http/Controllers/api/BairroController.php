@@ -18,7 +18,10 @@ class BairroController extends Controller
 
     public function store(Request $request)
     {
-        $dados = $request->except('_token');
+        $dados = $request->validate([
+        'nome' => 'required|string|max:255',
+        'id_cidade' => 'required|integer',
+    ]);
 
         Bairro::create($dados);
         return ($dados);

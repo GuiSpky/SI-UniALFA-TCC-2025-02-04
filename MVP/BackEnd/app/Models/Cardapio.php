@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Escola extends Model
+class Cardapio extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'nome',
-        'id_cidade',
-        'id_bairro',
+        'item',
+        'data',
     ];
 }

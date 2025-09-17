@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CidadeResource;
-use App\Models\Cidade;
+use App\Http\Resources\CardapioResource;
+use App\Models\Cardapio;
 use Illuminate\Http\Request;
 
-class CidadeController extends Controller
+class CardapioController extends Controller
 {
     public function index()
     {
-        $dados = Cidade::all();
-        return CidadeResource::collection($dados);
+        $dados = Cardapio::all();
+        return CardapioResource::collection($dados);
     }
 
     public function store(Request $request)
@@ -23,38 +23,38 @@ class CidadeController extends Controller
         'uf' => 'required|string|max:255',
     ]);
 
-        Cidade::create($dados);
+        Cardapio::create($dados);
         return ($dados);
     }
 
     public function show(string $id)
     {
-        $cidade = Cidade::findOrFail($id); // Encontra o recurso ou lança um erro 404
+        $cardapio = Cardapio::findOrFail($id); // Encontra o recurso ou lança um erro 404
 
-        return ($cidade);
+        return ($cardapio);
     }
 
     public function update(Request $request, string $id)
     {
-        $cidade = Cidade::findOrFail($id);
+        $cardapio = Cardapio::findOrFail($id);
 
-        $cidade->update([
+        $cardapio->update([
             "codIbge"=>$request->codIbge,
 	        "nome"=>$request->nome,
 	        "uf"=>$request->uf,
         ]);
 
-        $cidade = Cidade::findOrFail($id);
+        $cardapio = Cardapio::findOrFail($id);
 
-        return ($cidade);
+        return ($cardapio);
     }
 
     public function destroy(string $id)
     {
-        $cidade = Cidade::findOrFail($id); // Encontra o recurso ou lança um erro 404
+        $cardapio = Cardapio::findOrFail($id); // Encontra o recurso ou lança um erro 404
 
         // Exclui o ambiente
-        $cidade->delete();
+        $cardapio->delete();
 
         // Retorna apenas uma mensagem de sucesso
         return response()->json([
