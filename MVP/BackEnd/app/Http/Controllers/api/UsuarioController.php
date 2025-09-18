@@ -47,7 +47,7 @@ class UsuarioController extends Controller
 	        "id_escola"=>$request->id_escola,
         ]);
 
-        $dados = Escola::findOrFail($id);
+        $dados = Usuario::findOrFail($id);
 
         return ($dados);
     }
