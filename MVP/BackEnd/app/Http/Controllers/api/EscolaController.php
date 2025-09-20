@@ -4,6 +4,8 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EscolaResource;
+use App\Models\Bairro;
+use App\Models\Cidade;
 use App\Models\Escola;
 use Illuminate\Http\Request;
 
@@ -61,4 +63,17 @@ class EscolaController extends Controller
             'message' => 'Escola deletado com sucesso.',
         ], 200);
     }
+
+    public function getBairros($cidadeId)
+    {
+        $bairros = Bairro::where('id_cidade', $cidadeId)->get();
+
+        if ($bairros->isEmpty()) {
+            return response()->json(['message' => 'Nenhum bairro encontrado para essa cidade'], 404);
+        }
+
+        return response()->json($bairros);
+    }
+
+
 }

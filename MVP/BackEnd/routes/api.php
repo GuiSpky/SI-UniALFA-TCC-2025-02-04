@@ -18,3 +18,4 @@ Route::apiResource('bairros', BairroController::class);
 Route::apiResource('usuarios', UsuarioController::class);
 Route::apiResource('cardapios', CardapioController::class);
 
+Route::get('/escolas/{cidadeId}/bairros', [EscolaController::class, 'getBairros']);
