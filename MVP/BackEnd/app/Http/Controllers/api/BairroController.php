@@ -60,4 +60,14 @@ class BairroController extends Controller
             'message' => 'Ambiente deletado com sucesso.',
         ], 200);
     }
+
+     public function getBairrosByCidade($id)
+    {
+        $dados = Bairro::join('cidades', 'bairros.id_cidade', '=', 'cidades.id')
+            ->where('bairros.id_cidade', $id)
+            ->select('bairros.*', 'cidades.nome as nome_cidade')
+            ->get();
+
+        return BairroResource::collection($dados);
+    }
 }

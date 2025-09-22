@@ -64,16 +64,5 @@ class EscolaController extends Controller
         ], 200);
     }
 
-    public function getBairros($cidadeId)
-    {
-        $bairros = Bairro::where('id_cidade', $cidadeId)->get();
-
-        if ($bairros->isEmpty()) {
-            return response()->json(['message' => 'Nenhum bairro encontrado para essa cidade'], 404);
-        }
-
-        return response()->json($bairros);
-    }
-
 
 }
