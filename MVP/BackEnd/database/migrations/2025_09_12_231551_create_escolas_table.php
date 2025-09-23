@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('escolas', function (Blueprint $table) {
             $table->id();
-            $table->string('nome', 25);
+            $table->string('nome', 100);
             $table->bigInteger('id_cidade')->unsigned();
             $table->foreign('id_cidade')->references('id')->on('cidades');
             $table->bigInteger('id_bairro')->unsigned();

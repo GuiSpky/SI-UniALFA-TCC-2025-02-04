@@ -4,6 +4,8 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EscolaResource;
+use App\Models\Bairro;
+use App\Models\Cidade;
 use App\Models\Escola;
 use Illuminate\Http\Request;
 
@@ -29,7 +31,7 @@ class EscolaController extends Controller
 
     public function show(string $id)
     {
-        $escola = Escola::findOrFail($id); // Encontra o recurso ou lança um erro 404
+        $escola = Escola::findOrFail($id);
 
         return ($escola);
     }
@@ -61,4 +63,6 @@ class EscolaController extends Controller
             'message' => 'Escola deletado com sucesso.',
         ], 200);
     }
+
+
 }

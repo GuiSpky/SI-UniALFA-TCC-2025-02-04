@@ -7,11 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bairro extends Model
 {
-    
+
     use HasFactory;
-    
+
     protected $fillable = [
         'nome',
         'id_cidade',
     ];
+
+    public function cidade()
+    {
+        return $this->belongsTo(Cidade::class);
+    }
+
 }
