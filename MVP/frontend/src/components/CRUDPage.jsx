@@ -20,6 +20,19 @@ const CRUDPage = ({
   const [selectedItem, setSelectedItem] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
 
+  const genderMap = {
+    Usuario: 'm',
+    Cidade: 'f',
+    Produto: 'm',
+    Escola: 'f',
+  };
+
+  function getCreateLabel(entityName) {
+    const singular = entityName.replace(/s$/i, '');
+    const gender = genderMap[singular] || 'm';
+    return gender === 'f' ? `Nova ${singular}` : `Novo ${singular}`;
+  }
+
   const handleCreate = () => {
     setSelectedItem(null);
     setShowFormModal(true);
@@ -101,7 +114,7 @@ const CRUDPage = ({
         open={showFormModal}
         onOpenChange={setShowFormModal}
         onSubmit={handleFormSubmit}
-        title={selectedItem ? `Editar ${title.replace(/s$/i, '')}  : Novo ${title.replace(/s$/i, '')}`}
+        title={selectedItem ? `Editar ${title.replace(/s$/i, '')}` : getCreateLabel(title)}
         fields={formFields}
         initialData={selectedItem || {}}
         loading={formLoading}
@@ -123,4 +136,3 @@ const CRUDPage = ({
 };
 
 export default CRUDPage;
-
