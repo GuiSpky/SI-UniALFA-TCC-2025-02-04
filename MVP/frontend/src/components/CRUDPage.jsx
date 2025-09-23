@@ -136,4 +136,3 @@ const CRUDPage = ({
 };
 
 export default CRUDPage;
-
