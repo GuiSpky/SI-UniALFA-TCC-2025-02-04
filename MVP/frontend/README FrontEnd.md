@@ -123,7 +123,3 @@ Os efeitos liquid glass são aplicados através das classes:
 
 ### Customizando Componentes
 Todos os componentes são modulares e podem ser facilmente customizados ou estendidos.
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
