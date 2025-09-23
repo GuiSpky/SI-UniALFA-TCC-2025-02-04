@@ -69,18 +69,6 @@ npm run dev
 npm run build
 ```
 
-### Configuração
-O arquivo `.env` contém as configurações da API:
-
-```env
-VITE_API_BASE_URL=http://localhost:3001/api
-VITE_API_TIMEOUT=10000
-VITE_API_STUDENTS=/students
-VITE_API_TEACHERS=/teachers
-VITE_API_COURSES=/courses
-VITE_API_DEPARTMENTS=/departments
-```
-
 ## 🎯 Funcionalidades Detalhadas
 
 ### Sistema de Navegação
