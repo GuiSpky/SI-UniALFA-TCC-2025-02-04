@@ -53,9 +53,8 @@ class EscolaController extends Controller
 
     public function destroy(string $id)
     {
-        $escola = Escola::findOrFail($id); // Encontra o recurso ou lança um erro 404
-
-        // Exclui o ambiente
+        $escola = Escola::findOrFail($id);
+ 
         $escola->delete();
 
         // Retorna apenas uma mensagem de sucesso

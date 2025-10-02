@@ -18,7 +18,7 @@ class CardapioController extends Controller
     public function store(Request $request)
     {
         $dados = $request->validate([
-        'codIbge' => 'required|bigInteger',
+        'codIbge' => 'required|Integer',
         'nome' => 'required|string|max:255',
         'uf' => 'required|string|max:255',
     ]);
