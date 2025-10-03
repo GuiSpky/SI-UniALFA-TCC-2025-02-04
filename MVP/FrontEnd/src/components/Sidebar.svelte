@@ -13,6 +13,11 @@
       </a>
     </li>
     <li>
+      <a href="#/bairros" class="nav-link text-white">
+        Bairros
+      </a>
+    </li>
+    <li>
       <a href="#/escolas" class="nav-link text-white">
         Escolas
       </a>

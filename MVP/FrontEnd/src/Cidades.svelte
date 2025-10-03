@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { getCidades, deletarCidadeAPI } from "./api/cidades.js";
+  import { getCidades, deletarCidadeAPI } from "./api/Cidades.js";
 
   let cidades = [];
   let loading = true;
@@ -34,9 +34,6 @@
   }
 </script>
 
-
-
-
 <main>
 <h1>Cidades:</h1>
 	<!-- Exibição -->
@@ -48,7 +45,7 @@
     <div class="container">
         <table class="table">
             <thead>
-                <td>Cod Ibge</td>
+                <td id="id">Cod Ibge</td>
                 <td>Nome</td>
                 <td>UF</td>
                 <td>Opções</td>
@@ -70,5 +67,9 @@
 </main>
 
 <style>
+
+    #id{
+        width: 40px;
+    }
 
 </style>
