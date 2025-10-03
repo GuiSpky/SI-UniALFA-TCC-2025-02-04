@@ -8,13 +8,26 @@ use App\Models\Bairro;
 use App\Models\Cidade;
 use App\Models\Escola;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EscolaController extends Controller
 {
     public function index()
     {
-        $dados = Escola::all();
-        return EscolaResource::collection($dados);
+        $escolas = DB::table('escolas')
+            ->join('bairros', 'escolas.id_bairro', '=', 'bairros.id')
+            ->join('cidades', 'escolas.id_cidade', '=', 'cidades.id')
+            ->select(
+                'escolas.id',
+                'escolas.nome as nome',
+                'bairros.nome as bairro',
+                'cidades.nome as cidade'
+            )
+            ->get();
+
+        return response()->json([
+            'data' => $escolas
+        ]);
     }
 
     public function store(Request $request)
@@ -54,13 +67,22 @@ class EscolaController extends Controller
     public function destroy(string $id)
     {
         $escola = Escola::findOrFail($id);
- 
+
         $escola->delete();
 
         // Retorna apenas uma mensagem de sucesso
         return response()->json([
             'message' => 'Escola deletado com sucesso.',
         ], 200);
+    }
+
+    public function getEscolaBairro()
+    {
+        $escolas = Escola::with(['bairro'])->get();
+
+    return response()->json([
+        'data' => $escolas
+    ]);
     }
 
 

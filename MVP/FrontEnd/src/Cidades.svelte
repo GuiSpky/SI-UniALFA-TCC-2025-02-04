@@ -1,54 +1,74 @@
 <script>
-	import Sidebar from "./components/Sidebar.svelte";
-	import { onMount } from "svelte";
+  import { onMount } from "svelte";
+  import { getCidades, deletarCidadeAPI } from "./api/cidades.js";
 
-	// Lista que receberá os dados da API
-	let cidades = [];
-	let loading = true;
-	let error = null;
+  let cidades = [];
+  let loading = true;
+  let error = null;
 
-	// Função chamada quando o componente "monta" na tela
-	onMount(async () => {
-		try {
-			const response = await fetch("http://127.0.0.1:8000/api/cidades");
-			if (!response.ok) {
-				throw new Error("Erro ao buscar dados");
-			}
+  onMount(async () => {
+    await carregarCidades();
+  });
 
-			const json = await response.json();
-			cidades = json.data; // Salva o JSON na variável reativa
-		} catch (err) {
-			error = err.message;
-		} finally {
-			loading = false;
-		}
-	});
+  async function carregarCidades() {
+    try {
+      loading = true;
+      cidades = await getCidades();
+    } catch (err) {
+      error = err.message;
+    } finally {
+      loading = false;
+    }
+  }
+
+  async function deletarCidade(id) {
+    const confirmar = confirm("Tem certeza que deseja apagar esta cidade?");
+    if (!confirmar) return;
+
+    try {
+      await deletarCidadeAPI(id);
+      cidades = cidades.filter(c => c.id !== id);
+    } catch (err) {
+      alert(err.message);
+    }
+  }
 </script>
 
-<Sidebar />
+
+
+
 <main>
-    <h1>Cidades:</h1>
+<h1>Cidades:</h1>
 	<!-- Exibição -->
 	{#if loading}
 		<p>Carregando dados...</p>
 	{:else if error}
 		<p style="color: red;">{error}</p>
 	{:else}
-		<ul>
-			{#each cidades as cidade}
-				<li>
-					<strong>{cidade.nome}</strong>
-				</li>
-			{/each}
-		</ul>
+    <div class="container">
+        <table class="table">
+            <thead>
+                <td>Cod Ibge</td>
+                <td>Nome</td>
+                <td>UF</td>
+                <td>Opções</td>
+            </thead>
+            <tbody>
+			    {#each cidades as cidade}
+
+                    <tr>
+                        <td>{cidade.codIbge}</td>
+                        <td class="text-start">{cidade.nome}</td>
+                        <td>{cidade.uf}</td>
+                        <button class="btn btn-danger btn-sm" on:click={() => deletarCidade(cidade.id)}>Apagar</button>
+                    </tr>
+			    {/each}
+            </tbody>
+        </table>
+    </div>
 	{/if}
 </main>
 
 <style>
-	main {
-		text-align: left;
-		padding: 1em;
-		max-width: 240px;
-		margin-left: 220px;
-	}
+
 </style>

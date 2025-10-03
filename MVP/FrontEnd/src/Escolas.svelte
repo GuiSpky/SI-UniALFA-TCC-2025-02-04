@@ -1,55 +1,70 @@
 <script>
-	import Sidebar from "./components/Sidebar.svelte";
+    import { onMount } from "svelte";
+    import { getEscolas, deletarEscola } from "./api/escolas.js";
 
-	import { onMount } from "svelte";
+    let escolas = [];
+    let loading = true;
+    let error = null;
 
-	// Lista que receberá os dados da API
-	let escolas = [];
-	let loading = true;
-	let error = null;
+    onMount(async () => {
+        await carregarEscolas();
+    });
 
-	// Função chamada quando o componente "monta" na tela
-	onMount(async () => {
-		try {
-			const response = await fetch("http://127.0.0.1:8000/api/escolas");
-			if (!response.ok) {
-				throw new Error("Erro ao buscar dados");
-			}
+    async function carregarEscolas() {
+        try {
+            loading = true;
+            escolas = await getEscolas();
+        } catch (err) {
+            error = err.message;
+        } finally {
+            loading = false;
+        }
+    }
 
-			const json = await response.json();
-			escolas = json.data; // Salva o JSON na variável reativa
-		} catch (err) {
-			error = err.message;
-		} finally {
-			loading = false;
-		}
-	});
+    async function apagarEscola(id) {
+        const confirmar = confirm("Deseja apagar esta escola?");
+        if (!confirmar) return;
+
+        try {
+            await deletarEscola(id);
+            escolas = escolas.filter((e) => e.id !== id);
+        } catch (err) {
+            alert(err.message);
+        }
+    }
 </script>
 
-<Sidebar />
 <main>
-    <h1>Escolas</h1>
-	<!-- Exibição -->
-	{#if loading}
-		<p>Carregando dados...</p>
-	{:else if error}
-		<p style="color: red;">{error}</p>
-	{:else}
-		<ul>
-			{#each escolas as escola}
-				<li>
-					<strong>{escola.nome}</strong>
-				</li>
-			{/each}
-		</ul>
-	{/if}
+    <h1>Escolas:</h1>
+    <!-- Exibição -->
+    {#if loading}
+        <p>Carregando dados...</p>
+    {:else if error}
+        <p style="color: red;">{error}</p>
+    {:else}
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <td>Id</td>
+                    <td>Nome</td>
+                    <td>Bairro</td>
+                    <td>Opções</td>
+                </thead>
+                <tbody>
+                    {#each escolas as escola}
+                        <tr>
+                            <td>{escola.id}</td>
+                            <td class="text-start">{escola.nome}</td>
+                            <td>{escola.bairro}</td>
+                            <button
+                                class="btn btn-danger btn-sm"
+                                on:click={() => apagarEscola(escola.id)}
+                                >Apagar</button
+                            >
+                        </tr>
+                    {/each}
+                </tbody>
+            </table>
+        </div>
+    {/if}
 </main>
-
-<style>
-	main {
-		text-align: left;
-		padding: 1em;
-		max-width: 240px;
-		margin-left: 220px;
-	}
-</style>

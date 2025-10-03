@@ -6,5 +6,6 @@
 </script>
 
 <Sidebar />
-
+<div class="container-fluid p-3" style="margin-left: 200px;">
 <Router {routes} />
+</div>
