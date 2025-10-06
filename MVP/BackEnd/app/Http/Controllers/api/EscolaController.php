@@ -14,20 +14,8 @@ class EscolaController extends Controller
 {
     public function index()
     {
-        $escolas = DB::table('escolas')
-            ->join('bairros', 'escolas.id_bairro', '=', 'bairros.id')
-            ->join('cidades', 'escolas.id_cidade', '=', 'cidades.id')
-            ->select(
-                'escolas.id',
-                'escolas.nome as nome',
-                'bairros.nome as bairro',
-                'cidades.nome as cidade'
-            )
-            ->get();
-
-        return response()->json([
-            'data' => $escolas
-        ]);
+        $escolas = Escola::all();
+        return EscolaResource::collection($escolas);
     }
 
     public function store(Request $request)
@@ -92,5 +80,10 @@ class EscolaController extends Controller
         return response()->json([
             'data' => $escolas
         ]);
+    }
+
+    public function count()
+    {
+        return response()->json(['total' => Escola::count()]);
     }
 }

@@ -81,4 +81,9 @@ class BairroController extends Controller
 
         return BairroResource::collection($dados);
     }
+
+    public function count()
+    {
+        return response()->json(['total' => Bairro::count()]);
+    }
 }

@@ -3,7 +3,7 @@
   <h2 class="fs-4 mb-4">Menu</h2>
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
-      <a href="#/" class="nav-link text-white">
+      <a href="#/inicio" class="nav-link text-white">
         Início
       </a>
     </li>

@@ -1,6 +1,6 @@
 <script>
     import { onMount } from "svelte";
-    import { getEscolas, deletarEscola } from "./api/Escolas.js";
+    import { getEscolasBairros, deletarEscola } from "./api/Escolas.js";
 
     let id = 'width'
     let escolas = [];
@@ -14,7 +14,7 @@
     async function carregarEscolas() {
         try {
             loading = true;
-            escolas = await getEscolas();
+            escolas = await getEscolasBairros();
         } catch (err) {
             error = err.message;
         } finally {
@@ -36,6 +36,7 @@
 </script>
 
 <main>
+
     <h1>Escolas:</h1>
     <!-- Exibição -->
     {#if loading}
