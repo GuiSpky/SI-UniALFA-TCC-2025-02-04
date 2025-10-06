@@ -1,20 +1,20 @@
 <script>
     import { onMount } from "svelte";
-    import { getEscolasBairros, deletarEscola } from "./api/Escolas.js";
+    import { getBairros, deletarBairro } from "./api/Bairros.js";
 
-    let id = 'width'
-    let escolas = [];
+    let id = "width";
+    let bairros = [];
     let loading = true;
     let error = null;
 
     onMount(async () => {
-        await carregarEscolas();
+        await carregarBairros();
     });
 
-    async function carregarEscolas() {
+    async function carregarBairros() {
         try {
             loading = true;
-            escolas = await getEscolasBairros();
+            bairros = await getBairros();
         } catch (err) {
             error = err.message;
         } finally {
@@ -22,13 +22,13 @@
         }
     }
 
-    async function apagarEscola(id) {
-        const confirmar = confirm("Deseja apagar esta escola?");
+    async function apagarBairro(id) {
+        const confirmar = confirm("Tem certeza que deseja apagar este bairro?");
         if (!confirmar) return;
 
         try {
-            await deletarEscola(id);
-            escolas = escolas.filter((e) => e.id !== id);
+            await deletarBairro(id);
+            bairros = bairros.filter((c) => c.id !== id);
         } catch (err) {
             alert(err.message);
         }
@@ -36,8 +36,7 @@
 </script>
 
 <main>
-
-    <h1>Escolas:</h1>
+    <h1>Bairros:</h1>
     <!-- Exibição -->
     {#if loading}
         <p>Carregando dados...</p>
@@ -47,20 +46,20 @@
         <div class="container">
             <table class="table">
                 <thead>
-                    <td>Id</td>
-                    <td>Nome</td>
-                    <td>Bairro</td>
+                    <td id="id">Id</td>
+                    <td {id}>Bairro</td>
+                    <td {id}>Cidade</td>
                     <td>Opções</td>
                 </thead>
                 <tbody>
-                    {#each escolas as escola}
+                    {#each bairros as bairro}
                         <tr>
-                            <td style="width: 20px;">{escola.id}</td>
-                            <td {id}>{escola.nome}</td>
-                            <td {id}>{escola.bairro}</td>
+                            <td>{bairro.id}</td>
+                            <td class="text-start">{bairro.nome}</td>
+                            <td>{bairro.cidade}</td>
                             <button
                                 class="btn btn-danger btn-sm"
-                                on:click={() => apagarEscola(escola.id)}
+                                on:click={() => apagarBairro(bairro.id)}
                                 >Apagar</button
                             >
                         </tr>
@@ -72,7 +71,11 @@
 </main>
 
 <style>
-    #width{
+
+    #id{
+        width: 20px;
+    }
+    #width {
         width: 300px;
     }
 </style>

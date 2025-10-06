@@ -61,4 +61,9 @@ class CidadeController extends Controller
             'message' => 'Ambiente deletado com sucesso.',
         ], 200);
     }
+
+    public function count()
+    {
+        return response()->json(['total' => Cidade::count()]);
+    }
 }

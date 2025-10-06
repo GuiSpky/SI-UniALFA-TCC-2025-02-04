@@ -6,14 +6,25 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\BairroResource;
 use App\Models\Bairro;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BairroController extends Controller
 {
 
     public function index()
     {
-        $dados = Bairro::all();
-        return BairroResource::collection($dados);
+        $bairros = DB::table('bairros')
+            ->join('cidades', 'bairros.id_cidade', '=', 'cidades.id')
+            ->select(
+                'bairros.id',
+                'bairros.nome',
+                'cidades.nome as cidade'
+            )
+            ->get();
+
+        return response()->json([
+            'data' => $bairros
+        ]);
     }
 
     public function store(Request $request)
@@ -69,5 +80,10 @@ class BairroController extends Controller
             ->get();
 
         return BairroResource::collection($dados);
+    }
+
+    public function count()
+    {
+        return response()->json(['total' => Bairro::count()]);
     }
 }

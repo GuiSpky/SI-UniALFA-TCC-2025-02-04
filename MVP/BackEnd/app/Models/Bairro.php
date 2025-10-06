@@ -20,4 +20,12 @@ class Bairro extends Model
         return $this->belongsTo(Cidade::class);
     }
 
+    protected $table = 'bairros';
+
+    public function escolas()
+    {
+        return $this->hasMany(Escola::class);
+    }
+
+
 }

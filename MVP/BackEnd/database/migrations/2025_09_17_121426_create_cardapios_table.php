@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('cardapios', function (Blueprint $table) {
             $table->id();
-            $table->string("nome")->isNotEmpty();
-            $table->string("item")->isNotEmpty();
+            $table->string("nome", 30)->isNotEmpty();
+            $table->string("item", 30)->isNotEmpty();
             $table->date("data")->isNotEmpty();
             $table->timestamps();
         });
