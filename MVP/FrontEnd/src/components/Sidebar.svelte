@@ -22,6 +22,11 @@
         Escolas
       </a>
     </li>
+    <li>
+      <a href="#/cardapios" class="nav-link text-white">
+        Cardapios
+      </a>
+    </li>
   </ul>
 </nav>
 

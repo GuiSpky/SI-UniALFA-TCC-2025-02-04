@@ -19,12 +19,9 @@ Route::get('bairros/count', [BairroController::class, 'count']);
 Route::get('bairros/cidade/{cidade_id}', [BairroController::class, 'getBairros']);
 Route::get('escolas/bairro', [EscolaController::class, 'getEscolaBairro']);
 
-
 Route::apiResource('cidades', CidadeController::class);
 Route::apiResource('escolas', EscolaController::class);
 Route::apiResource('bairros', BairroController::class);
 Route::apiResource('usuarios', UsuarioController::class);
 Route::apiResource('cardapios', CardapioController::class);
-
-
 
