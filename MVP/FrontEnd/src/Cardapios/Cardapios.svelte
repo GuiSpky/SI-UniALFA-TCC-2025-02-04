@@ -37,6 +37,9 @@
 
 <main>
     <h1>Cardapios:</h1>
+    <div>
+        <a href="#/cardapio/criar" class="btn btn-primary bl bl-plus">Adicionar</a>
+    </div>
     {#if loading}
         <p>Carregando dados...</p>
     {:else if error}

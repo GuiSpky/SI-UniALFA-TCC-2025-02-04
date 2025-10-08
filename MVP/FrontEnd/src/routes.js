@@ -4,6 +4,7 @@ import Bairros from './Bairros.svelte'
 import Escolas from './Escolas.svelte'
 import Inicio from './Inicio.svelte'
 import Cardapios from './Cardapios/Cardapios.svelte'
+import CriarCardapio from './Cardapios/CriarCardapio.svelte'
 
 export const routes = {
   '/cidades': Cidades,
@@ -11,4 +12,5 @@ export const routes = {
   '/escolas': Escolas,
   '/inicio': Inicio,
   '/cardapios': Cardapios,
+  '/cardapio/criar': CriarCardapio,
 }

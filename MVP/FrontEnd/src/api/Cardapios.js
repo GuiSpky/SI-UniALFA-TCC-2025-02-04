@@ -30,3 +30,23 @@ export async function deletarCardapio(id) {
 
   return true;
 }
+
+export async function CriarCardapio(params) {
+  const response = await fetch(API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(params),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error("Erro da API:", errorText);
+    throw new Error("Erro ao criar cardápio");
+  }
+
+  const json = await response.json();
+  return json;
+}
+
