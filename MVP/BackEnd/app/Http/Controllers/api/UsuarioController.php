@@ -4,6 +4,8 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UsuarioResources;
+use App\Models\Cidade;
+use App\Models\Escola;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 
@@ -11,8 +13,24 @@ class UsuarioController extends Controller
 {
     public function index()
     {
-        $dados = Usuario::all();
-        return UsuarioResources::collection($dados);
+        $usuario = Usuario::all();
+        $escola = Escola::all();
+
+        return view('usuarios.index',[
+            'usuarios' => $usuario,
+            'escola' => $escola
+        ]);
+    }
+
+    public function create()
+    {
+        $usuario = Usuario::all();
+        $escolas = Escola::all();
+
+        return view('usuarios.create', [
+            'usuario' => $usuario,
+            'escolas' => $escolas
+        ]);
     }
 
     public function store(Request $request)
@@ -26,13 +44,28 @@ class UsuarioController extends Controller
     ]);
 
         Usuario::create($dados);
-        return ($dados);
+        return redirect('/usuarios');
+    }
+
+        public function edit(string $id)
+    {
+        $usuario = Usuario::find($id);
+        $escolas = Escola::all();
+
+        return view('usuarios.edit',[
+            'usuario' => $usuario,
+            'escolas' => $escolas
+        ]);
     }
 
     public function show(string $id)
     {
         $usuario = Usuario::findOrFail($id);
-        return ($usuario);
+        $escola = Escola::all();
+        return view('usuarios.show', [
+            'usuario' => $usuario,
+            'escolas' => $escola
+        ]);
     }
 
     public function update(Request $request, string $id)
@@ -49,7 +82,8 @@ class UsuarioController extends Controller
 
         $dados = Usuario::findOrFail($id);
 
-        return ($dados);
+        return redirect('/usuarios');
+
     }
 
     public function destroy(string $id)
@@ -60,8 +94,6 @@ class UsuarioController extends Controller
         $usuario->delete();
 
         // Retorna apenas uma mensagem de sucesso
-        return response()->json([
-            'message' => 'Usuário deletado com sucesso.',
-        ], 200);
+        return redirect('/usuarios');
     }
 }

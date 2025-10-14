@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BairroResource;
 use App\Models\Bairro;
+use App\Models\Cidade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -13,17 +14,22 @@ class BairroController extends Controller
 
     public function index()
     {
-        $bairros = DB::table('bairros')
-            ->join('cidades', 'bairros.id_cidade', '=', 'cidades.id')
-            ->select(
-                'bairros.id',
-                'bairros.nome',
-                'cidades.nome as cidade'
-            )
-            ->get();
+        $bairros = Bairro::all();
+        $cidades = Cidade::all();
 
-        return response()->json([
-            'data' => $bairros
+        return view('bairros.index', [
+            'bairros' => $bairros,
+            'cidades' => $cidades
+        ]);
+    }
+
+    public function create()
+    {
+
+        $cidades = Cidade::all();
+
+        return view('bairros.create', [
+            'cidades' => $cidades
         ]);
     }
 
@@ -35,28 +41,40 @@ class BairroController extends Controller
     ]);
 
         Bairro::create($dados);
-        return ($dados);
+        return redirect('/bairros');
     }
 
     public function show(string $id)
     {
         $bairro = Bairro::findOrFail($id); // Encontra o recurso ou lança um erro 404
+        $cidade = Cidade::all();
 
-        return ($bairro);
+        return view('bairros.show', [
+            'bairro' => $bairro,
+            'cidades' => $cidade
+        ]);
+    }
+
+    public function edit(string $id)
+    {
+        $cidades = Cidade::all();
+        $bairro = Bairro::find($id);
+        return view('bairros.edit',[
+            'bairro' => $bairro,
+            'cidades' => $cidades
+        ]);
     }
 
     public function update(Request $request, string $id)
     {
-        $bairro = Bairro::findOrFail($id);
+        $bairro = Bairro::find($id);
 
-        $bairro->update([
-            "id_cidade"=>$request->id_cidade,
-	        "nome"=>$request->nome,
+        $bairro-> update([
+            'nome' => $request->nome,
+            'id_cidade' => $request->id_cidade,
         ]);
 
-        $bairro = Bairro::findOrFail($id);
-
-        return ($bairro);
+        return redirect('/bairros');
     }
 
     public function destroy(string $id)
@@ -67,9 +85,8 @@ class BairroController extends Controller
         $bairro->delete();
 
         // Retorna apenas uma mensagem de sucesso
-        return response()->json([
-            'message' => 'Ambiente deletado com sucesso.',
-        ], 200);
+        return redirect('/bairros');
+
     }
 
      public function getBairrosByCidade($id)
