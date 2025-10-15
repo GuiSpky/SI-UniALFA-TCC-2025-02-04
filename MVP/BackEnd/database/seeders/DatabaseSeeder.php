@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Produto;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(EscolaSeeder::class);
         $this->call(CardapioSeeder::class);
         $this->call(UsuarioSeeder::class);
+        $this->call(ProdutoSeeder::class);
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
