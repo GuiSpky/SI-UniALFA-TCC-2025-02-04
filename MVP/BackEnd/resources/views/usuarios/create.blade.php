@@ -20,15 +20,15 @@
             <label>Selecione o Cargo</label>
             <select name="cargo" class="form-control" required>
                 <option value="">-- Escolha um cargo --</option>
-                    <option value="0">Gerente</option>
-                    <option value="1">Cozinheiro Cheff</option>
-                    <option value="2">Cozinheiro</option>
-                    <option value="3">Nutricionista</option>
+                    <option value="1">Gerente</option>
+                    <option value="2">Cozinheiro Cheff</option>
+                    <option value="3">Cozinheiro</option>
+                    <option value="4">Nutricionista</option>
             </select>
         </div>
         <div class="form-group mb-3">
             <label>Selecione a Escola</label>
-            <select name="cargo" class="form-control" required>
+            <select name="id_escola" class="form-control" required>
                 <option value="">-- Escolha uma Escola --</option>
                 @foreach ($escolas as $escola)
                     <option value="{{ $escola->id }}">{{ $escola->nome }}</option>
