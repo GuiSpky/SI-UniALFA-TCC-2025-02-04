@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CardapioResource;
@@ -12,7 +12,14 @@ class CardapioController extends Controller
     public function index()
     {
         $dados = Cardapio::all();
-        return CardapioResource::collection($dados);
+        return view('cardapios.index', [
+            'cardapios' => $dados
+        ]);
+    }
+
+    public function create()
+    {
+        return view('cardapios.create');
     }
 
     public function store(Request $request)
@@ -31,7 +38,16 @@ class CardapioController extends Controller
     {
         $cardapio = Cardapio::findOrFail($id); // Encontra o recurso ou lança um erro 404
 
-        return ($cardapio);
+        return view('cardapios.show', ['cardapio'=> $cardapio]);
+
+    }
+
+    public function edit(string $id)
+    {
+        $cardapio = Cardapio::find($id);
+        return view('cardapios.edit',[
+            'cardapio' => $cardapio
+        ]);
     }
 
     public function update(Request $request, string $id)
@@ -46,7 +62,7 @@ class CardapioController extends Controller
 
         $cardapio = Cardapio::findOrFail($id);
 
-        return ($cardapio);
+        return redirect('/cardapios');
     }
 
     public function destroy(string $id)
@@ -57,9 +73,8 @@ class CardapioController extends Controller
         $cardapio->delete();
 
         // Retorna apenas uma mensagem de sucesso
-        return response()->json([
-            'message' => 'Ambiente deletado com sucesso.',
-        ], 200);
+        return redirect('/cardapios');
+
     }
 
     public function count()

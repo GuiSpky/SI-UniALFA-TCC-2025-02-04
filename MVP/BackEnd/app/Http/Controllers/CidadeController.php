@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CidadeResource;
@@ -12,7 +12,14 @@ class CidadeController extends Controller
     public function index()
     {
         $dados = Cidade::all();
-        return CidadeResource::collection($dados);
+        return view('cidades.index', [
+            'cidades' => $dados
+        ]);
+    }
+
+    public function create()
+    {
+        return view('cidades.create');
     }
 
     public function store(Request $request)
@@ -24,29 +31,36 @@ class CidadeController extends Controller
     ]);
 
         Cidade::create($dados);
-        return ($dados);
+        return redirect('/cidades');
     }
 
     public function show(string $id)
     {
         $cidade = Cidade::findOrFail($id); // Encontra o recurso ou lança um erro 404
 
-        return ($cidade);
+        return view('cidades.show', ['cidade'=> $cidade]);
+
+    }
+
+    public function edit(string $id)
+    {
+        $cidade = Cidade::find($id);
+        return view('cidades.edit',[
+            'cidade' => $cidade
+        ]);
     }
 
     public function update(Request $request, string $id)
     {
-        $cidade = Cidade::findOrFail($id);
+        $cidade = Cidade::find($id);
 
-        $cidade->update([
-            "codIbge"=>$request->codIbge,
-	        "nome"=>$request->nome,
-	        "uf"=>$request->uf,
+        $cidade-> update([
+            'codIbge' => $request->codIbge,
+            'nome' => $request->nome,
+            'uf' => $request->uf
         ]);
 
-        $cidade = Cidade::findOrFail($id);
-
-        return ($cidade);
+        return redirect('/cidades');
     }
 
     public function destroy(string $id)
@@ -57,9 +71,8 @@ class CidadeController extends Controller
         $cidade->delete();
 
         // Retorna apenas uma mensagem de sucesso
-        return response()->json([
-            'message' => 'Ambiente deletado com sucesso.',
-        ], 200);
+        return redirect('/cidades');
+
     }
 
     public function count()

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EscolaResource;
@@ -15,7 +15,25 @@ class EscolaController extends Controller
     public function index()
     {
         $escolas = Escola::all();
-        return EscolaResource::collection($escolas);
+        $cidades = Cidade::all();
+        $bairros = Bairro::all();
+
+        return view('escolas.index', [
+            'escolas' => $escolas,
+            'bairros' => $bairros,
+            'cidades' => $cidades
+        ]);
+    }
+
+    public function create()
+    {
+        $cidades = Cidade::all();
+        $bairros = Bairro::all();
+
+        return view('escolas.create', [
+            'cidades' => $cidades,
+            'bairros' => $bairros
+        ]);
     }
 
     public function store(Request $request)
@@ -27,14 +45,34 @@ class EscolaController extends Controller
         ]);
 
         Escola::create($dados);
-        return ($dados);
+        return redirect('/escolas');
+    }
+
+     public function edit(string $id)
+    {
+        $escola = Escola::find($id);
+        $cidades = Cidade::all();
+        $bairros = Bairro::all();
+
+        // return($escola);
+        return view('escolas.edit',[
+            'escola' => $escola,
+            'cidades' => $cidades,
+            'bairros' => $bairros
+        ]);
     }
 
     public function show(string $id)
     {
-        $escola = Escola::findOrFail($id);
+        $escola = Escola::findOrFail($id); // Encontra o recurso ou lança um erro 404
+        $cidade = Cidade::all();
+        $bairro = Bairro::all();
 
-        return ($escola);
+        return view('escolas.show', [
+            'escola' => $escola,
+            'cidades' => $cidade,
+            'bairro' => $bairro
+        ]);
     }
 
     public function update(Request $request, string $id)
@@ -59,9 +97,8 @@ class EscolaController extends Controller
         $escola->delete();
 
         // Retorna apenas uma mensagem de sucesso
-        return response()->json([
-            'message' => 'Escola deletado com sucesso.',
-        ], 200);
+        return redirect('/escolas');
+
     }
 
     public function getEscolaBairro()
