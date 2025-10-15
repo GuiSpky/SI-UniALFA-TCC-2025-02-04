@@ -1,0 +1,78 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Produto;
+use Illuminate\Http\Request;
+
+class ProdutoController extends Controller
+{
+    public function index()
+    {
+        $dados = Produto::all();
+        return view('produtos.index', [
+            'produtos' => $dados
+        ]);
+    }
+
+    public function create()
+    {
+        return view('produtos.create');
+    }
+
+    public function store(Request $request)
+    {
+        $dados = $request->validate([
+        'nome' => 'required|string|max:200',
+        'grupo' => 'required|string|max:50',
+    ]);
+
+        Produto::create($dados);
+        return redirect('/produtos');
+    }
+
+    public function show(string $id)
+    {
+        $produto = Produto::findOrFail($id); // Encontra o recurso ou lança um erro 404
+
+        return view('produtos.show', ['produto'=> $produto]);
+
+    }
+
+    public function edit(string $id)
+    {
+        $produto = Produto::find($id);
+        return view('produtos.edit',[
+            'produto' => $produto
+        ]);
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $produto = Produto::find($id);
+
+        $produto-> update([
+            'nome' => $request->nome,
+            'grupo' => $request->grupo
+        ]);
+
+        return redirect('/produtos');
+    }
+
+    public function destroy(string $id)
+    {
+        $produto = Produto::findOrFail($id); // Encontra o recurso ou lança um erro 404
+
+        // Exclui o ambiente
+        $produto->delete();
+
+        // Retorna apenas uma mensagem de sucesso
+        return redirect('/produtos');
+
+    }
+
+    public function count()
+    {
+        return response()->json(['total' => Produto::count()]);
+    }
+}
