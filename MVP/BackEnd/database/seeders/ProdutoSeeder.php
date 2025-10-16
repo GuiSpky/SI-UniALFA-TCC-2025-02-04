@@ -13,6 +13,20 @@ class ProdutoSeeder extends Seeder
      */
     public function run(): void
     {
-        Produto::factory(10)->create();
+        $produtos = [
+            ['nome' => 'Arroz Branco', 'grupo' => 'Carboidratos'],
+            ['nome' => 'Feijão Carioca', 'grupo' => 'Proteínas'],
+            ['nome' => 'Macarrão', 'grupo' => 'Carboidratos'],
+            ['nome' => 'Peito de Frango', 'grupo' => 'Proteínas'],
+            ['nome' => 'Azeite de Oliva', 'grupo' => 'Oleogenosos'],
+            ['nome' => 'Farinha de Trigo', 'grupo' => 'Carboidratos'],
+            ['nome' => 'Linhaça', 'grupo' => 'Oleogenosos'],
+            ['nome' => 'Aveia em Flocos', 'grupo' => 'Fibras'],
+            ['nome' => 'Castanha-do-Pará', 'grupo' => 'Oleogenosos'],
+            ['nome' => 'Carne Moída Bovina', 'grupo' => 'Proteínas'],
+        ];
+
+
+        Produto::insert($produtos);
     }
 }

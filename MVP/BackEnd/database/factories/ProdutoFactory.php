@@ -16,14 +16,22 @@ class ProdutoFactory extends Factory
      */
     public function definition(): array
     {
+         $grupos = ['Proteínas', 'Carboidratos', 'Oleogenosos', 'Fibras'];
+
         return [
-            'nome' => fake()->word(),
-            'grupo' => fake()->randomElement([
-                'Proteínas',
-                'Carboidratos',
-                'Oleogenosos',
-                'Fibras'
+            'nome' => $this->faker->randomElement([
+                'Arroz Branco',
+                'Feijão Carioca',
+                'Macarrão',
+                'Peito de Frango',
+                'Azeite de Oliva',
+                'Farinha de Trigo',
+                'Linhaça',
+                'Aveia em Flocos',
+                'Castanha-do-Pará',
+                'Carne Moída Bovina'
             ]),
+            'grupo' => $this->faker->randomElement($grupos),
         ];
     }
 }
