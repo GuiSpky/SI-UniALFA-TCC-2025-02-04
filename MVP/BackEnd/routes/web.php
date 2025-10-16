@@ -4,6 +4,7 @@ use App\Http\Controllers\BairroController;
 use App\Http\Controllers\CardapioController;
 use App\Http\Controllers\CidadeController;
 use App\Http\Controllers\EscolaController;
+use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
@@ -52,9 +53,9 @@ Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->name('usuari
 Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
 
 // Rotas Produtos
-Route::get('/produtos', [UsuarioController::class, 'index'])->name('produtos.index');
-Route::get('/produtos/create', [UsuarioController::class, 'create'])->name('produtos.create');
-Route::get('/produtos/{id}', [UsuarioController::class, 'show'])->name('produto.show');
-Route::get('/produtos/{id}/edite', [UsuarioController::class, 'edit'])->name('produtos.edit');
-Route::put('/produtos/{id}', [UsuarioController::class, 'update'])->name('produtos.update');
-Route::delete('/produtos/{id}', [UsuarioController::class, 'destroy'])->name('produtos.destroy');
+Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos.index');
+Route::get('/produtos/create', [ProdutoController::class, 'create'])->name('produtos.create');
+Route::get('/produtos/{id}', [ProdutoController::class, 'show'])->name('produto.show');
+Route::get('/produtos/{id}/edite', [ProdutoController::class, 'edit'])->name('produtos.edit');
+Route::put('/produtos/{id}', [ProdutoController::class, 'update'])->name('produtos.update');
+Route::delete('/produtos/{id}', [ProdutoController::class, 'destroy'])->name('produtos.destroy');

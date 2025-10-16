@@ -20,6 +20,7 @@
             <a class="nav-link ms-3" href="{{route('escolas.index')}}">Escolas</a>
             <a class="nav-link ms-3" href="{{route('cardapios.index')}}">Cardapios</a>
             <a class="nav-link ms-3" href="{{route('usuarios.index')}}">Usuários</a>
+            <a class="nav-link ms-3" href="{{route('produtos.index')}}">Produtos</a>
         </div>
     </div>
 </nav>
