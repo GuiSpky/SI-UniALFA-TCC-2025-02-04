@@ -14,7 +14,7 @@
             @foreach ($produtos as $produto)
                 <tr>
                     <td>{{$produto->id}}</td>
-                    <td><a href="{{route('produtos.show', $produto)}}">{{$produto->nome}}</a></td>
+                    <td><a href="{{route('produto.show', $produto)}}">{{$produto->nome}}</a></td>
                     <td>{{$produto->grupo}}</td>
                     <td class="btn-group" role="group"><a href="{{route('produtos.edit', $produto->id)}}" class="btn btn-warning">Update</a>
                     <form action="{{route('produtos.destroy', $produto)}}" method="POST">
