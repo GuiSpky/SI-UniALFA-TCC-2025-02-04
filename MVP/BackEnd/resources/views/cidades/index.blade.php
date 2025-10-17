@@ -15,7 +15,7 @@
             @foreach ($cidades as $cidade)
                 <tr>
                     <td>{{$cidade->codIbge}}</td>
-                    <td><a href="{{route('cidades.show', $cidade)}}">{{$cidade->nome}}</a></td>
+                    <td><a href="{{route('cidade.show', $cidade)}}">{{$cidade->nome}}</a></td>
                     <td>{{$cidade->uf}}</td>
                     <td class="btn-group" role="group"><a href="{{route('cidades.edit', $cidade->id)}}" class="btn btn-warning">Update</a>
                     <form action="{{route('cidades.destroy', $cidade)}}" method="POST">
