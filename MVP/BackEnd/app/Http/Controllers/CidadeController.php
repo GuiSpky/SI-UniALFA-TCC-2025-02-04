@@ -25,10 +25,10 @@ class CidadeController extends Controller
     public function store(Request $request)
     {
         $dados = $request->validate([
-        'codIbge' => 'required|Integer',
-        'nome' => 'required|string|max:100',
-        'uf' => 'required|string|max:2',
-    ]);
+            'codIbge' => 'required|Integer',
+            'nome' => 'required|string|max:100',
+            'uf' => 'required|string|max:2',
+        ]);
 
         Cidade::create($dados);
         return redirect('/cidades');
@@ -38,14 +38,13 @@ class CidadeController extends Controller
     {
         $cidade = Cidade::findOrFail($id); // Encontra o recurso ou lança um erro 404
 
-        return view('cidades.show', ['cidade'=> $cidade]);
-
+        return view('cidades.show', ['cidade' => $cidade]);
     }
 
     public function edit(string $id)
     {
         $cidade = Cidade::find($id);
-        return view('cidades.edit',[
+        return view('cidades.edit', [
             'cidade' => $cidade
         ]);
     }
@@ -54,7 +53,7 @@ class CidadeController extends Controller
     {
         $cidade = Cidade::find($id);
 
-        $cidade-> update([
+        $cidade->update([
             'codIbge' => $request->codIbge,
             'nome' => $request->nome,
             'uf' => $request->uf
@@ -72,7 +71,6 @@ class CidadeController extends Controller
 
         // Retorna apenas uma mensagem de sucesso
         return redirect('/cidades');
-
     }
 
     public function count()

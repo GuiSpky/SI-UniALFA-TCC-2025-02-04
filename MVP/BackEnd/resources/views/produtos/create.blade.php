@@ -1,8 +1,8 @@
 @extends('app')
-@section('tittle', 'Nova Escola')
+@section('tittle', 'Novo produto')
 @section('content')
-    <h1>Nova Escola</h1>
-    <form action="{{ route('escolas.store') }}" method="POST">
+    <h1>Novo produto</h1>
+    <form action="{{ route('produtos.store') }}" method="POST">
         @csrf
         <div class="mb-3">
             <label for="nome" class="form-label">Nome</label>
@@ -10,20 +10,12 @@
         </div>
         <div class="form-group mb-3">
             <label>Selecione a Cidade</label>
-            <select name="id_cidade" class="form-control" required>
-                <option value="">-- Escolha uma cidade --</option>
-                @foreach ($cidades as $cidade)
-                    <option value="{{ $cidade->id }}">{{ $cidade->nome }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group mb-3">
-            <label>Selecione o Bairro</label>
-            <select name="id_bairro" class="form-control" required>
-                <option value="">-- Escolha um bairro --</option>
-                @foreach ($bairros as $bairro)
-                    <option value="{{ $bairro->id }}">{{ $bairro->nome }}</option>
-                @endforeach
+            <select name="grupo" class="form-control" required>
+                <option value="">-- Escolha uma classe --</option>
+                <option value="proteina">Proteina</option>
+                <option value="carboidratos">Carboidratos</option>
+                <option value="oleogenosos">Oleogenosos</option>
+                <option value="fibras">Fibras</option>
             </select>
         </div>
         <button class="btn btn-success" type="submit">Enviar</button>

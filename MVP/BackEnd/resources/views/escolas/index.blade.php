@@ -16,7 +16,7 @@
             @foreach ($escolas as $escola)
                 <tr>
                     <td>{{$escola->id}}</td>
-                    <td><a href="{{route('escolas.show', $escola)}}">{{$escola->nome}}</a></td>
+                    <td><a href="{{route('escola.show', $escola)}}">{{$escola->nome}}</a></td>
                     <td>{{ $cidades->where('id', $escola->id_cidade)->pluck('nome')->first()}}</td>
                     <td>{{ $bairros->where('id', $escola->id_bairro)->pluck('nome')->first()}}</td>
                     <td class="btn-group" role="group"><a href="{{route('escolas.edit', $escola->id)}}" class="btn btn-warning">Update</a>
