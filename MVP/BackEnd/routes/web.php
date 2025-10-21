@@ -46,6 +46,7 @@ Route::get('/cardapios/{id}', [CardapioController::class, 'show'])->name('cardap
 Route::get('/cardapios/{id}/edite', [CardapioController::class, 'edit'])->name('cardapios.edit');
 Route::put('/cardapios/{id}', [CardapioController::class, 'update'])->name('cardapios.update');
 Route::delete('/cardapios/{id}', [CardapioController::class, 'destroy'])->name('cardapios.destroy');
+Route::post('/cardapios', [CardapioController::class, 'store'])->name('cardapios.store');
 
 // Rotas Usuários
 Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');

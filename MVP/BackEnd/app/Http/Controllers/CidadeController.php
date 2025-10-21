@@ -26,12 +26,18 @@ class CidadeController extends Controller
     {
         $dados = $request->validate([
             'codIbge' => 'required|Integer',
-            'nome' => 'required|string|max:100',
+            'nome' => 'required|string|unique:cidades,nome',
             'uf' => 'required|string|max:2',
+        ],[
+            'codIbge.required' => "Código IBGE deve ser inserido",
+            'nome.required' => "Nome deve ser informado",
+            'uf.required' => "UF não informado",
+            'nome.unique' => "Cidade já cadastrada",
         ]);
 
         Cidade::create($dados);
-        return redirect('/cidades');
+        return redirect('/cidade')->with('sucesso', 'Cadastro realizado com sucesso!');
+
     }
 
     public function show(string $id)

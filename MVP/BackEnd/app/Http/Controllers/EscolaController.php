@@ -39,13 +39,18 @@ class EscolaController extends Controller
     public function store(Request $request)
     {
         $dados = $request->validate([
-            'nome' => 'required|string|max:255',
+            'nome' => 'required|string|max:255|unique:escolas,nome',
             'id_cidade' => 'required|integer',
             'id_bairro' => 'required|integer',
+        ], [
+            'nome.required' => 'Nome deve ser informado.',
+            'nome.unique' => 'Escola já cadastrada.',
+
         ]);
 
         Escola::create($dados);
-        return redirect('/escolas');
+        return redirect('/escolas')->with('sucesso', 'Cadastro realizado com sucesso!');
+
     }
 
      public function edit(string $id)
