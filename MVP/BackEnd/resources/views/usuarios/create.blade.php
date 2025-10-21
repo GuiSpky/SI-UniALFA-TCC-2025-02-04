@@ -13,8 +13,12 @@
             <input type="text" name="email" id="email" class="form-control" placeholder="Digite os itens">
         </div>
         <div class="mb-3">
-            <label for="data" class="form-label">Telefone</label>
+            <label for="telefone" class="form-label">Telefone</label>
             <input type="number" name="telefone" id="telefone" class="form-control" placeholder="Digite a Data">
+        </div>
+        <div class="mb-3">
+            <label for="senha" class="form-label">Senha</label>
+            <input type="password" name="senha" id="senha" class="form-control" placeholder="Digite a Data">
         </div>
         <div class="form-group mb-3">
             <label>Selecione o Cargo</label>

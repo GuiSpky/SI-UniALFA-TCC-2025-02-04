@@ -23,12 +23,15 @@ class ProdutoController extends Controller
     public function store(Request $request)
     {
         $dados = $request->validate([
-        'nome' => 'required|string|max:200',
+        'nome' => 'required|string|max:200|unique:produtos,nome',
         'grupo' => 'required|string|max:50',
+    ],[
+        'nome.required' => 'Nome deve ser informado.',
+        'nome.unique' => 'Produto já cadastrado.',
     ]);
 
         Produto::create($dados);
-        return redirect('/produtos');
+        return redirect('/produtos')->with('sucesso', 'Cadastro realizado com sucesso!');
     }
 
     public function show(string $id)

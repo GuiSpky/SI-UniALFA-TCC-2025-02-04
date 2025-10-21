@@ -36,12 +36,15 @@ class BairroController extends Controller
     public function store(Request $request)
     {
         $dados = $request->validate([
-        'nome' => 'required|string|max:100',
-        'id_cidade' => 'required|integer',
-    ]);
+            'nome' => 'required|string|max:100|unique:bairros,nome',
+            'id_cidade' => 'required|integer',
+        ], [
+            'nome.unique' => 'Bairro já está cadastrado.',
+            'id_cidade.unique' => 'Informe a cidade.',
+        ]);
 
         Bairro::create($dados);
-        return redirect('/bairros');
+        return redirect('/bairros')->with('sucesso', 'Cadastro realizado com sucesso!');
     }
 
     public function show(string $id)
@@ -59,7 +62,7 @@ class BairroController extends Controller
     {
         $cidades = Cidade::all();
         $bairro = Bairro::find($id);
-        return view('bairros.edit',[
+        return view('bairros.edit', [
             'bairro' => $bairro,
             'cidades' => $cidades
         ]);
@@ -69,7 +72,7 @@ class BairroController extends Controller
     {
         $bairro = Bairro::find($id);
 
-        $bairro-> update([
+        $bairro->update([
             'nome' => $request->nome,
             'id_cidade' => $request->id_cidade,
         ]);
@@ -86,10 +89,9 @@ class BairroController extends Controller
 
         // Retorna apenas uma mensagem de sucesso
         return redirect('/bairros');
-
     }
 
-     public function getBairrosByCidade($id)
+    public function getBairrosByCidade($id)
     {
         $dados = Bairro::join('cidades', 'bairros.id_cidade', '=', 'cidades.id')
             ->where('bairros.id_cidade', $id)

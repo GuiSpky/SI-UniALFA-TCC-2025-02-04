@@ -1,8 +1,8 @@
 @extends('app')
-@section('tittle', 'Nova Cidade')
+@section('tittle', 'Novo Bairro')
 @section('content')
-    <h1>Nova Cidade</h1>
-    <form action="{{ route('cidades.store') }}" method="POST">
+    <h1>Novo Bairro</h1>
+    <form action="{{ route('bairros.store') }}" method="POST">
         @csrf
         <div class="mb-3">
             <label for="nome" class="form-label">Nome</label>
@@ -18,6 +18,6 @@
             </select>
         </div>
         <button class="btn btn-success" type="submit">Enviar</button>
-        <a class="btn btn-danger" href="{{route('bairros.index')}}">Cancelar</a>
+        <a class="btn btn-danger" href="{{route('escolas.index')}}">Cancelar</a>
     </form>
 @endsection

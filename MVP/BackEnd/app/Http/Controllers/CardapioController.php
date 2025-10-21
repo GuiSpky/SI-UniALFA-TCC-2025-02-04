@@ -25,13 +25,20 @@ class CardapioController extends Controller
     public function store(Request $request)
     {
         $dados = $request->validate([
-        'codIbge' => 'required|Integer',
-        'nome' => 'required|string|max:255',
-        'uf' => 'required|string|max:255',
+        'nome' => 'required|String',
+        'item' => 'required|string|max:255',
+        'data' => 'required|date|max:255|after_or_equal:today',
+    ],[
+        'nome.required' => 'Nome deve ser informado',
+        'item.required' => 'Item deve ser informado',
+        'data.required' => 'Data deve ser informado',
+        'data.after_or_equal' => 'Data informada menor do que data atual',
+
     ]);
 
         Cardapio::create($dados);
-        return ($dados);
+        return redirect('/cardapios')->with('sucesso', 'Cadastro realizado com sucesso!');
+
     }
 
     public function show(string $id)

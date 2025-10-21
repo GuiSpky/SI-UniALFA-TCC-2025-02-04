@@ -13,6 +13,7 @@ class Usuario extends Model
         'nome',
         'email',
         'telefone',
+        'senha',
         'cargo',
         'id_escola',
     ];
