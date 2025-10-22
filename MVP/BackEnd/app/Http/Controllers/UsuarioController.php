@@ -8,6 +8,7 @@ use App\Models\Cidade;
 use App\Models\Escola;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
@@ -16,7 +17,7 @@ class UsuarioController extends Controller
         $usuario = Usuario::all();
         $escola = Escola::all();
 
-        return view('usuarios.index',[
+        return view('usuarios.index', [
             'usuarios' => $usuario,
             'escola' => $escola
         ]);
@@ -35,24 +36,31 @@ class UsuarioController extends Controller
 
     public function store(Request $request)
     {
+
         $dados = $request->validate([
-        'nome' => 'required|string|max:100',
-        'email' => 'required|string|max:100',
-        'telefone' => 'required|string|max:13',
-        'cargo' => 'required|string|max:100',
-        'id_escola' => 'required|integer',
-    ]);
+            'nome' => 'required|string|max:100',
+            'email' => 'required|string|unique:usuarios,email',
+            'telefone' => 'required|string|max:13|unique:usuarios,telefone',
+            'senha' => 'required|string|min:8',
+            'cargo' => 'required|string|max:100',
+            'id_escola' => 'required|integer',
+        ], [
+            'email.unique' => 'Este e-mail já está cadastrado.',
+            'telefone.unique' => 'Este telefone já está cadastrado.',
+        ]);
+
+        $dados['senha'] = Hash::make($dados['senha']);
 
         Usuario::create($dados);
-        return redirect('/usuarios');
+        return redirect('/usuarios')->with('sucesso', 'Cadastro realizado com sucesso!');
     }
 
-        public function edit(string $id)
+    public function edit(string $id)
     {
         $usuario = Usuario::find($id);
         $escolas = Escola::all();
 
-        return view('usuarios.edit',[
+        return view('usuarios.edit', [
             'usuario' => $usuario,
             'escolas' => $escolas
         ]);
@@ -73,17 +81,16 @@ class UsuarioController extends Controller
         $dados = Usuario::findOrFail($id);
 
         $dados->update([
-            "nome"=>$request->nome,
-	        "email"=>$request->email,
-	        "telefone"=>$request->telefone,
-	        "cargo"=>$request->cargo,
-	        "id_escola"=>$request->id_escola,
+            "nome" => $request->nome,
+            "email" => $request->email,
+            "telefone" => $request->telefone,
+            "cargo" => $request->cargo,
+            "id_escola" => $request->id_escola,
         ]);
 
         $dados = Usuario::findOrFail($id);
 
         return redirect('/usuarios');
-
     }
 
     public function destroy(string $id)

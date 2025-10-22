@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
             $table->string('nome', 30)->isNotEmpty();
-            $table->string('email', 30)->isNotEmpty();
-            $table->string('telefone', 30)->isNotEmpty();
+            $table->string('email', 30)->unique()->isNotEmpty();
+            $table->string('telefone', 30)->unique()->isNotEmpty();
             $table->string('cargo', 30)->isNotEmpty();
+            $table->string('senha')->isNotEmpty();
             $table->bigInteger('id_escola')->unsigned()->nullable();
             $table->foreign('id_escola')->references('id')->on('escolas');
             $table->timestamps();
