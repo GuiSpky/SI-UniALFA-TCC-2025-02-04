@@ -22,10 +22,10 @@ class UsuarioFactory extends Factory
             'email' => fake()->email(),
             'telefone' => fake()->phoneNumber(),
             'cargo' => fake()->randomElement([
-                'Gerente',
-                'Nutricionista',
-                'Cozinheira Chefe',
-                'Cozinheira'
+                '1',
+                '2',
+                '3',
+                '4'
             ]),
             'id_escola' => Escola::all()->random()->id,
         ];
