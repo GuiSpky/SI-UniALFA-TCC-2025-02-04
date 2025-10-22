@@ -1,6 +1,13 @@
+<?php
+    $cargos = [
+        1 => 'Gerente',
+        2 => 'Cozinheiro Cheff',
+        3 => 'Cozinheiro',
+        4 => 'Nutricionista'
+    ];
+?>
 @extends('app')
 @section('tittle', 'Lista de Usuários')
-<?php $cargos = [1 => 'Gerente', 2 => 'Cozinheiro Cheff', 3 => 'Cozinheiro', 4 => 'Nutricionista']; ?>
 
 @section('content')
     <h1>Lista de Usuários</h1>
@@ -18,23 +25,22 @@
         <tbody>
             @foreach ($usuarios as $usuario)
                 <tr>
-                    <td>{{ $usuario->id }}</td>
-                    <td><a href="{{ route('usuario.show', $usuario) }}">{{ $usuario->nome }}</a></td>
-                    <td>{{ $usuario->email }}</td>
-                    <td>{{ $usuario->telefone }}</td>
+                    <td>{{$usuario->id}}</td>
+                    <td><a href="{{route('usuario.show', $usuario)}}">{{$usuario->nome}}</a></td>
+                    <td>{{$usuario->email}}</td>
+                    <td>{{$usuario->telefone}}</td>
                     <td>{{ $cargos[$usuario->cargo] ?? 'Não definido' }}</td>
-                    <td>{{ $escola->where('id', $usuario->id_escola)->pluck('nome')->first() }}</td>
-                    <td class="btn-group" role="group"><a href="{{ route('usuarios.edit', $usuario) }}"
-                            class="btn btn-warning">Update</a>
-                        <form action="{{ route('usuarios.destroy', $usuario) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger" type="submit"
-                                onclick="return confirm('Deseja realmente apagar?')">
-                                Apagar
-                            </button>
-                        </form>
-                    </td>
+                    <td>{{ $escola->where('id', $usuario->id_escola)->pluck('nome')->first()}}</td>
+                    <td class="btn-group" role="group"><a href="{{route('usuarios.edit', $usuario)}}" class="btn btn-warning">Update</a>
+                    <form action="{{route('usuarios.destroy', $usuario)}}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger"
+                        type="submit"
+                        onclick="return confirm('Deseja realmente apagar?')">
+                            Apagar
+                        </button>
+                    </form></td>
 
                 </tr>
             @endforeach

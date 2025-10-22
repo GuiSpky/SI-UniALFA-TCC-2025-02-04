@@ -1,5 +1,7 @@
-@extends('app')
-@section('tittle', 'Novo Usuário')
+@extends('layouts.app')
+
+@section('title', 'Novo Usuário')
+
 @section('content')
     <h1>Novo Usuário</h1>
     <form action="{{ route('usuarios.store') }}" method="POST">
@@ -13,12 +15,8 @@
             <input type="text" name="email" id="email" class="form-control" placeholder="Digite os itens">
         </div>
         <div class="mb-3">
-            <label for="telefone" class="form-label">Telefone</label>
+            <label for="data" class="form-label">Telefone</label>
             <input type="number" name="telefone" id="telefone" class="form-control" placeholder="Digite a Data">
-        </div>
-        <div class="mb-3">
-            <label for="senha" class="form-label">Senha</label>
-            <input type="password" name="senha" id="senha" class="form-control" placeholder="Digite a Data">
         </div>
         <div class="form-group mb-3">
             <label>Selecione o Cargo</label>
@@ -40,8 +38,18 @@
             </select>
         </div>
 
+                        <div class="mb-3">
+                            <label for="senha" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="senha" name="senha" required>
+                        </div>
 
-        <button class="btn btn-success" type="submit">Enviar</button>
-        <a class="btn btn-danger" href="{{route('usuarios.index')}}">Cancelar</a>
-    </form>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save me-2"></i>Salvar Usuário
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
