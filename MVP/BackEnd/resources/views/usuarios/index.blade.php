@@ -32,7 +32,7 @@
                         <th>Nome</th>
                         <th>Email</th>
                         <th>Cargo</th>
-                        <th>Função</th>
+                        <th>Telefone</th>
                         <th>Permissão</th>
                         <th>Último Acesso</th>
                         <th class="text-end">Ações</th>
@@ -41,10 +41,10 @@
                 <tbody>
                     @forelse ($usuarios as $usuario)
                         <tr>
-                            <td>{{ $usuario->name }}</td>
+                            <td>{{ ucfirst($usuario->nome) }}</td>
                             <td>{{ $usuario->email }}</td>
-                            <td>{{ $cargos[$usuario->cargo_id] ?? 'Não informado' }}</td>
-                            <td>{{ $usuario->funcao ?? '-' }}</td>
+                            <td>{{ $cargos[$usuario->cargo] ?? 'Não informado' }}</td>
+                            <td>{{ $usuario->telefone}}</td>
                             <td>
                                 <span class="badge {{ $usuario->permissao == 'Administrador' ? 'bg-danger' : 'bg-secondary' }}">
                                     {{ $usuario->permissao }}
