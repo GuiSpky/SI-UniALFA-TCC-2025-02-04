@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.app')
 @section('title', 'Detalhe do Usuário')
 @section('content')
     <div class="card">

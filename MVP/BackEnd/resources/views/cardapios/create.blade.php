@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.app')
 @section('title', 'Novo Cardápio')
 @section('content')
 <div class="container-fluid py-4">
@@ -24,7 +24,7 @@
                 <div class="card-body p-4 p-md-5">
                     <form action="{{ route('cardapios.store') }}" method="POST" class="needs-validation" novalidate>
                         @csrf
-                        
+
                         <!-- Nome -->
                         <div class="mb-4">
                             <label for="nome" class="form-label fw-bold" style="color: #ffffff;">
@@ -134,7 +134,7 @@
         input.addEventListener('focus', function() {
             this.style.boxShadow = '0 0 0 0.2rem rgba(13, 202, 240, 0.25)';
         });
-        
+
         input.addEventListener('blur', function() {
             this.style.boxShadow = 'none';
         });
