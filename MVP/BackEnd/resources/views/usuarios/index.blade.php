@@ -24,33 +24,40 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="card shadow-sm border-0">
         <div class="table-responsive">
-            <table class="table table-hover mb-0">
+            <table class="table table-hover table-striped mb-0">
                 <thead>
-                    <tr class="table-light">
+                    <tr class="table-light text-uppercase small fw-bold">
                         <th>Nome</th>
                         <th>Email</th>
                         <th>Cargo</th>
-                        <th>Função</th>
+                        <th>Telefone</th>
+                        <th>Escola</th>
                         <th>Permissão</th>
-                        <th>Último Acesso</th>
                         <th class="text-end">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($usuarios as $usuario)
                         <tr>
-                            <td>{{ $usuario->name }}</td>
+                            <td>
+                                <a href="{{route('usuario.show', $usuario)}}">
+                                    {{ $usuario->nome }}
+                                </a>
+                            </td>
                             <td>{{ $usuario->email }}</td>
-                            <td>{{ $cargos[$usuario->cargo_id] ?? 'Não informado' }}</td>
-                            <td>{{ $usuario->funcao ?? '-' }}</td>
+                            <td>{{ $usuario->cargo ?? 'Não informado' }}</td>
+                            <td>{{ $usuario->telefone }}</td>
+                            <td>
+                                {{ $escola->where('id', $usuario->id_escola)->pluck('nome')->first() ?? 'N/A' }}
+                            </td>
                             <td>
                                 <span class="badge {{ $usuario->permissao == 'Administrador' ? 'bg-danger' : 'bg-secondary' }}">
                                     {{ $usuario->permissao }}
                                 </span>
                             </td>
-                            <td>{{ $usuario->ultimo_acesso ? $usuario->ultimo_acesso->format('d/m/Y H:i') : 'Nunca' }}</td>
+                        
                             <td class="text-end">
                                 <a href="{{ route('usuarios.edit', $usuario->id) }}" class="btn btn-outline-primary btn-sm">
                                     <i class="bi bi-pencil"></i>

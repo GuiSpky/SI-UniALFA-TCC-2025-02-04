@@ -1,5 +1,5 @@
-@extends('app')
-@section('tittle', 'Editar Escola')
+@extends('layouts.app')
+@section('title', 'Editar Escola')
 @section('content')
 
 <h1>Editar Escola</h1>

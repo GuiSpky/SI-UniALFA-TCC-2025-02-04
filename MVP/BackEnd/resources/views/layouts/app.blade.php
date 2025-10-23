@@ -19,7 +19,7 @@
       }
 
       .navbar-modern {
-        background-color: #212529;
+        background-color: #405c77; Manter escuro como na imagem
         color: white;
         padding: 0.8rem 1.5rem;
         z-index: 1030;
@@ -30,6 +30,7 @@
       .navbar-modern .navbar-brand {
         font-weight: 700;
         font-size: 1.25rem;
+        color: white;
       }
 
       .navbar-modern .btn-outline-light {
@@ -47,7 +48,7 @@
         left: 0;
         height: calc(100vh - 56px);
         width: var(--sidebar-width);
-        background-color: #343a40;
+        background-color: #0e2c49; /* Ajustado para ser mais escuro, como na imagem */
         transition: width 0.3s ease;
         z-index: 1020;
       }
@@ -57,6 +58,7 @@
       }
 
       .sidebar-modern .nav-link {
+        margin: 0 10px 5px 10px; /* Adicionar margem para destacar o item ativo */
         color: rgba(255, 255, 255, 0.85);
         padding: 0.75rem 1.25rem;
         font-size: 0.95rem;
@@ -68,11 +70,11 @@
       }
 
       .sidebar-modern .nav-link:hover {
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: #343a40; /* Hover mais claro */
       }
 
       .sidebar-modern .nav-link.active {
-        background-color: #0d6efd;
+        background-color: #0d6efd; /* Manter o azul para o item ativo */
         color: white;
       }
 
@@ -149,8 +151,38 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="/usuarios">
             <i class="bi bi-people"></i> Usuários
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/bairros">
+            <i class="bi bi-map"></i> Bairros
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/cardapios">
+            <i class="bi bi-menu-button-wide"></i> Cardapios
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/cidades">
+            <i class="bi bi-geo-alt"></i> Cidades
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/escolas">
+            <i class="bi bi-person-workspace"></i> Escolas
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/produtos">
+            <i class="bi bi-egg"></i> Produtos
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/itemprodutos">
+            <i class="bi bi-shop-window"></i> Estoque
           </a>
         </li>
         <li class="nav-item">

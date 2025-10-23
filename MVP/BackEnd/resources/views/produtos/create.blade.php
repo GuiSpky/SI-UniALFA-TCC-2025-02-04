@@ -1,5 +1,5 @@
-@extends('app')
-@section('tittle', 'Novo produto')
+@extends('layouts.app')
+@section('title', 'Novo produto')
 @section('content')
     <h1>Novo produto</h1>
     <form action="{{ route('produtos.store') }}" method="POST">

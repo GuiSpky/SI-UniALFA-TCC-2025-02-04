@@ -1,8 +1,10 @@
-@extends('app')
+@extends('layouts.app')
 @section('title', 'Lista de Produtos')
 
 @section('content')
     <h1>Lista de Escolas</h1>
+                <p class="text-muted mb-0">Gerencie os dados cadastrados no sistema</p> 
+            </div>
     <a href="{{ route('produtos.create') }}" class="btn btn-success">Novo Produto</a>
     <table class="table">
         <thead>

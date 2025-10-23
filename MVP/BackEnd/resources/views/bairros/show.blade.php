@@ -1,8 +1,8 @@
-@extends('app')
-@section('tittle', 'Detalhe da Cidade')
+@extends('layouts.app')
+@section('title', 'Detalhe da Cidade')
 @section('content')
-    <div class="card">
-        <div class="card-header">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white border-bottom-0">
             Detalhes do bairro {{$bairro->nome}}
         </div>
         <div class="card-body">
