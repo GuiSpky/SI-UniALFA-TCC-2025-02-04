@@ -19,7 +19,7 @@
       }
 
       .navbar-modern {
-        background-color: #405c77; Manter escuro como na imagem
+        background-color: #405c77; /* Manter escuro como na imagem */
         color: white;
         padding: 0.8rem 1.5rem;
         z-index: 1030;
@@ -144,54 +144,64 @@
 
     <!-- Sidebar -->
     <aside class="sidebar-modern" id="sidebar">
-      <ul class="nav flex-column p-3">
-        <li class="nav-item">
-          <a class="nav-link active" href="#">
-            <i class="bi bi-house-door"></i> Dashboard
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/usuarios">
-            <i class="bi bi-people"></i> Usuários
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/bairros">
-            <i class="bi bi-map"></i> Bairros
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/cardapios">
-            <i class="bi bi-menu-button-wide"></i> Cardapios
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/cidades">
-            <i class="bi bi-geo-alt"></i> Cidades
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/escolas">
-            <i class="bi bi-person-workspace"></i> Escolas
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/produtos">
-            <i class="bi bi-egg"></i> Produtos
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/itemprodutos">
-            <i class="bi bi-shop-window"></i> Estoque
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="bi bi-gear"></i> Configurações
-          </a>
-        </li>
-      </ul>
-    </aside>
+  <ul class="nav flex-column p-3">
+
+    <li class="nav-item">
+      <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="/">
+        <i class="bi bi-house-door"></i> Dashboard
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link {{ Request::is('usuarios*') ? 'active' : '' }}" href="/usuarios">
+        <i class="bi bi-people"></i> Usuários
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link {{ Request::is('bairros*') ? 'active' : '' }}" href="/bairros">
+        <i class="bi bi-map"></i> Bairros
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link {{ Request::is('cardapios*') ? 'active' : '' }}" href="/cardapios">
+        <i class="bi bi-menu-button-wide"></i> Cardápios
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link {{ Request::is('cidades*') ? 'active' : '' }}" href="/cidades">
+        <i class="bi bi-geo-alt"></i> Cidades
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link {{ Request::is('escolas*') ? 'active' : '' }}" href="/escolas">
+        <i class="bi bi-person-workspace"></i> Escolas
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link {{ Request::is('produtos*') ? 'active' : '' }}" href="/produtos">
+        <i class="bi bi-egg"></i> Produtos
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link {{ Request::is('itemprodutos*') ? 'active' : '' }}" href="/itemprodutos">
+        <i class="bi bi-shop-window"></i> Estoque
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link {{ Request::is('configuracoes*') ? 'active' : '' }}" href="#">
+        <i class="bi bi-gear"></i> Configurações
+      </a>
+    </li>
+
+  </ul>
+</aside>
 
     <!-- Conteúdo principal -->
     <main class="main-content-modern fade-in-up">
