@@ -1,15 +1,19 @@
-@extends('app')
+@extends('layouts.app')
 @section('title', 'Estoque Central')
 
 @section('content')
 <div class="container-fluid">
     <!-- Header Section -->
     <div class="mb-4 fade-in-up">
+        <div class="d-flex align-items-center mb-3"> 
+            <div>
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
                 <h1 class="h2 fw-bold mb-1" style="color: #ffffff;">
                     <i class="bi bi-box me-2"></i>Estoque Central
                 </h1>
+                <p class="text-muted mb-0">Gerencie os dados cadastrados no sistema</p> 
+            </div>
                 <p class="text-muted mb-0">Gerencie o estoque de produtos do sistema</p>
             </div>
             <a href="{{ route('itemprodutos.create') }}" class="btn btn-primary btn-lg" style="background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%); border: none; transition: all 0.3s ease;">

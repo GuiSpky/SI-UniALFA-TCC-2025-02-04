@@ -15,8 +15,8 @@
                 <p class="text-muted mb-0">Atualize os dados do cardápio</p>
             </div>
         </div>
-    </div>
 
+<<<<<<< HEAD
     <!-- Form Card -->
     <div class="row justify-content-center">
         <div class="col-lg-8">
@@ -34,39 +34,65 @@
                             <input type="text" name="nome" id="nome" class="form-control form-control-lg" placeholder="Digite o nome do cardápio" value="{{$cardapio->nome}}" required style="background-color: #1a1a2e; border: 1px solid #2a2a3e; color: #ffffff; border-radius: 8px; transition: all 0.3s ease;">
                             <div class="invalid-feedback" style="color: #ff6b6b;">Por favor, insira o nome do cardápio.</div>
                         </div>
+=======
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card fade-in-up shadow-sm border-0">
+                    <div class="card-body p-4 p-md-5">
+>>>>>>> 7206cff5ffaa47eca6315801c6b5ab824288de90
 
-                        <!-- Item -->
-                        <div class="mb-4">
-                            <label for="item" class="form-label fw-bold" style="color: #ffffff;">
-                                <i class="bi bi-list-check me-2" style="color: #0dcaf0;"></i>Itens do Cardápio
-                            </label>
-                            <input type="text" name="item" id="item" class="form-control form-control-lg" placeholder="Descreva os itens do cardápio" value="{{$cardapio->item}}" required style="background-color: #1a1a2e; border: 1px solid #2a2a3e; color: #ffffff; border-radius: 8px; transition: all 0.3s ease;">
-                            <div class="invalid-feedback" style="color: #ff6b6b;">Por favor, insira os itens do cardápio.</div>
-                        </div>
+                        <form action="{{ route('cardapios.update', $cardapio->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
 
-                        <!-- Data -->
-                        <div class="mb-4">
-                            <label for="data" class="form-label fw-bold" style="color: #ffffff;">
-                                <i class="bi bi-calendar-date me-2" style="color: #0dcaf0;"></i>Data
-                            </label>
-                            <input type="date" name="data" id="data" class="form-control form-control-lg" value="{{$cardapio->data}}" required style="background-color: #1a1a2e; border: 1px solid #2a2a3e; color: #ffffff; border-radius: 8px; transition: all 0.3s ease;">
-                            <div class="invalid-feedback" style="color: #ff6b6b;">Por favor, selecione a data.</div>
-                        </div>
+                            {{-- Mensagens de erro --}}
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
 
-                        <!-- Buttons -->
-                        <div class="d-flex justify-content-end gap-3 mt-5 pt-4" style="border-top: 1px solid #2a2a3e;">
-                            <a class="btn btn-lg" href="{{route("cardapios.index")}}" style="background-color: #1a1a2e; color: #b0b0b0; border: 1px solid #2a2a3e; border-radius: 8px; transition: all 0.3s ease;">
-                                <i class="bi bi-x-circle me-2"></i>Cancelar
-                            </a>
-                            <button class="btn btn-lg" type="submit" style="background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%); color: white; border: none; border-radius: 8px; transition: all 0.3s ease;">
-                                <i class="bi bi-check-circle me-2"></i>Atualizar Cardápio
-                            </button>
-                        </div>
-                    </form>
+                            {{-- Nome --}}
+                            <div class="mb-3">
+                                <label for="nome" class="form-label">Nome</label>
+                                <input type="text" class="form-control" id="nome" name="nome"
+                                    value="{{ old('nome', $cardapio->nome) }}" required>
+                            </div>
+
+                            {{-- Item --}}
+                            <div class="mb-3">
+                                <label for="item" class="form-label">Item</label>
+                                <input type="text" class="form-control" id="item" name="item"
+                                    value="{{ old('item', $cardapio->item) }}" required>
+                            </div>
+
+                            {{-- Data --}}
+                            <div class="mb-3">
+                                <label for="data" class="form-label">Data</label>
+                                <input type="date" class="form-control" id="data" name="data"
+                                    value="{{ old('data', $cardapio->data) }}" required>
+                            </div>
+
+                            {{-- Botões --}}
+                            <div class="d-flex justify-content-between mt-4">
+                                <a href="{{ route('cardapios.index') }}" class="btn btn-outline-secondary">
+                                    <i class="bi bi-x-circle me-2"></i>Cancelar
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-save me-2"></i>Atualizar Cardápio
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+<<<<<<< HEAD
 </div>
 
 <style>
@@ -141,5 +167,6 @@
         });
     });
 </script>
+=======
+>>>>>>> 7206cff5ffaa47eca6315801c6b5ab824288de90
 @endsection
-

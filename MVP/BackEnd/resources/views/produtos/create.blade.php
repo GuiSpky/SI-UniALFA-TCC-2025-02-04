@@ -1,5 +1,5 @@
-@extends('app')
-@section('tittle', 'Novo produto')
+@extends('layouts.app')
+@section('title', 'Novo produto')
 @section('content')
     <h1>Novo produto</h1>
     <form action="{{ route('produtos.store') }}" method="POST">
@@ -19,6 +19,6 @@
             </select>
         </div>
         <button class="btn btn-success" type="submit">Enviar</button>
-        <a class="btn btn-danger" href="{{route('escolas.index')}}">Cancelar</a>
+        <a class="btn btn-danger" href="{{route('produtos.index')}}">Cancelar</a>
     </form>
 @endsection

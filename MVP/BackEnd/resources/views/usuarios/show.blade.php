@@ -1,47 +1,64 @@
 @extends('layouts.app')
 @section('title', 'Detalhe do Usuário')
+
 @section('content')
-    <div class="card">
-        <div class="card-header">
-            Detalhes do Usuário {{$usuario->nome}}
+<div class="container-fluid py-4">
+    <div class="mb-4 fade-in-up">
+        <div class="d-flex align-items-center mb-4">
+            <a href="{{ route('usuarios.index') }}" class="btn btn-outline-secondary btn-sm rounded-pill me-3">
+                <i class="bi bi-arrow-left me-2"></i>Voltar
+            </a>
+            <div>
+                <h1 class="h3 fw-bold mb-1 text-primary">
+                    <i class="bi bi-person-fill me-2"></i>Detalhes do Usuário
+                </h1>
+                <p class="text-muted mb-0">Visualize as informações completas deste usuário</p>
+            </div>
         </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 text-secondary">
+                <i class="bi bi-person-badge me-2"></i>{{ $usuario->nome }}
+            </h5>
+            <span class="badge bg-light text-secondary px-3 py-2 border">
+                ID: {{ $usuario->id }}
+            </span>
+        </div>
+
         <div class="card-body">
-            <p><strong>ID: </strong>{{$usuario->id}}</p>
-            <p><strong>Nome: </strong>{{$usuario->nome}}</p>
-            <p><strong>Email: </strong>{{ $usuario->email}}</p>
-            <p><strong>Telefone: </strong>{{ $usuario->telefone}}</p>
-            <p><strong>Cargo: </strong>{{ $usuario->cargo}}</p>
-            <p><strong>Escola: </strong>{{ $escolas->where('id', $usuario->id_escola)->pluck('nome')->first()}}</p>
-            <br>
-            <a class="btn btn-success" href="{{ route('usuarios.index') }}">Voltar</a>
+            <div class="row mb-3">
+                <div class="col-md-6 mb-3">
+                    <p class="mb-1 text-muted small">Nome</p>
+                    <p class="fw-semibold">{{ $usuario->nome }}</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <p class="mb-1 text-muted small">Email</p>
+                    <p class="fw-semibold">{{ $usuario->email }}</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <p class="mb-1 text-muted small">Telefone</p>
+                    <p class="fw-semibold">{{ $usuario->telefone }}</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <p class="mb-1 text-muted small">Cargo</p>
+                    <p class="fw-semibold">{{ $usuario->cargo }}</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <p class="mb-1 text-muted small">Escola</p>
+                    <p class="fw-semibold">
+                        {{ $escolas->where('id', $usuario->id_escola)->pluck('nome')->first() }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <a href="{{ route('usuarios.index') }}" class="btn btn-outline-primary rounded-pill px-4">
+                    <i class="bi bi-arrow-left me-2"></i>Voltar à lista
+                </a>
+            </div>
         </div>
     </div>
 </div>
-
-<style>
-    a:hover {
-        text-decoration: underline;
-    }
-
-    .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .fade-in-up {
-        animation: fadeInUp 0.6s ease-out;
-    }
-</style>
 @endsection
-

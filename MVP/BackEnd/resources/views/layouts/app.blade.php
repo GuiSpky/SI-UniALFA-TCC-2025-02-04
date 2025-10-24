@@ -19,7 +19,7 @@
       }
 
       .navbar-modern {
-        background-color: #212529;
+        background-color: #002a68; /* Manter escuro como na imagem */
         color: white;
         padding: 0.8rem 1.5rem;
         z-index: 1030;
@@ -30,6 +30,7 @@
       .navbar-modern .navbar-brand {
         font-weight: 700;
         font-size: 1.25rem;
+        color: white;
       }
 
       .navbar-modern .btn-outline-light {
@@ -47,7 +48,7 @@
         left: 0;
         height: calc(100vh - 56px);
         width: var(--sidebar-width);
-        background-color: #343a40;
+        background-color: #003b72; /* Ajustado para ser mais escuro, como na imagem */
         transition: width 0.3s ease;
         z-index: 1020;
       }
@@ -57,6 +58,7 @@
       }
 
       .sidebar-modern .nav-link {
+        margin: 0 10px 5px 10px; /* Adicionar margem para destacar o item ativo */
         color: rgba(255, 255, 255, 0.85);
         padding: 0.75rem 1.25rem;
         font-size: 0.95rem;
@@ -68,11 +70,11 @@
       }
 
       .sidebar-modern .nav-link:hover {
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: #343a40; /* Hover mais claro */
       }
 
       .sidebar-modern .nav-link.active {
-        background-color: #0d6efd;
+        background-color: #0d6efd; /* Manter o azul para o item ativo */
         color: white;
       }
 
@@ -140,30 +142,90 @@
       </div>
     </nav>
 
-    <!-- Sidebar -->
+    {{-- Sidebar --}}
     <aside class="sidebar-modern" id="sidebar">
-      <ul class="nav flex-column p-3">
-        <li class="nav-item">
-          <a class="nav-link active" href="#">
-            <i class="bi bi-house-door"></i> Dashboard
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="bi bi-people"></i> Usuários
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="bi bi-gear"></i> Configurações
-          </a>
-        </li>
-      </ul>
-    </aside>
+  <ul class="nav flex-column p-3">
+
+    <li class="nav-item">
+      <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="/">
+        <i class="bi bi-house-door"></i> Dashboard
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link {{ Request::is('usuarios*') ? 'active' : '' }}" href="/usuarios">
+        <i class="bi bi-people"></i> Usuários
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link {{ Request::is('cidades*') ? 'active' : '' }}" href="/cidades">
+        <i class="bi bi-geo-alt"></i> Cidades
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link {{ Request::is('bairros*') ? 'active' : '' }}" href="/bairros">
+        <i class="bi bi-map"></i> Bairros
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link {{ Request::is('escolas*') ? 'active' : '' }}" href="/escolas">
+        <i class="bi bi-person-workspace"></i> Escolas
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link {{ Request::is('produtos*') ? 'active' : '' }}" href="/produtos">
+        <i class="bi bi-egg"></i> Produtos
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link {{ Request::is('itemprodutos*') ? 'active' : '' }}" href="/itemprodutos">
+        <i class="bi bi-shop-window"></i> Estoque
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link {{ Request::is('cardapios*') ? 'active' : '' }}" href="/cardapios">
+        <i class="bi bi-menu-button-wide"></i> Cardápios
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link {{ Request::is('configuracoes*') ? 'active' : '' }}" href="#">
+        <i class="bi bi-gear"></i> Configurações
+      </a>
+    </li>
+
+  </ul>
+</aside>
 
     <!-- Conteúdo principal -->
     <main class="main-content-modern fade-in-up">
       @yield('content')
+      @if (session('sucesso'))
+            <script>
+                Swal.fire({
+                    title: 'Sucesso!',
+                    text: '{{ session('sucesso') }}',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                })
+            </script>
+        @endif
+        @if ($errors->any())
+            <script>
+                Swal.fire({
+                    title: 'Atenção!',
+                    text: '{{ $errors->first() }}',
+                    icon: 'warning',
+                    confirmButtonText: 'Entendi'
+                })
+            </script>
+        @endif
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

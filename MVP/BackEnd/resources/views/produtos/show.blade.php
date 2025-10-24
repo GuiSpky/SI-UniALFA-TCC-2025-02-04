@@ -1,8 +1,8 @@
-@extends('app')
-@section('tittle', 'Detalhe da Escola')
+@extends('layouts.app')
+@section('title', 'Detalhe da Escola')
 @section('content')
-    <div class="card">
-        <div class="card-header">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white border-bottom-0">
             Detalhes da Escola {{$produto->nome}}
         </div>
         <div class="card-body">
