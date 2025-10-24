@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.app')
 @section('tittle', 'Nova Cidade')
 @section('content')
     <h1>Nova Cidade</h1>

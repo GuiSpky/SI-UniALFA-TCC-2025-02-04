@@ -1,4 +1,4 @@
-@extends("app")
+@extends('layouts.app')
 @section("title", "Detalhe da Escola")
 @section("content")
 <div class="container-fluid py-4">
