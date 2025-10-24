@@ -1,24 +1,108 @@
 @extends('layouts.app')
-@section('title', 'Editar Cidade')
-@section('content')
 
-<h1>Editar Cidade</h1>
-    <form action="{{ route('cidades.update', $cidade) }}" method="POST">
-        @csrf
-        @method('PUT')
-        <div class="mb-3">
-            <label for="codIbge" class="form-label">Cód. IBGE</label>
-            <input type="number" name="codIbge" id="codIbge" class="form-control" placeholder={{$cidade->codIbge}} value="{{$cidade->codIbge}}">
+@section('title', 'Editar Usuário')
+
+@section('content')
+    <div class="container-fluid py-4">
+        <div class="mb-4 fade-in-up">
+            <div class="d-flex align-items-center mb-3">
+                <a href="{{ route('usuarios.index') }}" class="btn btn-outline-secondary btn-sm me-3">
+                    <i class="bi bi-arrow-left me-2"></i>Voltar
+                </a>
+                <div>
+                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-pencil-square me-2"></i>Editar Usuário</h1>
+                    <p class="text-muted mb-0">Atualize os dados do usuário</p>
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="nome" class="form-label">Nome</label>
-            <input type="text" name="nome" id="nome" class="form-control" placeholder={{$cidade->nome}} value="{{$cidade->nome}}">
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card fade-in-up shadow-sm border-0">
+                    <div class="card-body p-4 p-md-5">
+
+                        <form action="{{ route('usuarios.update', $usuario->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+
+                            {{-- Mensagens de erro --}}
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            {{-- Nome --}}
+                            <div class="mb-3">
+                                <label for="nome" class="form-label">Nome</label>
+                                <input type="text" class="form-control" id="nome" name="nome"
+                                    value="{{ old('nome', $usuario->nome) }}" required>
+                            </div>
+
+                            {{-- Email --}}
+                            <div class="mb-3">
+                                <label for="email" class="form-label">E-mail</label>
+                                <input type="email" class="form-control" id="email" name="email"
+                                    value="{{ old('email', $usuario->email) }}" required>
+                            </div>
+
+                            {{-- Telefone --}}
+                            <div class="mb-3">
+                                <label for="telefone" class="form-label">Telefone</label>
+                                <input type="tel" class="form-control" id="telefone" name="telefone"
+                                    value="{{ old('telefone', $usuario->telefone) }}" required>
+                            </div>
+
+                            {{-- Cargo --}}
+                            <div class="mb-3">
+                                <label for="cargo" class="form-label">Cargo</label>
+                                <select class="form-select" id="cargo" name="cargo" required>
+                                    <option value="" disabled>Selecione o cargo</option>
+                                    <option value="Gerente"
+                                        {{ old('cargo', $usuario->cargo) == 'Gerente' ? 'selected' : '' }}>Gerente</option>
+                                    <option value="Cozinheiro Cheff"
+                                        {{ old('cargo', $usuario->cargo) == 'Cozinheiro Cheff' ? 'selected' : '' }}>
+                                        Cozinheiro Cheff</option>
+                                    <option value="Cozinheiro"
+                                        {{ old('cargo', $usuario->cargo) == 'Cozinheiro' ? 'selected' : '' }}>Cozinheiro
+                                    </option>
+                                    <option value="Nutricionista"
+                                        {{ old('cargo', $usuario->cargo) == 'Nutricionista' ? 'selected' : '' }}>
+                                        Nutricionista</option>
+                                </select>
+                            </div>
+
+                            {{-- Escola --}}
+                            <div class="mb-3">
+                                <label for="id_escola" class="form-label">Escola</label>
+                                <select name="id_escola" id="id_escola" class="form-select" required>
+                                    <option value="">Selecione uma Escola</option>
+                                    @foreach ($escolas as $escola)
+                                        <option value="{{ $escola->id }}"
+                                            {{ old('id_escola', $usuario->id_escola) == $escola->id ? 'selected' : '' }}>
+                                            {{ $escola->nome }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            {{-- Botões --}}
+                            <div class="d-flex justify-content-between mt-4">
+                                <a href="{{ route('usuarios.index') }}" class="btn btn-outline-secondary">
+                                    <i class="bi bi-x-circle me-2"></i>Cancelar
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-save me-2"></i>Atualizar Usuário
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="uf" class="form-label">UF</label>
-            <input type="text" name="uf" id="uf" class="form-control" placeholder={{$cidade->uf}} value="{{$cidade->uf}}">
-        </div>
-        <button class="btn btn-success" type="submit">Enviar</button>
-        <a class="btn btn-danger" href="{{route('cidades.index')}}">Cancelar</a>
-    </form>
+    </div>
 @endsection

@@ -19,7 +19,7 @@
       }
 
       .navbar-modern {
-        background-color: #405c77; /* Manter escuro como na imagem */
+        background-color: #002a68; /* Manter escuro como na imagem */
         color: white;
         padding: 0.8rem 1.5rem;
         z-index: 1030;
@@ -48,7 +48,7 @@
         left: 0;
         height: calc(100vh - 56px);
         width: var(--sidebar-width);
-        background-color: #0e2c49; /* Ajustado para ser mais escuro, como na imagem */
+        background-color: #003b72; /* Ajustado para ser mais escuro, como na imagem */
         transition: width 0.3s ease;
         z-index: 1020;
       }
@@ -206,6 +206,26 @@
     <!-- Conteúdo principal -->
     <main class="main-content-modern fade-in-up">
       @yield('content')
+      @if (session('sucesso'))
+            <script>
+                Swal.fire({
+                    title: 'Sucesso!',
+                    text: '{{ session('sucesso') }}',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                })
+            </script>
+        @endif
+        @if ($errors->any())
+            <script>
+                Swal.fire({
+                    title: 'Atenção!',
+                    text: '{{ $errors->first() }}',
+                    icon: 'warning',
+                    confirmButtonText: 'Entendi'
+                })
+            </script>
+        @endif
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
