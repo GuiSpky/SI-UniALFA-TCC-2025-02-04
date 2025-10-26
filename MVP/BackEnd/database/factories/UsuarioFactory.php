@@ -18,7 +18,7 @@ class UsuarioFactory extends Factory
     public function definition(): array
     {
         return [
-            'nome' => fake()->name(),
+            'name' => fake()->name(),
             'email' => fake()->email(),
             'telefone' => fake()->phoneNumber(),
             'cargo' => fake()->randomElement([
@@ -27,7 +27,7 @@ class UsuarioFactory extends Factory
                 '3',
                 '4'
             ]),
-            'senha' => fake()->password(),
+            'password' => 'senhateste123',
             'id_escola' => Escola::all()->random()->id,
         ];
     }

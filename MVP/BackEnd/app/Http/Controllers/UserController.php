@@ -7,6 +7,7 @@
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Escola;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -26,7 +27,7 @@ class UserController extends Controller
     public function index()
     {
         // Usa o Model User
-        $users = User::all();
+        $users = Usuario::all();
         $escolas = Escola::all();
 
         // Renomeia a variável para o plural correto ('users')
@@ -62,7 +63,7 @@ class UserController extends Controller
         $validated['password'] = Hash::make($validated['password']);
 
         try {
-            User::create($validated);
+            Usuario::create($validated);
             return redirect('/usuarios')->with('sucesso', 'Usuário cadastrado com sucesso!');
         } catch (\Exception $e) {
             // Chamada ao Log corrigida (sem a barra invertida)
@@ -75,7 +76,7 @@ class UserController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $user = User::findOrFail($id);
+        $user = Usuario::findOrFail($id);
 
         // Validação (sem alterações)
         $validated = $request->validate([
@@ -105,7 +106,7 @@ class UserController extends Controller
     {
         try {
             // Usa o Model User
-            $user = User::findOrFail($id);
+            $user = Usuario::findOrFail($id);
             $user->delete();
             return redirect('/usuarios')->with('sucesso', 'Usuário excluído com sucesso!');
         } catch (\Exception $e) {
