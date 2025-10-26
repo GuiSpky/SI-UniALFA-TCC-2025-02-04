@@ -27,6 +27,7 @@ class UsuarioFactory extends Factory
                 '3',
                 '4'
             ]),
+            'senha' => fake()->password(),
             'id_escola' => Escola::all()->random()->id,
         ];
     }

@@ -6,27 +6,32 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
-            $table->string('nome', 30)->isNotEmpty();
-            $table->string('email', 30)->unique()->isNotEmpty();
-            $table->string('telefone', 30)->unique()->isNotEmpty();
-            $table->string('cargo', 30)->isNotEmpty();
-            $table->string('senha')->isNotEmpty();
-            $table->bigInteger('id_escola')->unsigned()->nullable();
-            $table->foreign('id_escola')->references('id')->on('escolas');
+
+            // Campos principais
+            $table->string('nome', 100);
+            $table->string('email', 100)->unique();
+            $table->string('telefone', 20)->unique();
+
+            // Cargo numérico
+            $table->unsignedTinyInteger('cargo');
+
+            // Senha criptografada
+            $table->string('senha');
+
+            // Relacionamento com escolas
+            $table->foreignId('id_escola')
+                ->nullable()
+                ->constrained('escolas')
+                ->nullOnDelete();
+
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('usuarios');

@@ -1,4 +1,5 @@
 @extends('layouts.app')
+
 @section('title', 'Bem-vindo ao GEMA')
 
 @section('content')
@@ -44,10 +45,6 @@
             opacity: 1;
             transform: translateY(0);
         }
-    }
-
-    .fade-in-up {
-        animation: fadeInUp 0.8s ease-out;
     }
 </style>
 @endsection

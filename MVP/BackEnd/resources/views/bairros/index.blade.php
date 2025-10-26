@@ -2,71 +2,72 @@
 @section('title', 'Lista de Bairros')
 
 @section('content')
-<div class="container-fluid">
-    <div class="mb-4 fade-in-up">
-        <div class="d-flex align-items-center mb-3">
-            <div>
-                <h1 class="h2 fw-bold mb-1"><i class="bi bi-map me-2"></i>Bairros</h1>
-                <p class="text-muted mb-0">Gerencie os bairros cadastrados no sistema</p>
+    <div class="container-fluid">
+        <div class="mb-4 fade-in-up">
+            <div class="d-flex align-items-center mb-3">
+                <div>
+                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-map me-2"></i>Bairros</h1>
+                    <p class="text-muted mb-0">Gerencie os bairros cadastrados no sistema</p>
+                </div>
+                <a href="{{ route('bairros.create') }}" class="btn btn-primary btn-sm ms-auto shadow-sm">
+                    <i class="bi bi-plus-circle me-1"></i> Novo Bairro
+                </a>
             </div>
-            <a href="{{ route('bairros.create') }}" class="btn btn-primary btn-sm ms-auto shadow-sm">
-                <i class="bi bi-plus-circle me-1"></i> Novo Bairro
-            </a>
         </div>
-    </div>
 
-    <div class="card shadow-sm border-0">
-        <div class="table-responsive">
-            <table class="table table-hover table-striped mb-0">
-                <thead>
-                    <tr class="table-light text-uppercase small fw-bold">
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Cidade</th>
-                        <th class="text-end">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($bairros as $bairro)
-                        <tr>
-                            <td>
-                                <span class="badge bg-primary">
-                                    {{ $bairro->id }}
-                                </span>
-                            </td>
-                            <td>
-                                <a href="{{route('bairro.show', $bairro)}}">
-                                    {{ $bairro->nome }}
-                                </a>
-                            </td>
-                            <td>
-                                {{ $cidades->where('id', $bairro->id_cidade)->pluck('nome')->first() ?? 'N/A' }}
-                            </td>
-                            <td class="text-end">
-                                <a href="{{route('bairros.edit', $bairro->id)}}" class="btn btn-outline-primary btn-sm" title="Editar">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <form action="{{route('bairros.destroy', $bairro)}}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-outline-danger btn-sm" type="submit" onclick="return confirm('Deseja realmente apagar este bairro?')" title="Apagar">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
+        <div class="card shadow-sm border-2">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0">
+                    <thead>
+                        <tr class="table-light text-uppercase small fw-bold">
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Cidade</th>
+                            <th class="text-end">Ações</th>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="4" class="text-center py-5">
-                                <i class="bi bi-inbox" style="font-size: 3rem;"></i>
-                                <p class="text-muted">Nenhum bairro encontrado</p>
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @forelse ($bairros as $bairro)
+                            <tr>
+                                <td>
+                                    <span class="badge bg-primary">
+                                        {{ $bairro->id }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="{{ route('bairro.show', $bairro) }}">
+                                        {{ $bairro->nome }}
+                                    </a>
+                                </td>
+                                <td>
+                                    {{ $cidades->where('id', $bairro->id_cidade)->pluck('nome')->first() ?? 'N/A' }}
+                                </td>
+                                <td class="text-end">
+                                    <a href="{{ route('bairros.edit', $bairro->id) }}"
+                                        class="btn btn-outline-primary btn-sm" title="Editar">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <form action="{{ route('bairros.destroy', $bairro) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-outline-danger btn-sm" type="submit"
+                                            onclick="return confirm('Deseja realmente apagar este bairro?')" title="Apagar">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="text-center py-5">
+                                    <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+                                    <p class="text-muted">Nenhum bairro encontrado</p>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
 @endsection
-

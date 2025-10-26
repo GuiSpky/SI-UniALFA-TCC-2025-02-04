@@ -3,14 +3,6 @@
 @section('title', 'Lista de Usuários')
 
 @section('content')
-    <?php
-    $cargos = [
-        1 => 'Gerente',
-        2 => 'Cozinheiro Cheff',
-        3 => 'Cozinheiro',
-        4 => 'Nutricionista',
-    ];
-    ?>
     <div class="container-fluid">
         <div class="mb-4 fade-in-up">
             <div class="d-flex align-items-center mb-3">
@@ -24,29 +16,37 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card shadow-sm border-2">
             <div class="table-responsive">
-                <table class="table table-hover mb-0">
+                <table class="table table-hover table-striped mb-0">
                     <thead>
-                        <tr class="table-light">
+                        <tr class="table-light text-uppercase small fw-bold">
+                            <th>Id</th>
                             <th>Nome</th>
                             <th>Email</th>
-                            <th>Cargo</th>
                             <th>Telefone</th>
+                            <th>Cargo</th>
                             <th>Local de trabalho</th>
-                            <th>Último Acesso</th>
                             <th class="text-end">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($usuarios as $usuario)
                             <tr>
-                                <td>{{ ucfirst($usuario->nome) }}</td>
+                                <td>
+                                    <span class="badge bg-primary">
+                                        {{ $usuario->id }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="{{ route('usuario.show', $usuario) }}">
+                                        {{ $usuario->nome }}
+                                    </a>
+                                </td>
                                 <td>{{ $usuario->email }}</td>
-                                <td>{{ $cargos[$usuario->cargo] ?? 'Não informado' }}</td>
                                 <td>{{ $usuario->telefone }}</td>
-                                <td>{{ $escola->where('id', $usuario->id_escola)->pluck('nome')->first() }}</td>
-                                <td>{{ $usuario->ultimo_acesso ? $usuario->ultimo_acesso->format('d/m/Y H:i') : 'Nunca' }}
+                                <td><x-cargo-label :value="$usuario->cargo" /></td>
+                                <td>{{ $usuario->escola->nome ?? 'Não vinculado' }}</td>
                                 </td>
                                 <td class="text-end">
                                     <a href="{{ route('usuarios.edit', $usuario->id) }}"
@@ -61,6 +61,7 @@
                                             onclick="return confirm('Tem certeza?')">
                                             <i class="bi bi-trash"></i>
                                         </button>
+
                                     </form>
                                 </td>
                             </tr>
