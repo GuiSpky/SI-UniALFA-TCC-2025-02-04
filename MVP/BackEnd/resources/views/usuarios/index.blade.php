@@ -31,29 +31,29 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($usuarios as $usuario)
+                        @forelse ($users as $user)
                             <tr>
                                 <td>
                                     <span class="badge bg-primary">
-                                        {{ $usuario->id }}
+                                        {{ $user->id }}
                                     </span>
                                 </td>
                                 <td>
                                     <a href="{{ route('usuario.show', $usuario) }}">
-                                        {{ $usuario->nome }}
+                                        {{ $user->name }}
                                     </a>
                                 </td>
-                                <td>{{ $usuario->email }}</td>
-                                <td>{{ $usuario->telefone }}</td>
-                                <td><x-cargo-label :value="$usuario->cargo" /></td>
-                                <td>{{ $usuario->escola->nome ?? 'Não vinculado' }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->telefone }}</td>
+                                <td><x-cargo-label :value="$user->cargo" /></td>
+                                <td>{{ $user->escola->nome ?? 'Não vinculado' }}</td>
                                 </td>
                                 <td class="text-end">
-                                    <a href="{{ route('usuarios.edit', $usuario->id) }}"
+                                    <a href="{{ route('usuarios.edit', $user->id) }}"
                                         class="btn btn-outline-primary btn-sm">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST"
+                                    <form action="{{ route('usuarios.destroy', $user->id) }}" method="POST"
                                         class="d-inline">
                                         @csrf
                                         @method('DELETE')
