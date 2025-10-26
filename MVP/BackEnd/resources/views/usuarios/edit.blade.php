@@ -1,19 +1,21 @@
 @extends('layouts.app')
 @section('title', 'Editar Usuário')
-
 @section('content')
-    <div class="container-fluid py-4">
-        <div class="mb-4 fade-in-up">
-            <div class="d-flex align-items-center mb-3">
-                <a href="{{ route('usuarios.index') }}" class="btn btn-outline-secondary btn-sm me-3">
-                    <i class="bi bi-arrow-left me-2"></i>Voltar
-                </a>
-                <div>
-                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-pencil-square me-2"></i>Editar Usuário</h1>
-                    <p class="text-muted mb-0">Atualize os dados do usuário</p>
-                </div>
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="mb-4 fade-in-up">
+        <div class="d-flex align-items-center mb-3">
+            <a href="{{route('usuarios.index')}}" class="btn btn-outline-secondary btn-sm me-3" style="border-color: #2a2a3e; color: #b0b0b0; transition: all 0.3s ease;">
+                <i class="bi bi-arrow-left me-2"></i>Voltar
+            </a>
+            <div>
+                <h1 class="h2 fw-bold mb-1" style="color: #ffffff;">
+                    <i class="bi bi-pencil-square me-2"></i>Editar Usuário
+                </h1>
+                <p class="text-muted mb-0">Atualize os dados do usuário</p>
             </div>
         </div>
+    </div>
 
     <!-- Form Card -->
     <div class="row justify-content-center">
@@ -23,7 +25,11 @@
                     <form action="{{ route('usuarios.update', $usuario) }}" method="POST" class="needs-validation" novalidate>
                         @csrf
                         @method('PUT')
+<<<<<<< HEAD
 
+=======
+                        
+>>>>>>> parent of 7206cff5 (Configurados alguns cruds no front)
                         <!-- Nome -->
                         <div class="mb-4">
                             <label for="nome" class="form-label fw-bold" style="color: #ffffff;">
@@ -33,86 +39,63 @@
                             <div class="invalid-feedback" style="color: #ff6b6b;">Por favor, insira o nome.</div>
                         </div>
 
-                        <form action="{{ route('usuarios.update', $usuario->id) }}" method="POST">
-                            @csrf
-                            @method('PUT')
+                        <!-- Email -->
+                        <div class="mb-4">
+                            <label for="email" class="form-label fw-bold" style="color: #ffffff;">
+                                <i class="bi bi-envelope me-2" style="color: #0dcaf0;"></i>Email
+                            </label>
+                            <input type="email" name="email" id="email" class="form-control form-control-lg" placeholder="Digite o email" value="{{$usuario->email}}" required style="background-color: #1a1a2e; border: 1px solid #2a2a3e; color: #ffffff; border-radius: 8px; transition: all 0.3s ease;">
+                            <div class="invalid-feedback" style="color: #ff6b6b;">Por favor, insira um email válido.</div>
+                        </div>
 
-                            {{-- Mensagens de erro --}}
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul class="mb-0">
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
+                        <!-- Telefone -->
+                        <div class="mb-4">
+                            <label for="telefone" class="form-label fw-bold" style="color: #ffffff;">
+                                <i class="bi bi-telephone me-2" style="color: #0dcaf0;"></i>Telefone
+                            </label>
+                            <input type="text" name="telefone" id="telefone" class="form-control form-control-lg" placeholder="Digite o telefone" value="{{$usuario->telefone}}" required style="background-color: #1a1a2e; border: 1px solid #2a2a3e; color: #ffffff; border-radius: 8px; transition: all 0.3s ease;">
+                            <div class="invalid-feedback" style="color: #ff6b6b;">Por favor, insira o telefone.</div>
+                        </div>
 
-                            {{-- Nome --}}
-                            <div class="mb-3">
-                                <label for="nome" class="form-label">Nome</label>
-                                <input type="text" class="form-control" id="nome" name="nome"
-                                    value="{{ old('nome', $usuario->nome) }}" required>
-                            </div>
+                        <!-- Cargo -->
+                        <div class="mb-4">
+                            <label for="cargo" class="form-label fw-bold" style="color: #ffffff;">
+                                <i class="bi bi-briefcase me-2" style="color: #0dcaf0;"></i>Cargo
+                            </label>
+                            <select name="cargo" id="cargo" class="form-select form-select-lg" required style="background-color: #1a1a2e; border: 1px solid #2a2a3e; color: #ffffff; border-radius: 8px; transition: all 0.3s ease;">
+                                <option value="" disabled style="color: #b0b0b0;">-- Escolha um cargo --</option>
+                                <option value="1" style="background-color: #1a1a2e; color: #ffffff;" @if($usuario->cargo == 1) selected @endif>Gerente</option>
+                                <option value="2" style="background-color: #1a1a2e; color: #ffffff;" @if($usuario->cargo == 2) selected @endif>Cozinheiro Cheff</option>
+                                <option value="3" style="background-color: #1a1a2e; color: #ffffff;" @if($usuario->cargo == 3) selected @endif>Cozinheiro</option>
+                                <option value="4" style="background-color: #1a1a2e; color: #ffffff;" @if($usuario->cargo == 4) selected @endif>Nutricionista</option>
+                            </select>
+                            <div class="invalid-feedback" style="color: #ff6b6b;">Por favor, selecione um cargo.</div>
+                        </div>
 
-                            {{-- Email --}}
-                            <div class="mb-3">
-                                <label for="email" class="form-label">E-mail</label>
-                                <input type="email" class="form-control" id="email" name="email"
-                                    value="{{ old('email', $usuario->email) }}" required>
-                            </div>
+                        <!-- Escola -->
+                        <div class="mb-4">
+                            <label for="id_escola" class="form-label fw-bold" style="color: #ffffff;">
+                                <i class="bi bi-building me-2" style="color: #0dcaf0;"></i>Escola
+                            </label>
+                            <select name="id_escola" id="id_escola" class="form-select form-select-lg" required style="background-color: #1a1a2e; border: 1px solid #2a2a3e; color: #ffffff; border-radius: 8px; transition: all 0.3s ease;">
+                                <option value="" disabled style="color: #b0b0b0;">-- Escolha uma escola --</option>
+                                @foreach ($escolas as $escola)
+                                    <option value="{{ $escola->id }}" style="background-color: #1a1a2e; color: #ffffff;" @if($usuario->id_escola == $escola->id) selected @endif>{{ $escola->nome }}</option>
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback" style="color: #ff6b6b;">Por favor, selecione uma escola.</div>
+                        </div>
 
-                            {{-- Telefone --}}
-                            <div class="mb-3">
-                                <label for="telefone" class="form-label">Telefone</label>
-                                <input type="tel" class="form-control" id="telefone" name="telefone"
-                                    value="{{ old('telefone', $usuario->telefone) }}" required>
-                            </div>
-
-                            {{-- Cargo --}}
-                            <div class="mb-3">
-                                <label for="cargo" class="form-label">Cargo</label>
-                                <select class="form-select" id="cargo" name="cargo" required>
-                                    <option value="" disabled>Selecione o cargo</option>
-                                    <option value="Gerente"
-                                        {{ old('cargo', $usuario->cargo) == 'Gerente' ? 'selected' : '' }}>Gerente</option>
-                                    <option value="Cozinheiro Cheff"
-                                        {{ old('cargo', $usuario->cargo) == 'Cozinheiro Cheff' ? 'selected' : '' }}>
-                                        Cozinheiro Cheff</option>
-                                    <option value="Cozinheiro"
-                                        {{ old('cargo', $usuario->cargo) == 'Cozinheiro' ? 'selected' : '' }}>Cozinheiro
-                                    </option>
-                                    <option value="Nutricionista"
-                                        {{ old('cargo', $usuario->cargo) == 'Nutricionista' ? 'selected' : '' }}>
-                                        Nutricionista</option>
-                                </select>
-                            </div>
-
-                            {{-- Escola --}}
-                            <div class="mb-3">
-                                <label for="id_escola" class="form-label">Escola</label>
-                                <select name="id_escola" id="id_escola" class="form-select" required>
-                                    <option value="">Selecione uma Escola</option>
-                                    @foreach ($escolas as $escola)
-                                        <option value="{{ $escola->id }}"
-                                            {{ old('id_escola', $usuario->id_escola) == $escola->id ? 'selected' : '' }}>
-                                            {{ $escola->nome }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            {{-- Botões --}}
-                            <div class="d-flex justify-content-between mt-4">
-                                <a href="{{ route('usuarios.index') }}" class="btn btn-outline-secondary">
-                                    <i class="bi bi-x-circle me-2"></i>Cancelar
-                                </a>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="bi bi-save me-2"></i>Atualizar Usuário
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-end gap-3 mt-5 pt-4" style="border-top: 1px solid #2a2a3e;">
+                            <a class="btn btn-lg" href="{{route('usuarios.index')}}" style="background-color: #1a1a2e; color: #b0b0b0; border: 1px solid #2a2a3e; border-radius: 8px; transition: all 0.3s ease;">
+                                <i class="bi bi-x-circle me-2"></i>Cancelar
+                            </a>
+                            <button class="btn btn-lg" type="submit" style="background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%); color: white; border: none; border-radius: 8px; transition: all 0.3s ease;">
+                                <i class="bi bi-check-circle me-2"></i>Atualizar Usuário
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -185,10 +168,15 @@
         input.addEventListener('focus', function() {
             this.style.boxShadow = '0 0 0 0.2rem rgba(13, 202, 240, 0.25)';
         });
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> parent of 7206cff5 (Configurados alguns cruds no front)
         input.addEventListener('blur', function() {
             this.style.boxShadow = 'none';
         });
     });
 </script>
 @endsection
+

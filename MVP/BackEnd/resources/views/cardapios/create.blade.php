@@ -1,21 +1,26 @@
 @extends('layouts.app')
 @section('title', 'Novo Cardápio')
-
 @section('content')
-    <div class="container-fluid py-4">
-        <div class="mb-4 fade-in-up">
-            <div class="d-flex align-items-center mb-3">
-                <a href="{{ route('cardapios.index') }}" class="btn btn-outline-secondary btn-sm me-3">
-                    <i class="bi bi-arrow-left me-2"></i>Voltar
-                </a>
-                <div>
-                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-person-plus-fill me-2"></i>Novo Cardápio</h1>
-                    <p class="text-muted mb-0">Preencha os dados para cadastrar um novo cardápio</p>
-                </div>
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="mb-4 fade-in-up">
+        <div class="d-flex align-items-center mb-3">
+            <a href="{{route('cardapios.index')}}" class="btn btn-outline-secondary btn-sm me-3" style="border-color: #2a2a3e; color: #b0b0b0; transition: all 0.3s ease;">
+                <i class="bi bi-arrow-left me-2"></i>Voltar
+            </a>
+            <div>
+                <h1 class="h2 fw-bold mb-1" style="color: #ffffff;">
+                    <i class="bi bi-journal-plus me-2"></i>Novo Cardápio
+                </h1>
+                <p class="text-muted mb-0">Preencha os dados para cadastrar um novo cardápio</p>
             </div>
         </div>
+    </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 7206cff5 (Configurados alguns cruds no front)
     <!-- Form Card -->
     <div class="row justify-content-center">
         <div class="col-lg-8">
@@ -23,7 +28,11 @@
                 <div class="card-body p-4 p-md-5">
                     <form action="{{ route('cardapios.store') }}" method="POST" class="needs-validation" novalidate>
                         @csrf
+<<<<<<< HEAD
 
+=======
+                        
+>>>>>>> parent of 7206cff5 (Configurados alguns cruds no front)
                         <!-- Nome -->
                         <div class="mb-4">
                             <label for="nome" class="form-label fw-bold" style="color: #ffffff;">
@@ -32,6 +41,7 @@
                             <input type="text" name="nome" id="nome" class="form-control form-control-lg" placeholder="Digite o nome do cardápio" required style="background-color: #1a1a2e; border: 1px solid #2a2a3e; color: #ffffff; border-radius: 8px; transition: all 0.3s ease;">
                             <div class="invalid-feedback" style="color: #ff6b6b;">Por favor, insira o nome do cardápio.</div>
                         </div>
+<<<<<<< HEAD
 =======
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -40,43 +50,45 @@
                         <form action="{{ route('cardapios.store') }}" method="POST">
                             @csrf
 >>>>>>> 7206cff5ffaa47eca6315801c6b5ab824288de90
+=======
+>>>>>>> parent of 7206cff5 (Configurados alguns cruds no front)
 
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul class="mb-0">
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
+                        <!-- Item -->
+                        <div class="mb-4">
+                            <label for="item" class="form-label fw-bold" style="color: #ffffff;">
+                                <i class="bi bi-list-check me-2" style="color: #0dcaf0;"></i>Itens do Cardápio
+                            </label>
+                            <input type="text" name="item" id="item" class="form-control form-control-lg" placeholder="Descreva os itens do cardápio" required style="background-color: #1a1a2e; border: 1px solid #2a2a3e; color: #ffffff; border-radius: 8px; transition: all 0.3s ease;">
+                            <div class="invalid-feedback" style="color: #ff6b6b;">Por favor, insira os itens do cardápio.</div>
+                        </div>
 
-                            <div class="mb-3">
-                                <label for="nome" class="form-label">Nome</label>
-                                <input type="text" class="form-control" id="nome" name="nome" required>
-                            </div>
+                        <!-- Data -->
+                        <div class="mb-4">
+                            <label for="data" class="form-label fw-bold" style="color: #ffffff;">
+                                <i class="bi bi-calendar-date me-2" style="color: #0dcaf0;"></i>Data
+                            </label>
+                            <input type="date" name="data" id="data" class="form-control form-control-lg" required style="background-color: #1a1a2e; border: 1px solid #2a2a3e; color: #ffffff; border-radius: 8px; transition: all 0.3s ease;">
+                            <div class="invalid-feedback" style="color: #ff6b6b;">Por favor, selecione a data.</div>
+                        </div>
 
-                            <div class="mb-3">
-                                <label for="item" class="form-label">Item</label>
-                                <input type="text" class="form-control" id="item" name="item" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="data" class="form-label">Data</label>
-                                <input type="date" class="form-control" id="data" name="data" required>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-end gap-3 mt-5 pt-4" style="border-top: 1px solid #2a2a3e;">
+                            <a class="btn btn-lg" href="{{route('cardapios.index')}}" style="background-color: #1a1a2e; color: #b0b0b0; border: 1px solid #2a2a3e; border-radius: 8px; transition: all 0.3s ease;">
+                                <i class="bi bi-x-circle me-2"></i>Cancelar
+                            </a>
+                            <button class="btn btn-lg" type="submit" style="background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%); color: white; border: none; border-radius: 8px; transition: all 0.3s ease;">
                                 <i class="bi bi-save me-2"></i>Salvar Cardápio
                             </button>
-                        </form>
-
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 7206cff5 (Configurados alguns cruds no front)
 </div>
 
 <style>
@@ -145,12 +157,20 @@
         input.addEventListener('focus', function() {
             this.style.boxShadow = '0 0 0 0.2rem rgba(13, 202, 240, 0.25)';
         });
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> parent of 7206cff5 (Configurados alguns cruds no front)
         input.addEventListener('blur', function() {
             this.style.boxShadow = 'none';
         });
     });
 </script>
+<<<<<<< HEAD
 =======
 >>>>>>> 7206cff5ffaa47eca6315801c6b5ab824288de90
+=======
+>>>>>>> parent of 7206cff5 (Configurados alguns cruds no front)
 @endsection
+
