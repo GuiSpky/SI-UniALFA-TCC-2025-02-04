@@ -1,6 +1,9 @@
 @extends('layouts.app')
-@section('tittle', 'Novo Bairro')
+
+@section('title', 'Novo Bairro')
+
 @section('content')
+
     <div class="container-fluid py-4">
         <div class="mb-4 fade-in-up">
             <div class="d-flex align-items-center mb-3">
@@ -8,8 +11,8 @@
                     <i class="bi bi-arrow-left me-2"></i>Voltar
                 </a>
                 <div>
-                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-person-plus-fill me-2"></i>Novo Usuário</h1>
-                    <p class="text-muted mb-0">Preencha os dados para cadastrar um novo usuário</p>
+                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-person-plus-fill me-2"></i>Novo Bairro</h1>
+                    <p class="text-muted mb-0">Preencha os dados para cadastrar um novo bairro</p>
                 </div>
             </div>
         </div>
@@ -18,18 +21,17 @@
             <div class="col-lg-8">
                 <div class="card fade-in-up shadow-sm border-0">
                     <div class="card-body p-4 p-md-5">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $erro)
+                                        <li>{{ $erro }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form action="{{ route('bairros.store') }}" method="POST">
                             @csrf
-
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul class="mb-0">
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
 
                             <div class="mb-3">
                                 <label for="nome" class="form-label">Nome</label>
@@ -50,7 +52,6 @@
                                 <i class="bi bi-save me-2"></i>Salvar Bairro
                             </button>
                         </form>
-
                     </div>
                 </div>
             </div>

@@ -1,7 +1,9 @@
 @extends('layouts.app')
+
 @section('title', 'Editar Usuário')
 
 @section('content')
+
     <div class="container-fluid py-4">
         <div class="mb-4 fade-in-up">
             <div class="d-flex align-items-center mb-3">
@@ -15,23 +17,10 @@
             </div>
         </div>
 
-    <!-- Form Card -->
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card fade-in-up" style="background-color: #252535; border: 1px solid #2a2a3e; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); overflow: hidden;">
-                <div class="card-body p-4 p-md-5">
-                    <form action="{{ route('usuarios.update', $usuario) }}" method="POST" class="needs-validation" novalidate>
-                        @csrf
-                        @method('PUT')
-
-                        <!-- Nome -->
-                        <div class="mb-4">
-                            <label for="nome" class="form-label fw-bold" style="color: #ffffff;">
-                                <i class="bi bi-person me-2" style="color: #0dcaf0;"></i>Nome Completo
-                            </label>
-                            <input type="text" name="nome" id="nome" class="form-control form-control-lg" placeholder="Digite o nome" value="{{$usuario->nome}}" required style="background-color: #1a1a2e; border: 1px solid #2a2a3e; color: #ffffff; border-radius: 8px; transition: all 0.3s ease;">
-                            <div class="invalid-feedback" style="color: #ff6b6b;">Por favor, insira o nome.</div>
-                        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card fade-in-up shadow-sm border-0">
+                    <div class="card-body p-4 p-md-5">
 
                         <form action="{{ route('usuarios.update', $usuario->id) }}" method="POST">
                             @csrf
@@ -71,21 +60,7 @@
 
                             {{-- Cargo --}}
                             <div class="mb-3">
-                                <label for="cargo" class="form-label">Cargo</label>
-                                <select class="form-select" id="cargo" name="cargo" required>
-                                    <option value="" disabled>Selecione o cargo</option>
-                                    <option value="Gerente"
-                                        {{ old('cargo', $usuario->cargo) == 'Gerente' ? 'selected' : '' }}>Gerente</option>
-                                    <option value="Cozinheiro Cheff"
-                                        {{ old('cargo', $usuario->cargo) == 'Cozinheiro Cheff' ? 'selected' : '' }}>
-                                        Cozinheiro Cheff</option>
-                                    <option value="Cozinheiro"
-                                        {{ old('cargo', $usuario->cargo) == 'Cozinheiro' ? 'selected' : '' }}>Cozinheiro
-                                    </option>
-                                    <option value="Nutricionista"
-                                        {{ old('cargo', $usuario->cargo) == 'Nutricionista' ? 'selected' : '' }}>
-                                        Nutricionista</option>
-                                </select>
+                                <x-select-field name="cargo" label="Cargo" :options="$cargos" :selected="$usuario->cargo ?? old('cargo')" />
                             </div>
 
                             {{-- Escola --}}
@@ -117,78 +92,4 @@
             </div>
         </div>
     </div>
-</div>
-
-<style>
-    .form-control:focus,
-    .form-select:focus {
-        background-color: #1a1a2e !important;
-        border-color: #0dcaf0 !important;
-        color: #ffffff !important;
-        box-shadow: 0 0 0 0.2rem rgba(13, 202, 240, 0.25);
-    }
-
-    .form-control::placeholder {
-        color: #b0b0b0;
-    }
-
-    .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .fade-in-up {
-        animation: fadeInUp 0.6s ease-out;
-    }
-
-    .was-validated .form-control:invalid {
-        border-color: #ff6b6b;
-        background-image: none;
-    }
-
-    .was-validated .form-control:valid {
-        border-color: #51cf66;
-        background-image: none;
-    }
-</style>
-
-<script>
-    // Validação de formulário Bootstrap 5
-    (function () {
-        'use strict'
-        var forms = document.querySelectorAll('.needs-validation')
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-                    form.classList.add('was-validated')
-                }, false)
-            })
-    })()
-
-    // Efeitos de foco nos inputs
-    document.querySelectorAll('.form-control, .form-select').forEach(input => {
-        input.addEventListener('focus', function() {
-            this.style.boxShadow = '0 0 0 0.2rem rgba(13, 202, 240, 0.25)';
-        });
-
-        input.addEventListener('blur', function() {
-            this.style.boxShadow = 'none';
-        });
-    });
-</script>
 @endsection

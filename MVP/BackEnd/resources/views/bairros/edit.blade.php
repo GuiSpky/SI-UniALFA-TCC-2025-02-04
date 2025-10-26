@@ -1,10 +1,9 @@
 @extends('layouts.app')
-@section('tittle', 'Editar Bairro')
-@section('content')
 
 @section('title', 'Editar Bairro')
 
 @section('content')
+
     <div class="container-fluid py-4">
         <div class="mb-4 fade-in-up">
             <div class="d-flex align-items-center mb-3">
@@ -13,7 +12,7 @@
                 </a>
                 <div>
                     <h1 class="h2 fw-bold mb-1"><i class="bi bi-pencil-square me-2"></i>Editar Bairro</h1>
-                    <p class="text-muted mb-0">Atualize os dados do bairro</p>
+                    <p class="text-muted mb-0">Atualize os dados do Bairro</p>
                 </div>
             </div>
         </div>
@@ -52,7 +51,7 @@
                                     <option value="">Selecione uma Cidade</option>
                                     @foreach ($cidades as $cidade)
                                         <option value="{{ $cidade->id }}"
-                                            {{ old('id_cidade', $bairro->cidade) == $cidade->id ? 'selected' : '' }}>
+                                            {{ old('id_cidade', $bairro->id_cidade) == $cidade->id ? 'selected' : '' }}>
                                             {{ $cidade->nome }}
                                         </option>
                                     @endforeach

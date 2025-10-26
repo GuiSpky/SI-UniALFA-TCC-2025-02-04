@@ -9,17 +9,48 @@ use Illuminate\Http\Request;
 
 class CidadeController extends Controller
 {
+
+    private $ufs = [
+        'AC' => 'Acre',
+        'AL' => 'Alagoas',
+        'AP' => 'Amapá',
+        'AM' => 'Amazonas',
+        'BA' => 'Bahia',
+        'CE' => 'Ceará',
+        'DF' => 'Distrito Federal',
+        'ES' => 'Espírito Santo',
+        'GO' => 'Goiás',
+        'MA' => 'Maranhão',
+        'MT' => 'Mato Grosso',
+        'MS' => 'Mato Grosso do Sul',
+        'MG' => 'Minas Gerais',
+        'PA' => 'Pará',
+        'PB' => 'Paraíba',
+        'PR' => 'Paraná',
+        'PE' => 'Pernambuco',
+        'PI' => 'Piauí',
+        'RJ' => 'Rio de Janeiro',
+        'RN' => 'Rio Grande do Norte',
+        'RS' => 'Rio Grande do Sul',
+        'RO' => 'Rondônia',
+        'RR' => 'Roraima',
+        'SC' => 'Santa Catarina',
+        'SP' => 'São Paulo',
+        'SE' => 'Sergipe',
+        'TO' => 'Tocantins',
+    ];
+
     public function index()
     {
-        $dados = Cidade::all();
-        return view('cidades.index', [
-            'cidades' => $dados
-        ]);
+        $cidades = Cidade::all();
+        return view('cidades.index', compact('cidades'));
     }
 
     public function create()
     {
-        return view('cidades.create');
+        return view('cidades.create', [
+            'ufs' => $this->ufs
+        ]);
     }
 
     public function store(Request $request)
@@ -28,44 +59,56 @@ class CidadeController extends Controller
             'codIbge' => 'required|Integer',
             'nome' => 'required|string|unique:cidades,nome',
             'uf' => 'required|string|max:2',
-        ],[
+        ], [
             'codIbge.required' => "Código IBGE deve ser inserido",
             'nome.required' => "Nome deve ser informado",
             'uf.required' => "UF não informado",
             'nome.unique' => "Cidade já cadastrada",
         ]);
 
-        Cidade::create($dados);
-        return redirect('/cidade')->with('sucesso', 'Cadastro realizado com sucesso!');
-
+        try {
+            Cidade::create($dados);
+            return redirect('/usuarios')->with('sucesso', 'Cidade cadastrada com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('erro', 'Falha ao cadastrar cidade. Tente novamente.');
+        }
     }
 
     public function show(string $id)
     {
         $cidade = Cidade::findOrFail($id); // Encontra o recurso ou lança um erro 404
 
-        return view('cidades.show', ['cidade' => $cidade]);
+        return view('cidades.show', [
+        'cidade' => $cidade,
+        'ufs' => $this->ufs, // envia a lista de UFs
+    ]);
     }
 
-    public function edit(string $id)
+    public function edit($id)
     {
-        $cidade = Cidade::find($id);
+        $cidade = Cidade::findOrFail($id);
         return view('cidades.edit', [
-            'cidade' => $cidade
+            'cidade' => $cidade,
+            'ufs' => $this->ufs,
         ]);
     }
 
     public function update(Request $request, string $id)
     {
-        $cidade = Cidade::find($id);
+        $cidade = Cidade::findOrFail($id);
 
-        $cidade->update([
-            'codIbge' => $request->codIbge,
-            'nome' => $request->nome,
-            'uf' => $request->uf
+        $dados = $request->validate([
+            'codIbge' => 'required|integer',
+            'nome' => 'required|string',
+            'uf' => 'required|string|max:2',
         ]);
 
-        return redirect('/cidades');
+        try {
+            $cidade->update($dados);
+            return redirect('/cidades')->with('sucesso', 'Cidade atualizada com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('erro', 'Falha ao atualizar cidade. Tente novamente.');
+        }
     }
 
     public function destroy(string $id)

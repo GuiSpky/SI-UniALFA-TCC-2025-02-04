@@ -11,10 +11,8 @@ class CardapioController extends Controller
 {
     public function index()
     {
-        $dados = Cardapio::all();
-        return view('cardapios.index', [
-            'cardapios' => $dados
-        ]);
+        $cardapios = Cardapio::all();
+        return view('cardapios.index', compact('cardapios'));
     }
 
     public function create()
@@ -25,63 +23,60 @@ class CardapioController extends Controller
     public function store(Request $request)
     {
         $dados = $request->validate([
-        'nome' => 'required|String',
-        'item' => 'required|string|max:255',
-        'data' => 'required|date|max:255|after_or_equal:today',
-    ],[
-        'nome.required' => 'Nome deve ser informado',
-        'item.required' => 'Item deve ser informado',
-        'data.required' => 'Data deve ser informado',
-        'data.after_or_equal' => 'Data informada menor do que data atual',
+            'nome' => 'required|String|max:255',
+            'item' => 'required|string|max:255',
+            'data' => 'required|date|max:255|after_or_equal:today',
+        ], [
+            'nome.required' => 'Nome deve ser informado',
+            'item.required' => 'Item deve ser informado',
+            'data.required' => 'Data deve ser informado',
+            'data.after_or_equal' => 'Data informada menor do que data atual',
 
-    ]);
+        ]);
 
-        Cardapio::create($dados);
-        return redirect('/cardapios')->with('sucesso', 'Cadastro realizado com sucesso!');
-
+        try {
+            Cardapio::create($dados);
+            return redirect('/cardapios')->with('sucesso', 'Cardápio cadastrado com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('erro', 'Falha ao cadastrar o cardápio. Tente novamente.');
+        }
     }
 
     public function show(string $id)
     {
-        $cardapio = Cardapio::findOrFail($id); // Encontra o recurso ou lança um erro 404
+        $cardapio = Cardapio::findOrFail($id);
 
-        return view('cardapios.show', ['cardapio'=> $cardapio]);
-
+        return view('cardapios.show', compact('cardapio'));
     }
 
     public function edit(string $id)
     {
-        $cardapio = Cardapio::find($id);
-        return view('cardapios.edit',[
-            'cardapio' => $cardapio
-        ]);
+        $cardapio = Cardapio::findOrFail($id);
+        return view('cardapios.edit', compact('cardapio'));
     }
 
     public function update(Request $request, string $id)
     {
         $cardapio = Cardapio::findOrFail($id);
 
-        $cardapio->update([
-            "codIbge"=>$request->codIbge,
-	        "nome"=>$request->nome,
-	        "uf"=>$request->uf,
+        $dados = $request->validate([
+            'nome' => 'required|String|max:255',
+            'item' => 'required|string|max:255',
+            'data' => 'required|date|max:255|after_or_equal:today',
         ]);
 
-        $cardapio = Cardapio::findOrFail($id);
-
-        return redirect('/cardapios');
+        return redirect()->route('cardapios.index')->with('sucesso', 'Cardápio atualizado com sucesso!');
     }
 
     public function destroy(string $id)
     {
-        $cardapio = Cardapio::findOrFail($id); // Encontra o recurso ou lança um erro 404
-
-        // Exclui o ambiente
-        $cardapio->delete();
-
-        // Retorna apenas uma mensagem de sucesso
-        return redirect('/cardapios');
-
+        try {
+            $cardapio = Cardapio::findOrFail($id);
+            $cardapio->delete();
+            return redirect('/cardapios')->with('sucesso', 'Cardápio excluído com sucesso!');
+        } catch (\Exception $e) {
+            return redirect('/cardapios')->with('erro', 'Erro ao excluir o cardápio.');
+        }
     }
 
     public function count()
