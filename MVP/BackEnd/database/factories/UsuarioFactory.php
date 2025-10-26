@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Escola;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Usuario>
@@ -27,7 +28,7 @@ class UsuarioFactory extends Factory
                 '3',
                 '4'
             ]),
-            'password' => 'senhateste123',
+            'password' => Hash::make('senhateste123'),
             'id_escola' => Escola::all()->random()->id,
         ];
     }
