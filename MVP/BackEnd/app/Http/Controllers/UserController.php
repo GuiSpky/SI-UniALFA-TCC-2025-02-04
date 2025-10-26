@@ -1,8 +1,6 @@
 <?php
 
-// namespace App\Http\Controllers; // Mantém o mesmo namespace
-
-// 1. Model alterado de 'Usuario' para 'User'
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -13,7 +11,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
 
-// 2. Nome da classe alterado para seguir a convenção (opcional, mas recomendado)
 class UserController extends Controller
 {
 

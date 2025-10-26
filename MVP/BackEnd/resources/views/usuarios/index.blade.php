@@ -39,7 +39,7 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <a href="{{ route('usuario.show', $usuario) }}">
+                                    <a href="{{ route('usuario.show', $user) }}">
                                         {{ $user->name }}
                                     </a>
                                 </td>

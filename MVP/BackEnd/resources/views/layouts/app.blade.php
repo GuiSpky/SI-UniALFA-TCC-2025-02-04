@@ -144,23 +144,125 @@
         }
     </style>
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @include('layouts.navigation')
-
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
-
-            <!-- Page Content -->
-            <main>
-             @yield('content')
-            </main>
+    <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-modern">
+        <div class="container-fluid">
+            <button class="btn btn-outline-light me-3" id="sidebarToggle">
+                <i class="bi bi-list"></i>
+            </button>
+            <a class="navbar-brand" href="#">Painel Administrativo</a>
+            <div class="d-flex align-items-center ms-auto">
+                <span class="me-3">Bem-vindo, <strong>Admin</strong></span>
+                <a href="#" class="btn btn-outline-light btn-sm">
+                    <i class="bi bi-box-arrow-right"></i> Sair
+                </a>
+            </div>
         </div>
-    </body>
+    </nav>
+
+    {{-- Sidebar --}}
+    <aside class="sidebar-modern" id="sidebar">
+        <ul class="nav flex-column p-3">
+
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="/">
+                    <i class="bi bi-house-door"></i> Dashboard
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('usuarios*') ? 'active' : '' }}" href="/usuarios">
+                    <i class="bi bi-people"></i> Usuários
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('cidades*') ? 'active' : '' }}" href="/cidades">
+                    <i class="bi bi-geo-alt"></i> Cidades
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('bairros*') ? 'active' : '' }}" href="/bairros">
+                    <i class="bi bi-map"></i> Bairros
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('escolas*') ? 'active' : '' }}" href="/escolas">
+                    <i class="bi bi-person-workspace"></i> Escolas
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('produtos*') ? 'active' : '' }}" href="/produtos">
+                    <i class="bi bi-egg"></i> Produtos
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('itemprodutos*') ? 'active' : '' }}" href="/itemprodutos">
+                    <i class="bi bi-shop-window"></i> Estoque
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('cardapios*') ? 'active' : '' }}" href="/cardapios">
+                    <i class="bi bi-menu-button-wide"></i> Cardápios
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('configuracoes*') ? 'active' : '' }}" href="#">
+                    <i class="bi bi-gear"></i> Configurações
+                </a>
+            </li>
+
+        </ul>
+    </aside>
+
+    <!-- Conteúdo principal -->
+    <main class="main-content-modern fade-in-up">
+        @yield('content')
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('sidebar');
+
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            document.querySelector('.main-content-modern').classList.toggle('collapsed');
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if (session('sucesso'))
+        <script>
+            Swal.fire({
+                title: 'Sucesso!',
+                text: '{{ session('sucesso') }}',
+                icon: 'success',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#0d6efd'
+            });
+        </script>
+    @endif
+
+    @if (session('erro'))
+        <script>
+            Swal.fire({
+                title: 'Erro!',
+                text: '{{ session('erro') }}',
+                icon: 'error',
+                confirmButtonText: 'Tentar novamente',
+                confirmButtonColor: '#dc3545'
+            });
+        </script>
+    @endif
+
+
+
+</body>
 </html>

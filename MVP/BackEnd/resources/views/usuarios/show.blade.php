@@ -18,10 +18,10 @@
         <div class="card border-0 shadow-sm rounded-4">
             <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
                 <h5 class="mb-0 text-secondary">
-                    <i class="bi bi-person-badge me-2"></i>{{ $usuario->nome }}
+                    <i class="bi bi-person-badge me-2"></i>{{ $user->nome }}
                 </h5>
                 <span class="badge bg-light text-secondary px-3 py-2 border">
-                    ID: {{ $usuario->id }}
+                    ID: {{ $user->id }}
                 </span>
             </div>
             <div class="card-body">
