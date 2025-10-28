@@ -7,7 +7,7 @@
     <title>@yield('title')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    
+
     <style>
         :root {
             --sidebar-width: 260px;
@@ -142,74 +142,99 @@
             </button>
             <a class="navbar-brand" href="#">Painel Administrativo</a>
             <div class="d-flex align-items-center ms-auto">
-                <span class="me-3">Bem-vindo, <strong>Admin</strong></span>
-                <a href="#" class="btn btn-outline-light btn-sm">
-                    <i class="bi bi-box-arrow-right"></i> Sair
-                </a>
+                @auth
+                    <span class="me-3 text-white">Bem-vindo, <strong>{{ Auth::user()->name }}</strong></span>
+                @endauth
+
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-light btn-sm d-flex align-items-center">
+                        <i class="bi bi-box-arrow-right me-1"></i> Sair
+                    </button>
+                </form>
             </div>
         </div>
     </nav>
 
     {{-- Sidebar --}}
-    <aside class="sidebar-modern" id="sidebar">
-        <ul class="nav flex-column p-3">
+<aside class="sidebar-modern" id="sidebar">
+    <ul class="nav flex-column p-3">
 
+        @auth
+            {{-- ====================================================================== --}}
+            {{-- O CÓDIGO ABAIXO FOI ATUALIZADO COM AS REGRAS DE PERMISSÃO --}}
+            {{-- ====================================================================== --}}
+
+            {{-- Link do Dashboard: Visível para TODOS os usuários logados --}}
             <li class="nav-item">
-                <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="/">
-                    <i class="bi bi-house-door"></i> Dashboard
+                <a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+                    <i class="bi bi-house-door"></i> <span>Dashboard</span>
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('usuarios*') ? 'active' : '' }}" href="/usuarios">
-                    <i class="bi bi-people"></i> Usuários
-                </a>
-            </li>
+            {{-- Links apenas para GERENTES (cargo 1) --}}
+            @if (in_array(Auth::user()->cargo, [1]))
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('usuarios*') ? 'active' : '' }}" href="{{ route('usuarios.index') }}">
+                        <i class="bi bi-people"></i> <span>Usuários</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('cidades*') ? 'active' : '' }}" href="{{ route('cidades.index') }}">
+                        <i class="bi bi-geo-alt"></i> <span>Cidades</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('bairros*') ? 'active' : '' }}" href="{{ route('bairros.index') }}">
+                        <i class="bi bi-map"></i> <span>Bairros</span>
+                    </a>
+                </li>
+            @endif
 
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('cidades*') ? 'active' : '' }}" href="/cidades">
-                    <i class="bi bi-geo-alt"></i> Cidades
-                </a>
-            </li>
+            {{-- Links para GERENTES, COZINHEIROS-CHEFES e NUTRICIONISTAS (cargos 1, 2, 4) --}}
+            @if (in_array(Auth::user()->cargo, [1, 2, 4]))
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('escolas*') ? 'active' : '' }}" href="{{ route('escolas.index') }}">
+                        <i class="bi bi-person-workspace"></i> <span>Escolas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('produtos*') ? 'active' : '' }}" href="{{ route('produtos.index') }}">
+                        <i class="bi bi-egg"></i> <span>Produtos</span>
+                    </a>
+                </li>
+            @endif
 
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('bairros*') ? 'active' : '' }}" href="/bairros">
-                    <i class="bi bi-map"></i> Bairros
-                </a>
-            </li>
+            {{-- Link de Cardápios: Visível para TODOS OS CARGOS --}}
+            {{-- A lógica aqui é que todos os seus cargos definidos têm acesso --}}
+            @if (in_array(Auth::user()->cargo, [1, 2, 3, 4]))
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('cardapios*') ? 'active' : '' }}" href="{{ route('cardapios.index') }}">
+                        <i class="bi bi-menu-button-wide"></i> <span>Cardápios</span>
+                    </a>
+                </li>
+            @endif
 
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('escolas*') ? 'active' : '' }}" href="/escolas">
-                    <i class="bi bi-person-workspace"></i> Escolas
-                </a>
-            </li>
+            {{-- Links de Estoque e Configurações (exemplo, ajuste as permissões conforme necessário) --}}
+            {{-- Por enquanto, vamos deixar visível para Gerentes e Cozinheiros-Chefes --}}
+            @if (in_array(Auth::user()->cargo, [1, 2]))
+                <li class="nav-item">
+                    {{-- ATENÇÃO: A rota /itemprodutos não foi definida. Crie-a se necessário. --}}
+                    <a class="nav-link {{ Request::is('itemprodutos*') ? 'active' : '' }}" href="#">
+                        <i class="bi bi-shop-window"></i> <span>Estoque</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('configuracoes*') ? 'active' : '' }}" href="#">
+                        <i class="bi bi-gear"></i> <span>Configurações</span>
+                    </a>
+                </li>
+            @endif
 
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('produtos*') ? 'active' : '' }}" href="/produtos">
-                    <i class="bi bi-egg"></i> Produtos
-                </a>
-            </li>
+        @endauth
+    </ul>
+</aside>
 
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('itemprodutos*') ? 'active' : '' }}" href="/itemprodutos">
-                    <i class="bi bi-shop-window"></i> Estoque
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('cardapios*') ? 'active' : '' }}" href="/cardapios">
-                    <i class="bi bi-menu-button-wide"></i> Cardápios
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('configuracoes*') ? 'active' : '' }}" href="#">
-                    <i class="bi bi-gear"></i> Configurações
-                </a>
-            </li>
-
-        </ul>
-    </aside>
 
     <!-- Conteúdo principal -->
     <main class="main-content-modern fade-in-up">
@@ -250,8 +275,6 @@
             });
         </script>
     @endif
-
-
 
 </body>
 

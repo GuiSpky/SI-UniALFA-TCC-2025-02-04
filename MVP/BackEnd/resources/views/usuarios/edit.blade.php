@@ -22,7 +22,7 @@
                 <div class="card fade-in-up shadow-sm border-0">
                     <div class="card-body p-4 p-md-5">
 
-                        <form action="{{ route('usuarios.update', $usuario->id) }}" method="POST">
+                        <form action="{{ route('usuarios.update', $user->id) }}" method="POST">
                             @csrf
                             @method('PUT')
 
@@ -39,23 +39,23 @@
 
                             {{-- Nome --}}
                             <div class="mb-3">
-                                <label for="nome" class="form-label">Nome</label>
-                                <input type="text" class="form-control" id="nome" name="nome"
-                                    value="{{ old('nome', $usuario->nome) }}" required>
+                                <label for="name" class="form-label">Nome</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                    value="{{ old('name', $user->name) }}" required>
                             </div>
 
                             {{-- Email --}}
                             <div class="mb-3">
                                 <label for="email" class="form-label">E-mail</label>
                                 <input type="email" class="form-control" id="email" name="email"
-                                    value="{{ old('email', $usuario->email) }}" required>
+                                    value="{{ old('email', $user->email) }}" required>
                             </div>
 
                             {{-- Telefone --}}
                             <div class="mb-3">
                                 <label for="telefone" class="form-label">Telefone</label>
                                 <input type="tel" class="form-control" id="telefone" name="telefone"
-                                    value="{{ old('telefone', $usuario->telefone) }}" required>
+                                    value="{{ old('telefone', $user->telefone) }}" required>
                             </div>
 
                             {{-- Cargo --}}
@@ -70,7 +70,7 @@
                                     <option value="">Selecione uma Escola</option>
                                     @foreach ($escolas as $escola)
                                         <option value="{{ $escola->id }}"
-                                            {{ old('id_escola', $usuario->id_escola) == $escola->id ? 'selected' : '' }}>
+                                            {{ old('id_escola', $user->id_escola) == $escola->id ? 'selected' : '' }}>
                                             {{ $escola->nome }}
                                         </option>
                                     @endforeach

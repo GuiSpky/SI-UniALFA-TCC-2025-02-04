@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Escola;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Usuario>
@@ -18,7 +19,7 @@ class UsuarioFactory extends Factory
     public function definition(): array
     {
         return [
-            'nome' => fake()->name(),
+            'name' => fake()->name(),
             'email' => fake()->email(),
             'telefone' => fake()->phoneNumber(),
             'cargo' => fake()->randomElement([
@@ -27,7 +28,7 @@ class UsuarioFactory extends Factory
                 '3',
                 '4'
             ]),
-            'senha' => fake()->password(),
+            'password' => Hash::make('senhateste123'),
             'id_escola' => Escola::all()->random()->id,
         ];
     }
