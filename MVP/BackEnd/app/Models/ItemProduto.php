@@ -7,16 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class ItemProduto extends Model
 {
     protected $fillable = [
-        'quantidade',
+        'quantidade_entrada',
+        'quantidade_saida',
         'validade',
-        'DataEntrada',
-        'id_deposito',
+        'data_entrada',
+        'id_escola',
     ];
     protected $table = 'item_produtos';
 
     public function bairro()
     {
-        return $this->belongsTo(Escola::class, 'id_deposito');
+        return $this->belongsTo(Escola::class, 'id_escola');
     }
     public function produtos()
     {

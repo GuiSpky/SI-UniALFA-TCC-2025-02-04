@@ -17,7 +17,7 @@ class ItemProdutoController extends Controller
         $Produtos = Produto::all();
         $ItemProduto = ItemProduto::all();
 
-        return view('estoque.index', [
+        return view('itemproduto.index', [
             'ItemProduto' => $ItemProduto,
             'Produtos' => $Produtos,
         ]);
@@ -28,7 +28,10 @@ class ItemProdutoController extends Controller
         $Produtos = Produto::all();
         $ItemProduto = ItemProduto::all();
 
-        return view('estoque.create', compact($Produtos, $ItemProduto));
+        return view('itemproduto.create', [
+            'ItemProduto' => $ItemProduto,
+            'Produtos' => $Produtos,
+        ]);
     }
 
     /**
@@ -38,10 +41,11 @@ class ItemProdutoController extends Controller
     {
         $dados = $request->validate([
             'id_produto' => 'required|integer',
-            'quantidade' => 'required|string|max:255|',
+            'quantidade_entrada' => 'required|string|max:255|',
+            'quantidade_saida' => 'required|string|max:255|',
             'validade' => 'required|date',
             'DataEntrada' => 'required|date',
-            'id_deposito' => 'required|integer',
+            'id_escola' => 'required|integer',
         ]);
 
         ItemProduto::create($dados);
@@ -67,7 +71,7 @@ class ItemProdutoController extends Controller
         $Produtos = Produto::all();
         $Escola = Escola::all();
 
-        return view('estoque.edit',compact($ItemProduto, $Produtos, $Escola));
+        return view('itemproduto.edit',compact($ItemProduto, $Produtos, $Escola));
     }
 
     public function update(Request $request, string $id)
@@ -76,10 +80,11 @@ class ItemProdutoController extends Controller
 
         $ItemProduto->update([
             'id_produto' => $request->id_produto,
-            'quantidade' => $request->quantidade,
+            'quantidade_entrada' => $request->quantidade_entrada,
+            'quantidade_saida' => $request->quantidade_saida,
             'validade' => $request->vallidade,
             'DataEntrada' => $request->DataEntrada,
-            'id_deposito' => $request->id_deposito,
+            'id_escola' => $request->id_escola,
         ]);
 
         $ItemProduto = ItemProduto::findOrFail($id);

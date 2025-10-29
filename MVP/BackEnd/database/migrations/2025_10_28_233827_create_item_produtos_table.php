@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('item_produtos', function (Blueprint $table) {
             $table->id();
-            $table->integer('quantidade')->isNotEmpty();
+            $table->integer('quantidade_entrada')->isNotEmpty();
+            $table->integer('quantidade_saida')->default(0);
             $table->date('validade')->isNotEmpty();
-            $table->date('DataEntrada')->isNotEmpty();
+            $table->date('data_entrada')->isNotEmpty();
             $table->bigInteger('id_produto')->unsigned();
             $table->foreign('id_produto')->references('id')->on('produtos');
-            $table->bigInteger('id_deposito')->unsigned();
-            $table->foreign('id_deposito')->references('id')->on('escolas');
+            $table->bigInteger('id_escola')->unsigned();
+            $table->foreign('id_escola')->references('id')->on('escolas');
             $table->timestamps();
         });
     }

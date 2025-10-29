@@ -19,13 +19,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/estoque', [ItemProdutoController::class, 'index'])->name('estoque.index');
-Route::get('/estoque/create', [ItemProdutoController::class, 'create'])->name('estoque.create');
-Route::get('/estoque/{id}', [ItemProdutoController::class, 'show'])->name('estoque.show');
-Route::get('/estoque/{id}/edite', [ItemProdutoController::class, 'edit'])->name('estoque.edit');
-Route::put('/estoque/{id}', [ItemProdutoController::class, 'update'])->name('estoque.update');
-Route::delete('/estoque/{id}', [ItemProdutoController::class, 'destroy'])->name('estoque.destroy');
-Route::post('/estoque', [ItemProdutoController::class, 'store'])->name('estoque.store');
+Route::get('/estoque', [ItemProdutoController::class, 'index'])->name('itemproduto.index');
+Route::get('/estoque/create', [ItemProdutoController::class, 'create'])->name('itemproduto.create');
+Route::get('/estoque/{id}', [ItemProdutoController::class, 'show'])->name('itemproduto.show');
+Route::get('/estoque/{id}/edite', [ItemProdutoController::class, 'edit'])->name('itemproduto.edit');
+Route::put('/estoque/{id}', [ItemProdutoController::class, 'update'])->name('itemproduto.update');
+Route::delete('/estoque/{id}', [ItemProdutoController::class, 'destroy'])->name('itemproduto.destroy');
+Route::post('/estoque', [ItemProdutoController::class, 'store'])->name('itemproduto.store');
 
 
 
