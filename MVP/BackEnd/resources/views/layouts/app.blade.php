@@ -221,7 +221,7 @@
                 @if (in_array(Auth::user()->cargo, [1, 2]))
                     <li class="nav-item">
                         {{-- ATENÇÃO: A rota /itemprodutos não foi definida. Crie-a se necessário. --}}
-                        <a class="nav-link {{ Request::is('itemprodutos*') ? 'active' : '' }}" href="#">
+                        <a class="nav-link {{ Request::is('itemProdutos*') ? 'active' : '' }}" href="{{ route('itemProdutos.index') }}">
                             <i class="bi bi-shop-window"></i> <span>Estoque</span>
                         </a>
                     </li>

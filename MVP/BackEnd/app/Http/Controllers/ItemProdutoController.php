@@ -14,12 +14,14 @@ class ItemProdutoController extends Controller
      */
     public function index()
     {
-        $Produtos = Produto::all();
-        $ItemProduto = ItemProduto::all();
+        $produtos = Produto::all();
+        $escola = Escola::all();
+        $itemProdutos = ItemProduto::all();
 
-        return view('itemproduto.index', [
-            'ItemProduto' => $ItemProduto,
-            'Produtos' => $Produtos,
+        return view('itemProdutos.index', [
+            'escolas' => $escola,
+            'itemProdutos' => $itemProdutos,
+            'produtos' => $produtos,
         ]);
     }
 
@@ -28,7 +30,7 @@ class ItemProdutoController extends Controller
         $Produtos = Produto::all();
         $ItemProduto = ItemProduto::all();
 
-        return view('itemproduto.create', [
+        return view('itemProdutos.create', [
             'ItemProduto' => $ItemProduto,
             'Produtos' => $Produtos,
         ]);
@@ -62,7 +64,7 @@ class ItemProdutoController extends Controller
         $Produtos = Produto::all();
         $Escola = Escola::all();
 
-        return view('estoque.edit',compact($ItemProduto, $Produtos, $Escola));
+        return view('itemProdutos.edit',compact($ItemProduto, $Produtos, $Escola));
     }
 
     public function edit(string $id)
@@ -71,7 +73,7 @@ class ItemProdutoController extends Controller
         $Produtos = Produto::all();
         $Escola = Escola::all();
 
-        return view('itemproduto.edit',compact($ItemProduto, $Produtos, $Escola));
+        return view('itemProdutos.edit',compact($ItemProduto, $Produtos, $Escola));
     }
 
     public function update(Request $request, string $id)
