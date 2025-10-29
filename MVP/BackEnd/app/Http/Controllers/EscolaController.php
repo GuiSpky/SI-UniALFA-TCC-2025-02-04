@@ -92,7 +92,7 @@ class EscolaController extends Controller
 
         $escola = Escola::findOrFail($id);
 
-        return ($escola);
+        return redirect('/escolas');
     }
 
     public function destroy(string $id)
