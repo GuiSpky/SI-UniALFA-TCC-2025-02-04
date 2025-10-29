@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div class="card shadow-sm border-0">
+        <div class="card shadow-sm border-2">
             <div class="table-responsive">
                 <table class="table table-hover table-striped mb-0">
                     <thead>

@@ -4,6 +4,7 @@ use App\Http\Controllers\BairroController;
 use App\Http\Controllers\CardapioController;
 use App\Http\Controllers\CidadeController;
 use App\Http\Controllers\EscolaController;
+use App\Http\Controllers\ItemProdutoController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -17,6 +18,18 @@ use Illuminate\Support\Facades\Route;
 | Acessíveis para qualquer visitante. A raiz redireciona para o login.
 |
 */
+
+Route::get('/estoque', [ItemProdutoController::class, 'index'])->name('itemProdutos.index');
+Route::get('/estoque/create', [ItemProdutoController::class, 'create'])->name('itemProdutos.create');
+Route::get('/estoque/{id}', [ItemProdutoController::class, 'show'])->name('itemProdutos.show');
+Route::get('/estoque/{id}/edite', [ItemProdutoController::class, 'edit'])->name('itemProdutos.edit');
+Route::put('/estoque/{id}', [ItemProdutoController::class, 'update'])->name('itemProdutos.update');
+Route::delete('/estoque/{id}', [ItemProdutoController::class, 'destroy'])->name('itemProdutos.destroy');
+Route::post('/estoque', [ItemProdutoController::class, 'store'])->name('itemProdutos.store');
+
+
+
+
 
 Route::get('/', function () {
     return view('dashboard');

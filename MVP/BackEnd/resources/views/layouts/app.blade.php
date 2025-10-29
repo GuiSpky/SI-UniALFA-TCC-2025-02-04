@@ -157,83 +157,85 @@
     </nav>
 
     {{-- Sidebar --}}
-<aside class="sidebar-modern" id="sidebar">
-    <ul class="nav flex-column p-3">
+    <aside class="sidebar-modern" id="sidebar">
+        <ul class="nav flex-column p-3">
 
-        @auth
-            {{-- ====================================================================== --}}
-            {{-- O CÓDIGO ABAIXO FOI ATUALIZADO COM AS REGRAS DE PERMISSÃO --}}
-            {{-- ====================================================================== --}}
+            @auth
+                {{-- Link do Dashboard: Visível para TODOS os usuários logados --}}
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+                        <i class="bi bi-house-door"></i> <span>Dashboard</span>
+                    </a>
+                </li>
 
-            {{-- Link do Dashboard: Visível para TODOS os usuários logados --}}
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
-                    <i class="bi bi-house-door"></i> <span>Dashboard</span>
-                </a>
-            </li>
+                {{-- Links apenas para GERENTES (cargo 1) --}}
+                @if (in_array(Auth::user()->cargo, [1]))
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::is('usuarios*') ? 'active' : '' }}"
+                            href="{{ route('usuarios.index') }}">
+                            <i class="bi bi-people"></i> <span>Usuários</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::is('cidades*') ? 'active' : '' }}"
+                            href="{{ route('cidades.index') }}">
+                            <i class="bi bi-geo-alt"></i> <span>Cidades</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::is('bairros*') ? 'active' : '' }}"
+                            href="{{ route('bairros.index') }}">
+                            <i class="bi bi-map"></i> <span>Bairros</span>
+                        </a>
+                    </li>
+                @endif
 
-            {{-- Links apenas para GERENTES (cargo 1) --}}
-            @if (in_array(Auth::user()->cargo, [1]))
-                <li class="nav-item">
-                    <a class="nav-link {{ Request::is('usuarios*') ? 'active' : '' }}" href="{{ route('usuarios.index') }}">
-                        <i class="bi bi-people"></i> <span>Usuários</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ Request::is('cidades*') ? 'active' : '' }}" href="{{ route('cidades.index') }}">
-                        <i class="bi bi-geo-alt"></i> <span>Cidades</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ Request::is('bairros*') ? 'active' : '' }}" href="{{ route('bairros.index') }}">
-                        <i class="bi bi-map"></i> <span>Bairros</span>
-                    </a>
-                </li>
-            @endif
+                {{-- Links para GERENTES, COZINHEIROS-CHEFES e NUTRICIONISTAS (cargos 1, 2, 4) --}}
+                @if (in_array(Auth::user()->cargo, [1, 2, 4]))
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::is('escolas*') ? 'active' : '' }}"
+                            href="{{ route('escolas.index') }}">
+                            <i class="bi bi-person-workspace"></i> <span>Escolas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::is('produtos*') ? 'active' : '' }}"
+                            href="{{ route('produtos.index') }}">
+                            <i class="bi bi-egg"></i> <span>Produtos</span>
+                        </a>
+                    </li>
+                @endif
 
-            {{-- Links para GERENTES, COZINHEIROS-CHEFES e NUTRICIONISTAS (cargos 1, 2, 4) --}}
-            @if (in_array(Auth::user()->cargo, [1, 2, 4]))
-                <li class="nav-item">
-                    <a class="nav-link {{ Request::is('escolas*') ? 'active' : '' }}" href="{{ route('escolas.index') }}">
-                        <i class="bi bi-person-workspace"></i> <span>Escolas</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ Request::is('produtos*') ? 'active' : '' }}" href="{{ route('produtos.index') }}">
-                        <i class="bi bi-egg"></i> <span>Produtos</span>
-                    </a>
-                </li>
-            @endif
+                {{-- Link de Cardápios: Visível para TODOS OS CARGOS --}}
+                @if (in_array(Auth::user()->cargo, [1, 2, 3, 4]))
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::is('cardapios*') ? 'active' : '' }}"
+                            href="{{ route('cardapios.index') }}">
+                            <i class="bi bi-menu-button-wide"></i> <span>Cardápios</span>
+                        </a>
+                    </li>
+                @endif
 
-            {{-- Link de Cardápios: Visível para TODOS OS CARGOS --}}
-            {{-- A lógica aqui é que todos os seus cargos definidos têm acesso --}}
-            @if (in_array(Auth::user()->cargo, [1, 2, 3, 4]))
-                <li class="nav-item">
-                    <a class="nav-link {{ Request::is('cardapios*') ? 'active' : '' }}" href="{{ route('cardapios.index') }}">
-                        <i class="bi bi-menu-button-wide"></i> <span>Cardápios</span>
-                    </a>
-                </li>
-            @endif
+                {{-- Links de Estoque e Configurações (exemplo, ajuste as permissões conforme necessário) --}}
+                {{-- Por enquanto, vamos deixar visível para Gerentes e Cozinheiros-Chefes --}}
+                @if (in_array(Auth::user()->cargo, [1, 2]))
+                    <li class="nav-item">
+                        {{-- ATENÇÃO: A rota /itemprodutos não foi definida. Crie-a se necessário. --}}
+                        <a class="nav-link {{ Request::is('itemProdutos*') ? 'active' : '' }}" href="{{ route('itemProdutos.index') }}">
+                            <i class="bi bi-shop-window"></i> <span>Estoque</span>
+                        </a>
+                    </li>
+                @endif
 
-            {{-- Links de Estoque e Configurações (exemplo, ajuste as permissões conforme necessário) --}}
-            {{-- Por enquanto, vamos deixar visível para Gerentes e Cozinheiros-Chefes --}}
-            @if (in_array(Auth::user()->cargo, [1, 2]))
-                <li class="nav-item">
-                    {{-- ATENÇÃO: A rota /itemprodutos não foi definida. Crie-a se necessário. --}}
-                    <a class="nav-link {{ Request::is('itemprodutos*') ? 'active' : '' }}" href="#">
-                        <i class="bi bi-shop-window"></i> <span>Estoque</span>
-                    </a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link {{ Request::is('configuracoes*') ? 'active' : '' }}" href="#">
                         <i class="bi bi-gear"></i> <span>Configurações</span>
                     </a>
                 </li>
-            @endif
 
-        @endauth
-    </ul>
-</aside>
+            @endauth
+        </ul>
+    </aside>
 
 
     <!-- Conteúdo principal -->
