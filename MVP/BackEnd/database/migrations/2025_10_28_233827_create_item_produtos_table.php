@@ -16,6 +16,8 @@ return new class extends Migration
             $table->integer('quantidade')->isNotEmpty();
             $table->date('validade')->isNotEmpty();
             $table->date('DataEntrada')->isNotEmpty();
+            $table->bigInteger('id_produto')->unsigned();
+            $table->foreign('id_produto')->references('id')->on('produtos');
             $table->bigInteger('id_deposito')->unsigned();
             $table->foreign('id_deposito')->references('id')->on('escolas');
             $table->timestamps();

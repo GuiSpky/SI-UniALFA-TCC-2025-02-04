@@ -5,18 +5,18 @@
 <div class="container-fluid">
     <!-- Header Section -->
     <div class="mb-4 fade-in-up">
-        <div class="d-flex align-items-center mb-3"> 
+        <div class="d-flex align-items-center mb-3">
             <div>
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
                 <h1 class="h2 fw-bold mb-1" style="color: #ffffff;">
                     <i class="bi bi-box me-2"></i>Estoque Central
                 </h1>
-                <p class="text-muted mb-0">Gerencie os dados cadastrados no sistema</p> 
+                <p class="text-muted mb-0">Gerencie os dados cadastrados no sistema</p>
             </div>
                 <p class="text-muted mb-0">Gerencie o estoque de produtos do sistema</p>
             </div>
-            <a href="{{ route('itemprodutos.create') }}" class="btn btn-primary btn-lg" style="background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%); border: none; transition: all 0.3s ease;">
+            <a href="{{ route('estoque.create') }}" class="btn btn-primary btn-lg" style="background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%); border: none; transition: all 0.3s ease;">
                 <i class="bi bi-plus-circle me-2"></i>Novo Item
             </a>
         </div>
@@ -38,16 +38,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($produtos as $produto)
+                    @forelse ($ItemProduto as $ItemProduto)
                         <tr style="border-bottom: 1px solid #2a2a3e; transition: all 0.3s ease;">
                             <td style="padding: 1rem;">
                                 <span class="badge" style="background-color: #0d6efd; color: white; padding: 0.5rem 0.75rem; border-radius: 6px;">
-                                    {{ $produto->id }}
+                                    {{ $ItemProduto->id }}
                                 </span>
                             </td>
                             <td style="padding: 1rem;">
-                                <a href="{{route('itemprodutos.show', $produto)}}" style="color: #0dcaf0; text-decoration: none; transition: all 0.3s ease; font-weight: 500;">
-                                    {{ $item->where('id', $produto->id_produto)->pluck('nome')->first() ?? 'N/A' }}
+                                <a href="{{route('estoque.show', $ItemProduto)}}" style="color: #0dcaf0; text-decoration: none; transition: all 0.3s ease; font-weight: 500;">
+                                    {{ $item->where('id', $ItemProduto->id_produto)->pluck('nome')->first() ?? 'N/A' }}
                                 </a>
                             </td>
                             <td style="padding: 1rem;">
@@ -57,21 +57,21 @@
                             </td>
                             <td style="padding: 1rem;">
                                 <span class="badge" style="background-color: #51cf66; color: white; padding: 0.5rem 0.75rem; border-radius: 6px;">
-                                    {{ $produto->Quantidade ?? 0 }} un.
+                                    {{ $ItemProduto->Quantidade ?? 0 }} un.
                                 </span>
                             </td>
                             <td style="padding: 1rem; color: #b0b0b0;">
                                 <i class="bi bi-calendar me-2" style="color: #0dcaf0;"></i>{{ \Carbon\Carbon::parse($produto->Validade)->format('d/m/Y') ?? 'N/A' }}
                             </td>
-                            <td style="padding: 1rem; color: #b0b0b0;">
-                                <i class="bi bi-geo-alt me-2" style="color: #0dcaf0;"></i>{{ $produto->Local ?? 'N/A' }}
-                            </td>
+                            {{-- <td style="padding: 1rem; color: #b0b0b0;">
+                                <i class="bi bi-geo-alt me-2" style="color: #0dcaf0;"></i>{{ $ItemProduto->Local ?? 'N/A' }}
+                            </td> --}}
                             <td style="padding: 1rem; text-align: center;">
                                 <div class="btn-group" role="group">
-                                    <a href="{{route('itemprodutos.edit', $produto->id)}}" class="btn btn-sm" style="background-color: #1a5f7a; color: #0dcaf0; border: 1px solid #0dcaf0; transition: all 0.3s ease; border-radius: 6px; margin-right: 0.5rem;" title="Editar">
+                                    <a href="{{route('estoque.edit', $produto->id)}}" class="btn btn-sm" style="background-color: #1a5f7a; color: #0dcaf0; border: 1px solid #0dcaf0; transition: all 0.3s ease; border-radius: 6px; margin-right: 0.5rem;" title="Editar">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
-                                    <form action="{{route('itemprodutos.destroy', $produto)}}" method="POST" style="display: inline;">
+                                    <form action="{{route('estoque.destroy', $produto)}}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-sm" style="background-color: #7a1a1a; color: #ff6b6b; border: 1px solid #ff6b6b; transition: all 0.3s ease; border-radius: 6px;" type="submit" onclick="return confirm('Deseja realmente apagar este item?')" title="Apagar">

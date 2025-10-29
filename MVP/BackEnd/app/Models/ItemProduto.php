@@ -12,10 +12,14 @@ class ItemProduto extends Model
         'DataEntrada',
         'id_deposito',
     ];
-    protected $table = 'ItemProduto';
+    protected $table = 'item_produtos';
 
     public function bairro()
     {
         return $this->belongsTo(Escola::class, 'id_deposito');
+    }
+    public function produtos()
+    {
+        return $this->belongsTo(Produto::class, 'id_produto');
     }
 }
