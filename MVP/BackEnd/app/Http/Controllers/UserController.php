@@ -71,6 +71,14 @@ class UserController extends Controller
 
     // ... (os métodos show e edit não precisam de mudança)
 
+    public function show(string $id)
+    {
+        $user = Usuario::findOrFail($id);
+        $escolas = Escola::all();
+
+        return view('usuarios.show', compact('user', 'escolas'));
+    }
+
     public function update(Request $request, string $id)
     {
         $user = Usuario::findOrFail($id);
