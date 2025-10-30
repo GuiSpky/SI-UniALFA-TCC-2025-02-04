@@ -15,25 +15,19 @@ class ItemProdutoController extends Controller
     public function index()
     {
         $produtos = Produto::all();
-        $escola = Escola::all();
+        $escolas = Escola::all();
         $itemProdutos = ItemProduto::all();
 
-        return view('itemProdutos.index', [
-            'escolas' => $escola,
-            'itemProdutos' => $itemProdutos,
-            'produtos' => $produtos,
-        ]);
+        return view('itemProdutos.index', compact('escolas', 'itemProdutos', 'produtos'));
     }
 
     public function create()
     {
-        $Produtos = Produto::all();
-        $ItemProduto = ItemProduto::all();
+        $produtos = Produto::all();
+        $escolas = Escola::all();
+        $itemProdutos = ItemProduto::all();
 
-        return view('itemProdutos.create', [
-            'ItemProduto' => $ItemProduto,
-            'Produtos' => $Produtos,
-        ]);
+        return view('itemProdutos.create', compact('escolas', 'itemProdutos', 'produtos'));
     }
 
     /**
@@ -43,10 +37,8 @@ class ItemProdutoController extends Controller
     {
         $dados = $request->validate([
             'id_produto' => 'required|integer',
-            'quantidade_entrada' => 'required|string|max:255|',
-            'quantidade_saida' => 'required|string|max:255|',
+            'quantidade_entrada' => 'required|integer',
             'validade' => 'required|date',
-            'DataEntrada' => 'required|date',
             'id_escola' => 'required|integer',
         ]);
 
@@ -60,20 +52,20 @@ class ItemProdutoController extends Controller
      */
     public function show(string $id)
     {
-        $ItemProduto = ItemProduto::find($id);
-        $Produtos = Produto::all();
-        $Escola = Escola::all();
+        $itemProduto = ItemProduto::find($id);
+        $produtos = Produto::all();
+        $escolas = Escola::all();
 
-        return view('itemProdutos.edit',compact($ItemProduto, $Produtos, $Escola));
+        return view('itemProdutos.show',compact('itemProduto', 'produtos', 'escolas'));
     }
 
     public function edit(string $id)
     {
-        $ItemProduto = ItemProduto::find($id);
-        $Produtos = Produto::all();
-        $Escola = Escola::all();
+        $itemProduto = ItemProduto::find($id);
+        $produtos = Produto::all();
+        $escolas = Escola::all();
 
-        return view('itemProdutos.edit',compact($ItemProduto, $Produtos, $Escola));
+        return view('itemProdutos.edit',compact('itemProduto', 'produtos', 'escolas'));
     }
 
     public function update(Request $request, string $id)

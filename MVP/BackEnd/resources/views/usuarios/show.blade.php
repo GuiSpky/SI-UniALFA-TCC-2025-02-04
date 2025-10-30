@@ -28,26 +28,26 @@
                 <div class="row mb-3">
                     <div class="col-md-6 mb-3">
                         <p class="mb-1 text-muted small">Nome</p>
-                        <p class="fw-semibold">{{ $usuario->nome }}</p>
+                        <p class="fw-semibold">{{ $user->name }}</p>
                     </div>
                     <div class="col-md-6 mb-3">
                         <p class="mb-1 text-muted small">Email</p>
-                        <p class="fw-semibold">{{ $usuario->email }}</p>
+                        <p class="fw-semibold">{{ $user->email }}</p>
                     </div>
                     <div class="col-md-6 mb-3">
                         <p class="mb-1 text-muted small">Telefone</p>
-                        <p class="fw-semibold">{{ $usuario->telefone }}</p>
+                        <p class="fw-semibold">{{ $user->telefone }}</p>
                     </div>
                     <div class="col-md-6 mb-3">
                         <p class="mb-1 text-muted small">Cargo</p>
                         <p class="fw-semibold">
-                            <x-cargo-label :value="$usuario->cargo" />
+                            <x-cargo-label :value="$user->cargo" />
                         </p>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <p class="mb-1 text-muted small">Escola</p>
+                        <p class="mb-1 text-muted small">Local de Trabalho</p>
                         <p class="fw-semibold">
-                            {{ $escolas->where('id', $usuario->id_escola)->pluck('nome')->first() }}
+                            {{ $escolas->where('id', $user->id_escola)->pluck('nome')->first() }}
                         </p>
                     </div>
                 </div>

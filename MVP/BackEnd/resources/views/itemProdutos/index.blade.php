@@ -17,7 +17,7 @@
 
         <div class="card shadow-sm border-2">
             <div class="table-responsive">
-                <table class="table table-hover table-striped mb-0">
+                <table class="table table-hover table-striped mb-0 table-bordered custom-table">
                     <thead>
                         <tr class="table-light text-uppercase small fw-bold">
                             <th>ID</th>
@@ -46,29 +46,29 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <span class="badge bg-primary">
+                                  
                                         {{ $itemProduto->quantidade_entrada }}
-                                    </span>
+                              
                                 </td>
                                 <td>
-                                    <span class="badge bg-primary">
+                                 
                                         {{ $itemProduto->quantidade_saida }}
-                                    </span>
+                                 
                                 </td>
                                 <td>
-                                    <span class="badge bg-primary">
+                                   
                                         {{$itemProduto->quantidade_entrada - $itemProduto->quantidade_saida}}
-                                    </span>
+                              
                                 </td>
                                 <td>
-                                    <span class="badge bg-primary">
+                                
                                         {{ $itemProduto->validade }}
-                                    </span>
+                            
                                 </td>
                                 <td>
-                                    <span class="badge bg-primary">
-                                        {{ $itemProduto->data_entrada }}
-                                    </span>
+                              
+                                        {{ $itemProduto->created_at }}
+                          
                                 </td>
                                 <td>
                                     {{ $escolas->where('id', $itemProduto->id_escola)->pluck('nome')->first() ?? 'N/A' }}

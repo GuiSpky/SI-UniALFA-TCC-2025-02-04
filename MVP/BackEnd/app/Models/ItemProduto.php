@@ -10,8 +10,8 @@ class ItemProduto extends Model
         'quantidade_entrada',
         'quantidade_saida',
         'validade',
-        'data_entrada',
         'id_escola',
+        'id_produto'
     ];
     protected $table = 'item_produtos';
 
