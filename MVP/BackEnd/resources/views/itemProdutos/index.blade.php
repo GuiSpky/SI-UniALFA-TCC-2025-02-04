@@ -57,6 +57,11 @@
                                 </td>
                                 <td>
                                     <span class="badge bg-primary">
+                                        {{$itemProduto->quantidade_entrada - $itemProduto->quantidade_saida}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-primary">
                                         {{ $itemProduto->validade }}
                                     </span>
                                 </td>
