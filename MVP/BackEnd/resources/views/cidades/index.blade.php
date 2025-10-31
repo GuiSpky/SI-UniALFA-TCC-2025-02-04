@@ -20,7 +20,7 @@
         <div class="table-responsive">
             <table class="table table-hover table-striped mb-0">
                 <thead>
-                    <tr class="table-light text-uppercase small fw-bold">
+                    <tr class="text-uppercase small fw-bold">
                         <th>Código IBGE</th>
                         <th>Nome</th>
                         <th>UF</th>

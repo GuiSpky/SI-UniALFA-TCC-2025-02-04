@@ -354,7 +354,7 @@
                                     class="bi bi-menu-button-wide"></i> Cardápios</a></li>
                     @endif
 
-                    @if (in_array(Auth::user()->cargo, [1, 2]))
+                    @if (in_array(Auth::user()->cargo, [1, 2, 3, 4]))
                         <li><a href="{{ route('itemProdutos.index') }}"
                                 class="nav-link {{ Request::is('itemProdutos*') ? 'active' : '' }}"><i
                                     class="bi bi-shop-window"></i> Estoque</a></li>

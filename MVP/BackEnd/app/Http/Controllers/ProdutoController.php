@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class ProdutoController extends Controller
 {
+    private $grupos = [
+        '1' => 'Proteinas',
+        '2' => 'Carboidratos',
+        '3' => 'Oleogenosos',
+        '4' => 'Fibras',
+    ];
+
     public function index()
     {
         $produtos = Produto::all();
