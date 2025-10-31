@@ -38,7 +38,9 @@
                                         {{ $produto->nome }}
                                     </a>
                                 </td>
-                                <td>{{ $produto->grupo }}</td>
+                                <td>
+                                    <x-grupo-label :value="$produto->grupo" />
+                                </td>
                                 <td class="text-end">
                                     <a href="{{ route('produtos.edit', $produto->id) }}"
                                         class="btn btn-outline-primary btn-sm">

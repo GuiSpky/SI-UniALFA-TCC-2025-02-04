@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 class ProdutoController extends Controller
 {
     private $grupos = [
-        '1' => 'Proteinas',
-        '2' => 'Carboidratos',
-        '3' => 'Oleogenosos',
-        '4' => 'Fibras',
+        1 => 'Proteinas',
+        2 => 'Carboidratos',
+        3 => 'Oleogenosos',
+        4 => 'Fibras',
     ];
 
     public function index()
@@ -22,18 +22,18 @@ class ProdutoController extends Controller
 
     public function create()
     {
-        return view('produtos.create');
+        return view('produtos.create', ['grupos' => $this->grupos]);
     }
 
     public function store(Request $request)
     {
         $dados = $request->validate([
-        'nome' => 'required|string|max:200|unique:produtos,nome',
-        'grupo' => 'required|string|max:50',
-    ],[
-        'nome.required' => 'Nome deve ser informado.',
-        'nome.unique' => 'Produto já cadastrado.',
-    ]);
+            'nome' => 'required|string|max:200|unique:produtos,nome',
+            'grupo' => 'required|integer|in:1,2,3,4',
+        ], [
+            'nome.required' => 'Nome deve ser informado.',
+            'nome.unique' => 'Produto já cadastrado.',
+        ]);
 
         Produto::create($dados);
         return redirect('/produtos')->with('sucesso', 'Cadastro realizado com sucesso!');
@@ -43,23 +43,26 @@ class ProdutoController extends Controller
     {
         $produto = Produto::findOrFail($id); // Encontra o recurso ou lança um erro 404
 
-        return view('produtos.show', ['produto'=> $produto]);
-
+        return view('produtos.show', ['produto' => $produto]);
     }
 
     public function edit(string $id)
     {
-        $produto = Produto::find($id);
-        return view('produtos.edit',[
-            'produto' => $produto
+        $produto = Produto::findOrFail($id);
+
+
+        return view('produtos.edit', [
+            'produto' => $produto,
+            'grupos' => $this->grupos,
         ]);
     }
+
 
     public function update(Request $request, string $id)
     {
         $produto = Produto::find($id);
 
-        $produto-> update([
+        $produto->update([
             'nome' => $request->nome,
             'grupo' => $request->grupo
         ]);
@@ -76,7 +79,6 @@ class ProdutoController extends Controller
 
         // Retorna apenas uma mensagem de sucesso
         return redirect('/produtos');
-
     }
 
     public function count()
