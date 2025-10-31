@@ -50,15 +50,19 @@
                             >
                         </div>
 
-                        {{-- Grupo --}}
-                        <div class="mb-3">
-                            <x-select-field 
-                                name="grupo" 
-                                label="Grupo" 
-                                :options="$grupos" 
-                                :selected="old('grupo', $produto->grupo)" 
-                            />
-                        </div>
+
+                            {{-- UF --}}
+                            <div class="mb-3">
+                                <label>Selecione o Grupo</label>
+                                <select name="grupo" class="form-control" required>
+                                    <option value="">-- Escolha uma classe --</option>
+                                    <option value="proteina">Proteina</option>
+                                    <option value="carboidratos">Carboidratos</option>
+                                    <option value="oleogenosos">Oleogenosos</option>
+                                    <option value="fibras">Fibras</option>
+                                </select>
+                            </div>
+
 
                         {{-- Botões --}}
                         <div class="d-flex justify-content-between mt-4">

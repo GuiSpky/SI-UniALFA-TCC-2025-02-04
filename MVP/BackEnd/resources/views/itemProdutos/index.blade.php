@@ -9,9 +9,11 @@
                     <h1 class="h2 fw-bold mb-1"><i class="bi bi-map me-2"></i>Estoque</h1>
                     <p class="text-muted mb-0">Gerencie o estoque no sistema</p>
                 </div>
-                <a href="{{ route('itemProdutos.create') }}" class="btn btn-primary btn-sm ms-auto shadow-sm">
-                    <i class="bi bi-plus-circle me-1"></i> Nova Entrada
-                </a>
+                @if (in_array(Auth::user()->cargo, [1,2]))
+                    <a href="{{ route('itemProdutos.create') }}" class="btn btn-primary btn-sm ms-auto shadow-sm">
+                        <i class="bi bi-plus-circle me-1"></i> Nova Entrada
+                    </a>
+                @endif
             </div>
         </div>
 
@@ -29,7 +31,9 @@
                             {{-- <th>Nr Pedido</th> --}}
                             <th>Data Entrada</th>
                             <th>Depósito</th>
-                            <th class="text-end">Ações</th>
+                            @if (in_array(Auth::user()->cargo, [1,2]))
+                                <th class="text-end">Ações</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -46,47 +50,51 @@
                                     </a>
                                 </td>
                                 <td>
-                                  
-                                        {{ $itemProduto->quantidade_entrada }}
-                              
+
+                                    {{ $itemProduto->quantidade_entrada }}
+
                                 </td>
                                 <td>
-                                 
-                                        {{ $itemProduto->quantidade_saida }}
-                                 
+
+                                    {{ $itemProduto->quantidade_saida }}
+
                                 </td>
                                 <td>
-                                   
-                                        {{$itemProduto->quantidade_entrada - $itemProduto->quantidade_saida}}
-                              
+
+                                    {{ $itemProduto->quantidade_entrada - $itemProduto->quantidade_saida }}
+
                                 </td>
                                 <td>
-                                
-                                        {{ $itemProduto->validade }}
-                            
+
+                                    {{ $itemProduto->validade }}
+
                                 </td>
                                 <td>
-                              
-                                        {{ $itemProduto->created_at }}
-                          
+
+                                    {{ $itemProduto->created_at }}
+
                                 </td>
                                 <td>
                                     {{ $escolas->where('id', $itemProduto->id_escola)->pluck('nome')->first() ?? 'N/A' }}
                                 </td>
-                                <td class="text-end">
-                                    <a href="{{ route('itemProdutos.edit', $itemProduto->id) }}"
-                                        class="btn btn-outline-primary btn-sm" title="Editar">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <form action="{{ route('itemProdutos.destroy', $itemProduto) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-outline-danger btn-sm" type="submit"
-                                            onclick="return confirm('Deseja realmente apagar este itemProduto?')" title="Apagar">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
+                                @if (in_array(Auth::user()->cargo, [1,2]))
+                                    <td class="text-end">
+                                        <a href="{{ route('itemProdutos.edit', $itemProduto->id) }}"
+                                            class="btn btn-outline-primary btn-sm" title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <form action="{{ route('itemProdutos.destroy', $itemProduto) }}" method="POST"
+                                            class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-outline-danger btn-sm" type="submit"
+                                                onclick="return confirm('Deseja realmente apagar este itemProduto?')"
+                                                title="Apagar">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                @endif
                             </tr>
                         @empty
                             <tr>
