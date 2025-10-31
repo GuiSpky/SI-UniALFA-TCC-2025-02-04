@@ -2,8 +2,10 @@
 
 @section('title', 'Detalhe do Produto')
 
-@section('content')
 
+@section('title', 'Detalhe do Produto')
+
+@section('content')
     <div class="container-fluid py-4">
         <div class="mb-4 fade-in-up">
             <div class="d-flex align-items-center mb-4">

@@ -10,26 +10,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Rotas Públicas
-|--------------------------------------------------------------------------
-|
-| Acessíveis para qualquer visitante. A raiz redireciona para o login.
-|
-*/
-
-Route::get('/estoque', [ItemProdutoController::class, 'index'])->name('itemProdutos.index');
-Route::get('/estoque/create', [ItemProdutoController::class, 'create'])->name('itemProdutos.create');
-Route::get('/estoque/{id}', [ItemProdutoController::class, 'show'])->name('itemProdutos.show');
-Route::get('/estoque/{id}/edite', [ItemProdutoController::class, 'edit'])->name('itemProdutos.edit');
-Route::put('/estoque/{id}', [ItemProdutoController::class, 'update'])->name('itemProdutos.update');
-Route::delete('/estoque/{id}', [ItemProdutoController::class, 'destroy'])->name('itemProdutos.destroy');
-Route::post('/estoque', [ItemProdutoController::class, 'store'])->name('itemProdutos.store');
-
-
-
-
 
 Route::get('/', function () {
     return view('dashboard');
@@ -50,13 +30,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Níveis de Permissão (Do mais alto para o mais baixo)
-    |--------------------------------------------------------------------------
-    */
-
     // == NÍVEL GERENTE ==
     // Apenas Gerentes (cargo 1) podem acessar estas rotas.
     Route::middleware('role:gerente')->group(function () {
@@ -68,8 +41,6 @@ Route::middleware('auth')->group(function () {
         Route::put('/bairros/{id}', [BairroController::class, 'update'])->name('bairros.update');
         Route::delete('/bairros/{id}', [BairroController::class, 'destroy'])->name('bairros.destroy');
         Route::post('/bairros', [BairroController::class, 'store'])->name('bairros.store');
-
-
         // Rotas cidades
         Route::get('/cidades', [CidadeController::class, 'index'])->name('cidades.index');
         Route::get('/cidades/create', [CidadeController::class, 'create'])->name('cidades.create');
@@ -78,7 +49,6 @@ Route::middleware('auth')->group(function () {
         Route::put('/cidades/{id}', [CidadeController::class, 'update'])->name('cidades.update');
         Route::delete('/cidades/{id}', [CidadeController::class, 'destroy'])->name('cidades.destroy');
         Route::post('/cidades', [CidadeController::class, 'store'])->name('cidades.store');
-
         // Rotas Usuários
         Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios.index');
         Route::get('/usuarios/create', [UserController::class, 'create'])->name('usuarios.create');
@@ -87,6 +57,12 @@ Route::middleware('auth')->group(function () {
         Route::put('/usuarios/{id}', [UserController::class, 'update'])->name('usuarios.update');
         Route::delete('/usuarios/{id}', [UserController::class, 'destroy'])->name('usuarios.destroy');
         Route::post('/usuarios', [UserController::class, 'store'])->name('usuarios.store');
+        // Rotas Estoque
+        Route::get('/estoque/create', [ItemProdutoController::class, 'create'])->name('itemProdutos.create');
+        Route::get('/estoque/{id}/edite', [ItemProdutoController::class, 'edit'])->name('itemProdutos.edit');
+        Route::put('/estoque/{id}', [ItemProdutoController::class, 'update'])->name('itemProdutos.update');
+        Route::delete('/estoque/{id}', [ItemProdutoController::class, 'destroy'])->name('itemProdutos.destroy');
+        Route::post('/estoque', [ItemProdutoController::class, 'store'])->name('itemProdutos.store');
     });
 
     // == NÍVEL COZINHEIRO-CHEFE ==
@@ -104,7 +80,6 @@ Route::middleware('auth')->group(function () {
         Route::put('/escolas/{id}', [EscolaController::class, 'update'])->name('escolas.update');
         Route::delete('/escolas/{id}', [EscolaController::class, 'destroy'])->name('escolas.destroy');
         Route::post('/escolas', [EscolaController::class, 'store'])->name('escolas.store');
-
 
         // Rotas Produtos
         Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos.index');
@@ -127,5 +102,8 @@ Route::middleware('auth')->group(function () {
         Route::put('/cardapios/{id}', [CardapioController::class, 'update'])->name('cardapios.update');
         Route::delete('/cardapios/{id}', [CardapioController::class, 'destroy'])->name('cardapios.destroy');
         Route::post('/cardapios', [CardapioController::class, 'store'])->name('cardapios.store');
+        // Rotas Estoque
+        Route::get('/estoque', [ItemProdutoController::class, 'index'])->name('itemProdutos.index');
+        Route::get('/estoque/{id}', [ItemProdutoController::class, 'show'])->name('itemProdutos.show');
     });
 });
