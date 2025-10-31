@@ -10,7 +10,9 @@
                     <h1 class="h2 fw-bold mb-1"><i class="bi bi-person-workspace me-2"></i>Produtos</h1>
                     <p class="text-muted mb-0">Gerencie as produtos cadastrados</p>
                 </div>
-                <a href="{{ route('produtos.create') }}" class="btn btn-primary btn-sm ms-auto shadow-sm">Novo Produto</a>
+                @if (in_array(Auth::user()->cargo, [1, 4]))
+                    <a href="{{ route('produtos.create') }}" class="btn btn-primary btn-sm ms-auto shadow-sm">Novo Produto</a>
+                @endif
             </div>
         </div>
 
@@ -22,7 +24,9 @@
                             <th>Id</th>
                             <th>Nome</th>
                             <th>Grupo</th>
-                            <th class="text-end">Ações</th>
+                            @if (in_array(Auth::user()->cargo, [1, 4]))
+                                <th class="text-end">Ações</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -39,21 +43,23 @@
                                     </a>
                                 </td>
                                 <td>{{ $produto->grupo }}</td>
-                                <td class="text-end">
-                                    <a href="{{ route('produtos.edit', $produto->id) }}"
-                                        class="btn btn-outline-primary btn-sm">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <form action="{{ route('produtos.destroy', $produto->id) }}" method="POST"
-                                        class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-outline-danger btn-sm"
-                                            onclick="return confirm('Tem certeza?')">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
+                                @if (in_array(Auth::user()->cargo, [1, 4]))
+                                    <td class="text-end">
+                                        <a href="{{ route('produtos.edit', $produto->id) }}"
+                                            class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <form action="{{ route('produtos.destroy', $produto->id) }}" method="POST"
+                                            class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-outline-danger btn-sm"
+                                                onclick="return confirm('Tem certeza?')">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                @endif
                             </tr>
                         @empty
                             <tr>
