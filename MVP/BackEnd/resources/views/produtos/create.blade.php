@@ -39,12 +39,13 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="id_cidade" class="form-label">Cidade</label>
-                                <select class="form-select" id="id_cidade" name="id_cidade" required>
-                                    <option value="">Selecione uma Cidade</option>
-                                    @foreach ($cidades as $cidade)
-                                        <option value="{{ $cidade->id }}">{{ $cidade->nome }}</option>
-                                    @endforeach
+                                <label for="grupo" class="form-label">Grupo Alimentício</label>
+                                <select class="form-select" id="grupo" name="grupo" required>
+                                    <option value="">Selecione Grupo</option>
+                                        <option value="carboidratos">Carboidratos</option>
+                                        <option value="proteínas">Proteínas</option>
+                                        <option value="oleogenosos">Oleogenosos</option>
+                                        <option value="fibras">Fibras</option>
                                 </select>
                             </div>
 
