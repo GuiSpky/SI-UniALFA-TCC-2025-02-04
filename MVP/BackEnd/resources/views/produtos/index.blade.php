@@ -14,11 +14,11 @@
             </div>
         </div>
 
-        <div class="card shadow-sm border-2">
+        <div class="card shadow-sm border-2 shadow-sm rounded-3">
             <div class="table-responsive">
                 <table class="table table-hover table-striped mb-0">
                     <thead>
-                        <tr class="table-light text-uppercase small fw-bold">
+                        <tr class="text-uppercase small fw-bold">
                             <th>Id</th>
                             <th>Nome</th>
                             <th>Grupo</th>

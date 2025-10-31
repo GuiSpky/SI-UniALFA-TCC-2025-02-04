@@ -19,7 +19,7 @@
 
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <div class="card fade-in-up shadow-sm border-0">
+	                <div class="card fade-in-up border-2 shadow-sm rounded-3">
                     <div class="card-body p-4 p-md-5">
                         @if ($errors->any())
                             <div class="alert alert-danger">

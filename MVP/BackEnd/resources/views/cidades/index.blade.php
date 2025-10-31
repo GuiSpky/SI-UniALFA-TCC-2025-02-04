@@ -1,4 +1,5 @@
 @extends('layouts.app')
+
 @section('title', 'Lista de Cidades')
 
 @section('content')
@@ -15,7 +16,7 @@
         </div>
     </div>
 
-    <div class="card shadow-sm border-2">
+    <div class="card border-2 shadow-sm rounded-3">
         <div class="table-responsive">
             <table class="table table-hover table-striped mb-0">
                 <thead>

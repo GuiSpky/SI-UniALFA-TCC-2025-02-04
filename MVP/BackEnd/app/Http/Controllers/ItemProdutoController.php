@@ -43,7 +43,7 @@ class ItemProdutoController extends Controller
         ]);
 
         ItemProduto::create($dados);
-        return redirect('/estoques')->with('sucesso', 'Cadastro realizado com sucesso!');
+        return redirect()->route('itemProdutos.index')->with('sucesso', 'Cadastro realizado com sucesso!');
 
     }
 
@@ -83,7 +83,7 @@ class ItemProdutoController extends Controller
 
         $ItemProduto = ItemProduto::findOrFail($id);
 
-        return redirect('/estoques')->with('sucesso', 'Cadastro realizado com sucesso!');
+        return redirect()->route('itemProdutos.index')->with('sucesso', 'Cadastro realizado com sucesso!');
     }
 
     public function destroy(string $id)
@@ -92,9 +92,9 @@ class ItemProdutoController extends Controller
             // Usa o Model User
             $ItemProduto = ItemProduto::findOrFail($id);
             $ItemProduto->delete();
-            return redirect('/estoque')->with('sucesso', 'Item excluído com sucesso!');
+            return redirect()->route('itemProdutos.index')->with('sucesso', 'Item excluído com sucesso!');
         } catch (\Exception $e) {
-            return redirect('/estoque')->with('erro', 'Erro ao excluir o item.');
+            return redirect()->route('itemProdutos.index')->with('erro', 'Erro ao excluir o item.');
         }
     }
 }

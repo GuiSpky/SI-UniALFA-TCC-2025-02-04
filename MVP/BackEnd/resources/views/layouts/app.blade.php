@@ -5,94 +5,293 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title')</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
         :root {
+            --bg-dark: #1f2937;
+            /* Cinza escuro para o fundo da página (Tailwind gray-800) */
+            --bg-light: #f3f4f6;
+            /* Cinza claro para o fundo da página (Tailwind gray-100) */
+            --text-dark: #fff;
+            /* Texto claro */
+            --text-light: #1f2937;
+            /* Texto escuro */
+
             --sidebar-width: 260px;
-            --sidebar-collapsed-width: 70px;
+            --sidebar-bg-dark: #111827;
+            --sidebar-bg-light: #f8f9fa;
+            --sidebar-text-dark: #fff;
+            --sidebar-text-light: #000;
+        }
+
+        /* Clarear textos secundários (ex: .text-muted) no modo escuro */
+        body.dark .text-muted {
+            color: #cbd5e1 !important;
+            /* tom claro e suave */
+        }
+
+        body.dark .table td,
+        body.dark .table th,
+        body.dark .table a {
+            color: #f1f5f9 !important;
+            /* tom claro */
+        }
+
+        /* Links na tabela (modo escuro) */
+        body.dark .table a:hover {
+            color: #60a5fa !important;
+            /* azul suave ao passar o mouse */
         }
 
         body {
-            background-color: #f8f9fa;
+            font-family: "Inter", sans-serif;
             min-height: 100vh;
-            overflow-x: hidden;
+            display: flex;
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        .navbar-modern {
-            background-color: #405c77;
-            /* Manter escuro como na imagem */
-            color: white;
-            padding: 0.8rem 1.5rem;
-            z-index: 1030;
-            position: sticky;
-            top: 0;
+        body.dark {
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
         }
 
-        .navbar-modern .navbar-brand {
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: white;
+        body.light {
+            background-color: var(--bg-light);
+            color: var(--text-light);
         }
 
-        .navbar-modern .btn-outline-light {
-            border-color: rgba(255, 255, 255, 0.3);
-            color: white;
+        /* Estilo para elementos que precisam de fundo/borda em modo escuro/claro */
+        .card,
+        .table {
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
         }
 
-        .navbar-modern .btn-outline-light:hover {
-            background-color: rgba(255, 255, 255, 0.15);
+        body.dark .card {
+            background-color: #1f2937;
+            /* Fundo do card em modo escuro */
+            color: var(--text-dark);
+            border-color: #374151;
+            /* Borda do card em modo escuro */
         }
 
-        .sidebar-modern {
-            position: fixed;
-            top: 56px;
-            left: 0;
-            height: calc(100vh - 56px);
-            width: var(--sidebar-width);
-            background-color: #0e2c49;
-            /* Ajustado para ser mais escuro, como na imagem */
-            transition: width 0.3s ease;
-            z-index: 1020;
+        body.light .card {
+            background-color: #ffffff;
+            /* Fundo do card em modo claro */
+            color: var(--text-light);
+            border-color: #e5e7eb;
+            /* Borda do card em modo claro */
         }
 
-        .sidebar-modern.collapsed {
-            width: var(--sidebar-collapsed-width);
+        body.dark .table {
+            --bs-table-bg: #1f2937;
+            --bs-table-color: var(--text-dark);
+            --bs-table-border-color: #374151;
         }
 
-        .sidebar-modern .nav-link {
-            margin: 0 10px 5px 10px;
-            /* Adicionar margem para destacar o item ativo */
+        body.dark .table-striped>tbody>tr:nth-of-type(odd)>* {
+            --bs-table-bg-type: #374151;
+        }
+
+        body.dark .form-control,
+        body.dark .form-select {
+            background-color: #374151;
+            color: var(--text-dark);
+            border-color: #4b5563;
+        }
+
+        body.dark .form-control:focus,
+        body.dark .form-select:focus {
+            background-color: #374151;
+            color: var(--text-dark);
+            border-color: #6b7280;
+            box-shadow: 0 0 0 0.25rem rgba(107, 114, 128, 0.25);
+        }
+
+        body.dark .btn-outline-secondary {
+            color: var(--text-dark);
+            border-color: #6b7280;
+        }
+
+        body.dark .btn-outline-secondary:hover {
+            background-color: #6b7280;
+            color: var(--text-dark);
+        }
+
+        body.dark .modal-content {
+            background-color: #1f2937;
+            color: var(--text-dark);
+            border: 1px solid #374151;
+        }
+
+        body.dark .modal-header,
+        body.dark .modal-footer {
+            border-color: #374151;
+        }
+
+        body.dark .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+
+        /* Coerência de estilo para links e botões */
+        .sidebar.dark .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar.light .nav-link:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar .nav-link.active {
+            background-color: #0d6efd;
+            color: white !important;
+            /* Forçar branco para o link ativo */
+        }
+
+        body.dark .nav-link {
             color: rgba(255, 255, 255, 0.85);
-            padding: 0.75rem 1.25rem;
-            font-size: 0.95rem;
-            border-radius: 0.4rem;
-            transition: all 0.2s ease;
+        }
+
+        body.light .nav-link {
+            color: #333;
+        }
+
+        /* Estilo para o cabeçalho do sidebar */
+        .sidebar.dark .sidebar-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar.light .sidebar-header {
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        /* Estilo para o rodapé do sidebar */
+        .sidebar.dark .sidebar-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar.light .sidebar-footer {
+            border-top: 1px solid #dee2e6;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: background-color 0.3s, color 0.3s, width 0.3s;
+            padding: 1rem 0;
+            position: fixed;
+        }
+
+        .sidebar.dark {
+            background-color: var(--sidebar-bg-dark);
+            color: var(--sidebar-text-dark);
+        }
+
+        .sidebar.light {
+            background-color: var(--sidebar-bg-light);
+            color: var(--sidebar-text-light);
+            border-right: 1px solid #dee2e6;
+        }
+
+        .sidebar .nav-link {
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            padding: 10px 16px;
+            margin: 2px 10px;
+            transition: background-color 0.2s, color 0.2s;
         }
 
-        .sidebar-modern .nav-link:hover {
-            background-color: #343a40;
-            /* Hover mais claro */
+        .sidebar.dark .nav-link {
+            color: rgba(255, 255, 255, 0.85);
         }
 
-        .sidebar-modern .nav-link.active {
+        .sidebar.light .nav-link {
+            color: #333;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: rgba(13, 110, 253, 0.1);
+        }
+
+        .sidebar .nav-link.active {
             background-color: #0d6efd;
-            /* Manter o azul para o item ativo */
             color: white;
         }
 
-        .main-content-modern {
-            margin-left: var(--sidebar-width);
-            padding: 2rem;
-            transition: margin-left 0.3s ease;
+        .sidebar .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            padding: 0 16px 1rem 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .sidebar-modern.collapsed~.main-content-modern {
-            margin-left: var(--sidebar-collapsed-width);
+        .sidebar.light .sidebar-header {
+            border-color: #dee2e6;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 1rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sidebar.light .sidebar-footer {
+            border-color: #dee2e6;
+        }
+
+        .sidebar-footer img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+            transition: margin-left 0.3s;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                z-index: 1050;
+            }
+
+            .sidebar.show {
+                left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .toggle-btn {
+                position: fixed;
+                top: 15px;
+                left: 15px;
+                z-index: 1060;
+                background-color: #0d6efd;
+                color: #fff;
+                border: none;
+                border-radius: 8px;
+                padding: 8px 10px;
+            }
         }
 
         .fade-in-up {
@@ -102,157 +301,144 @@
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-
-        @media (max-width: 768px) {
-            .sidebar-modern {
-                width: 0;
-            }
-
-            .sidebar-modern.collapsed {
-                width: var(--sidebar-width);
-            }
-
-            .main-content-modern {
-                margin-left: 0;
-            }
-
-            .sidebar-modern.collapsed~.main-content-modern {
-                margin-left: var(--sidebar-width);
-            }
-        }
     </style>
 </head>
 
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-modern">
-        <div class="container-fluid">
-            <button class="btn btn-outline-light me-3" id="sidebarToggle">
-                <i class="bi bi-list"></i>
-            </button>
-            <a class="navbar-brand" href="#">Painel Administrativo</a>
-            <div class="d-flex align-items-center ms-auto">
-                @auth
-                    <span class="me-3 text-white">Bem-vindo, <strong>{{ Auth::user()->name }}</strong></span>
-                @endauth
+<body class="light" x-data="{ isDark: false }">
+    <!-- Botão Toggle para mobile -->
+    <button class="toggle-btn d-md-none" id="sidebarToggle"><i class="bi bi-list"></i></button>
 
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="btn btn-outline-light btn-sm d-flex align-items-center">
-                        <i class="bi bi-box-arrow-right me-1"></i> Sair
-                    </button>
-                </form>
+    <!-- Sidebar -->
+    <aside class="sidebar light" id="sidebar">
+        <div>
+            <div class="sidebar-header">
+                <i class="bi bi-bootstrap-fill fs-4"></i>
+                <span>GEMA</span>
             </div>
+
+            <ul class="nav flex-column">
+                @auth
+                    <li><a href="{{ route('dashboard') }}" class="nav-link {{ Request::is('/') ? 'active' : '' }}"><i
+                                class="bi bi-house"></i>
+                            Home</a></li>
+
+                    @if (in_array(Auth::user()->cargo, [1]))
+                        <li><a href="{{ route('usuarios.index') }}"
+                                class="nav-link {{ Request::is('usuarios*') ? 'active' : '' }}"><i class="bi bi-people"></i>
+                                Usuários</a></li>
+                        <li><a href="{{ route('cidades.index') }}"
+                                class="nav-link {{ Request::is('cidades*') ? 'active' : '' }}"><i class="bi bi-geo-alt"></i>
+                                Cidades</a></li>
+                        <li><a href="{{ route('bairros.index') }}"
+                                class="nav-link {{ Request::is('bairros*') ? 'active' : '' }}"><i class="bi bi-map"></i>
+                                Bairros</a></li>
+                    @endif
+
+                    @if (in_array(Auth::user()->cargo, [1, 2, 4]))
+                        <li><a href="{{ route('escolas.index') }}"
+                                class="nav-link {{ Request::is('escolas*') ? 'active' : '' }}"><i
+                                    class="bi bi-person-workspace"></i> Escolas</a></li>
+                        <li><a href="{{ route('produtos.index') }}"
+                                class="nav-link {{ Request::is('produtos*') ? 'active' : '' }}"><i class="bi bi-egg"></i>
+                                Produtos</a></li>
+                    @endif
+
+                    @if (in_array(Auth::user()->cargo, [1, 2, 3, 4]))
+                        <li><a href="{{ route('cardapios.index') }}"
+                                class="nav-link {{ Request::is('cardapios*') ? 'active' : '' }}"><i
+                                    class="bi bi-menu-button-wide"></i> Cardápios</a></li>
+                    @endif
+
+                    @if (in_array(Auth::user()->cargo, [1, 2]))
+                        <li><a href="{{ route('itemProdutos.index') }}"
+                                class="nav-link {{ Request::is('itemProdutos*') ? 'active' : '' }}"><i
+                                    class="bi bi-shop-window"></i> Estoque</a></li>
+                    @endif
+                @endauth
+            </ul>
         </div>
-    </nav>
 
-    {{-- Sidebar --}}
-    <aside class="sidebar-modern" id="sidebar">
-        <ul class="nav flex-column p-3">
-
-            @auth
-                {{-- Link do Dashboard: Visível para TODOS os usuários logados --}}
-                <li class="nav-item">
-                    <a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
-                        <i class="bi bi-house-door"></i> <span>Dashboard</span>
-                    </a>
+        <div class="sidebar-footer dropdown">
+            <div class="d-flex align-items-center gap-2 dropdown-toggle" data-bs-toggle="dropdown"
+                style="cursor: pointer;">
+                <img src="https://github.com/mdo.png" alt="user">
+                <span>{{ Auth::user()->name ?? 'Usuário' }}</span>
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end shadow">
+                <li><a class="dropdown-item" href="#">Perfil</a></li>
+                <li><a class="dropdown-item" href="#">Configurações</a></li>
+                <li>
+                    <hr class="dropdown-divider">
                 </li>
-
-                {{-- Links apenas para GERENTES (cargo 1) --}}
-                @if (in_array(Auth::user()->cargo, [1]))
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::is('usuarios*') ? 'active' : '' }}"
-                            href="{{ route('usuarios.index') }}">
-                            <i class="bi bi-people"></i> <span>Usuários</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::is('cidades*') ? 'active' : '' }}"
-                            href="{{ route('cidades.index') }}">
-                            <i class="bi bi-geo-alt"></i> <span>Cidades</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::is('bairros*') ? 'active' : '' }}"
-                            href="{{ route('bairros.index') }}">
-                            <i class="bi bi-map"></i> <span>Bairros</span>
-                        </a>
-                    </li>
-                @endif
-
-                {{-- Links para GERENTES, COZINHEIROS-CHEFES e NUTRICIONISTAS (cargos 1, 2, 4) --}}
-                @if (in_array(Auth::user()->cargo, [1, 2, 4]))
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::is('escolas*') ? 'active' : '' }}"
-                            href="{{ route('escolas.index') }}">
-                            <i class="bi bi-person-workspace"></i> <span>Escolas</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::is('produtos*') ? 'active' : '' }}"
-                            href="{{ route('produtos.index') }}">
-                            <i class="bi bi-egg"></i> <span>Produtos</span>
-                        </a>
-                    </li>
-                @endif
-
-                {{-- Link de Cardápios: Visível para TODOS OS CARGOS --}}
-                @if (in_array(Auth::user()->cargo, [1, 2, 3, 4]))
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::is('cardapios*') ? 'active' : '' }}"
-                            href="{{ route('cardapios.index') }}">
-                            <i class="bi bi-menu-button-wide"></i> <span>Cardápios</span>
-                        </a>
-                    </li>
-                @endif
-
-                {{-- Links de Estoque e Configurações (exemplo, ajuste as permissões conforme necessário) --}}
-                {{-- Por enquanto, vamos deixar visível para Gerentes e Cozinheiros-Chefes --}}
-                @if (in_array(Auth::user()->cargo, [1, 2]))
-                    <li class="nav-item">
-                        {{-- ATENÇÃO: A rota /itemprodutos não foi definida. Crie-a se necessário. --}}
-                        <a class="nav-link {{ Request::is('itemProdutos*') ? 'active' : '' }}" href="{{ route('itemProdutos.index') }}">
-                            <i class="bi bi-shop-window"></i> <span>Estoque</span>
-                        </a>
-                    </li>
-                @endif
-
-                <li class="nav-item">
-                    <a class="nav-link {{ Request::is('configuracoes*') ? 'active' : '' }}" href="#">
-                        <i class="bi bi-gear"></i> <span>Configurações</span>
-                    </a>
+                <li>
+                    <form action="{{ route('logout') }}" method="POST" class="m-0">
+                        @csrf
+                        <button type="submit" class="dropdown-item text-danger">Sair</button>
+                    </form>
                 </li>
+            </ul>
 
-            @endauth
-        </ul>
+            <button id="themeToggle" class="btn btn-sm btn-outline-secondary rounded-pill ms-2">
+                <i class="bi bi-sun-fill"></i>
+            </button>
+        </div>
+
     </aside>
 
-
     <!-- Conteúdo principal -->
-    <main class="main-content-modern fade-in-up">
+    <main class="main-content fade-in-up">
         @yield('content')
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const sidebarToggle = document.getElementById('sidebarToggle');
-        const sidebar = document.getElementById('sidebar');
 
-        sidebarToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('collapsed');
-            document.querySelector('.main-content-modern').classList.toggle('collapsed');
+    <script>
+        const sidebar = document.getElementById("sidebar");
+        const sidebarToggle = document.getElementById("sidebarToggle");
+        const themeToggle = document.getElementById("themeToggle");
+        const body = document.body;
+
+        // Toggle sidebar (mobile)
+        sidebarToggle.addEventListener("click", () => {
+            sidebar.classList.toggle("show");
+        });
+
+        // Função para aplicar o tema
+        function applyTheme(isDark) {
+            if (isDark) {
+                sidebar.classList.add("dark");
+                sidebar.classList.remove("light");
+                body.classList.add("dark");
+                body.classList.remove("light");
+                themeToggle.innerHTML = '<i class="bi bi-moon-fill"></i>';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                sidebar.classList.add("light");
+                sidebar.classList.remove("dark");
+                body.classList.add("light");
+                body.classList.remove("dark");
+                themeToggle.innerHTML = '<i class="bi bi-sun-fill"></i>';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Inicializar com o tema salvo ou padrão (claro)
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        const initialIsDark = savedTheme === 'dark';
+        applyTheme(initialIsDark);
+
+        // Alternar modo claro/escuro
+        themeToggle.addEventListener("click", () => {
+            const isDark = body.classList.contains("light"); // Se for light, o próximo será dark
+            applyTheme(isDark);
         });
     </script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @if (session('sucesso'))
         <script>
@@ -277,7 +463,6 @@
             });
         </script>
     @endif
-
 </body>
 
 </html>

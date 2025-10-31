@@ -15,8 +15,8 @@
                 </div>
             </div>
         </div>
-        <div class="card border-0 shadow-sm rounded-4">
-            <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+        <div class="card border-2 shadow-sm rounded-3">
+            <div class="card-header border-0 py-3 d-flex justify-content-between align-items-center">
                 <h5 class="mb-0 text-secondary">
                     <i class="bi bi-person-badge me-2"></i>{{ $cardapio->nome }}
                 </h5>
