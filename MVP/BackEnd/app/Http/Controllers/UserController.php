@@ -40,6 +40,18 @@ class UserController extends Controller
         ]);
     }
 
+
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        $escolas = Escola::all();
+
+        return view('usuarios.edit', compact('user', 'escolas'), [
+            'cargos' => $this->cargos
+        ]);
+    }
+
+
     public function store(Request $request)
     {
         // Validação (sem alterações)
