@@ -15,9 +15,4 @@ class Cidade extends Model
         'nome',
         'uf',
     ];
-
-    public function bairros()
-    {
-        return $this->hasMany(Bairro::class);
-    }
 }

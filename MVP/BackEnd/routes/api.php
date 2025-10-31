@@ -1,10 +1,8 @@
 <?php
 
 use App\Http\Controllers\api\BairroController;
-use App\Http\Controllers\api\CardapioController;
 use App\Http\Controllers\api\CidadeController;
 use App\Http\Controllers\api\EscolaController;
-use App\Http\Controllers\api\UsuarioController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -12,16 +10,6 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // })->middleware('auth:sanctum');
 
-// Route::get('cidades/count', [CidadeController::class, 'count']);
-// Route::get('escolas/count', [EscolaController::class, 'count']);
-// Route::get('bairros/count', [BairroController::class, 'count']);
-
-// Route::get('bairros/cidade/{cidade_id}', [BairroController::class, 'getBairros']);
-// Route::get('escolas/bairro', [EscolaController::class, 'getEscolaBairro']);
-
-// Route::apiResource('cidades', CidadeController::class);
-// Route::apiResource('escolas', EscolaController::class);
-// Route::apiResource('bairros', BairroController::class);
-// Route::apiResource('usuarios', UsuarioController::class);
-// Route::apiResource('cardapios', CardapioController::class);
-
+Route::apiResource('cidades', CidadeController::class);
+Route::apiResource('escolas', EscolaController::class);
+Route::apiResource('bairros', BairroController::class);
