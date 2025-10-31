@@ -4,7 +4,7 @@
 
 @section('content')
 
-    
+
     <div class="container-fluid py-4">
         <div class="mb-4 fade-in-up">
             <div class="d-flex align-items-center mb-3">
@@ -51,10 +51,17 @@
                                 <label>Selecione o Grupo</label>
                                 <select name="grupo" class="form-control" required>
                                     <option value="">-- Escolha uma classe --</option>
-                                    <option value="proteina">Proteina</option>
-                                    <option value="carboidratos">Carboidratos</option>
-                                    <option value="oleogenosos">Oleogenosos</option>
-                                    <option value="fibras">Fibras</option>
+                                    <option value="proteina"
+                                        {{ old('grupo', $produto->grupo) == 'proteina' ? 'selected' : '' }}>Proteína
+                                    </option>
+                                    <option value="carboidratos"
+                                        {{ old('grupo', $produto->grupo) == 'carboidratos' ? 'selected' : '' }}>Carboidratos
+                                    </option>
+                                    <option value="oleogenosos"
+                                        {{ old('grupo', $produto->grupo) == 'oleogenosos' ? 'selected' : '' }}>Oleogenosos
+                                    </option>
+                                    <option value="fibras"
+                                        {{ old('grupo', $produto->grupo) == 'fibras' ? 'selected' : '' }}>Fibras</option>
                                 </select>
                             </div>
 
