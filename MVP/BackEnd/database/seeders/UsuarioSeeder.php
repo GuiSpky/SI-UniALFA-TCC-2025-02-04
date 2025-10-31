@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Escola;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Escola; // Importe o model Escola
 
 class UsuarioSeeder extends Seeder
 {
@@ -14,15 +14,11 @@ class UsuarioSeeder extends Seeder
      */
     public function run(): void
     {
-        // Garante que a tabela de usuários esteja vazia antes de popular
+        // Limpa a tabela antes de popular
         User::truncate();
 
-        // Pega a primeira escola cadastrada para associar aos usuários.
-        // Crie uma escola se nenhuma existir para evitar erros.
-        $escola = Escola::first();
-        if (!$escola) {
-            $escola = Escola::factory()->create(['name' => 'Escola Padrão']);
-        }
+        // Garante que exista ao menos uma escola
+        $escola = Escola::first() ?? Escola::factory()->create(['name' => 'Escola Padrão']);
 
         $cargos = [
             1 => 'Gerente',
@@ -32,16 +28,15 @@ class UsuarioSeeder extends Seeder
         ];
 
         foreach ($cargos as $cargoId => $cargoNome) {
-            // Transforma o nome para um formato de e-mail (ex: "Cozinheiro Chefe" -> "cozinheiro-chefe")
             $emailNome = str_replace(' ', '-', strtolower($cargoNome));
 
             User::factory()->create([
                 'name' => $cargoNome,
-                'email' => $emailNome . '@gmail.com',
-                'password' => Hash::make(strtolower($emailNome) . '123'),
+                'email' => "{$emailNome}@gmail.com",
+                'password' => Hash::make("{$emailNome}123"),
                 'cargo' => $cargoId,
-                'id_escola' => $escola->id, // Associa a uma escola existente
-                'telefone' => '0000000000' . $cargoId, // Telefone único para cada um
+                'id_escola' => $escola->id,
+                'telefone' => '4499999999' . $cargoId, // Telefone fictício único
             ]);
         }
     }

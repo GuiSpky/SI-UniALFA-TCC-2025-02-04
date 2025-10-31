@@ -31,7 +31,12 @@ class ProdutoFactory extends Factory
                 'Castanha-do-Pará',
                 'Carne Moída Bovina'
             ]),
-            'grupo' => $this->faker->randomElement($grupos),
+            'grupo' => fake()->randomElement([
+                '1',
+                '2',
+                '3',
+                '4',
+            ]),
         ];
     }
 }

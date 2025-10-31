@@ -48,8 +48,12 @@ class EscolaController extends Controller
 
         ]);
 
-        Escola::create($dados);
-        return redirect('/escolas')->with('sucesso', 'Cadastro realizado com sucesso!');
+       try {
+            Escola::create($dados);
+            return redirect('/escolas')->with('sucesso', 'Escola cadastrada com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('erro', 'Falha ao cadastrar escola. Tente novamente.');
+        }
 
     }
 

@@ -39,13 +39,13 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="grupo" class="form-label">Grupo Alimentício</label>
+                                <label for="grupo" class="form-label">Grupo</label>
                                 <select class="form-select" id="grupo" name="grupo" required>
-                                    <option value="">Selecione Grupo</option>
-                                        <option value="carboidratos">Carboidratos</option>
-                                        <option value="proteínas">Proteínas</option>
-                                        <option value="oleogenosos">Oleogenosos</option>
-                                        <option value="fibras">Fibras</option>
+                                    <option value="" selected disabled>Selecione o grupo</option>
+                                    <option value="1">Proteína</option>
+                                    <option value="2">Cozinheiro Cheff</option>
+                                    <option value="3">Cozinheiro</option>
+                                    <option value="4">Nutricionista</option>
                                 </select>
                             </div>
 

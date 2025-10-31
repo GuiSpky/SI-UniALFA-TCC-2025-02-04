@@ -42,24 +42,24 @@
                                         {{ $produto->nome }}
                                     </a>
                                 </td>
-                                <td>{{ $produto->grupo }}</td>
-                                @if (in_array(Auth::user()->cargo, [1, 4]))
-                                    <td class="text-end">
-                                        <a href="{{ route('produtos.edit', $produto->id) }}"
-                                            class="btn btn-outline-primary btn-sm">
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-                                        <form action="{{ route('produtos.destroy', $produto->id) }}" method="POST"
-                                            class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-outline-danger btn-sm"
-                                                onclick="return confirm('Tem certeza?')">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                @endif
+                                <td>
+                                    <x-grupo-label :value="$produto->grupo" />
+                                </td>
+                                <td class="text-end">
+                                    <a href="{{ route('produtos.edit', $produto->id) }}"
+                                        class="btn btn-outline-primary btn-sm">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <form action="{{ route('produtos.destroy', $produto->id) }}" method="POST"
+                                        class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-outline-danger btn-sm"
+                                            onclick="return confirm('Tem certeza?')">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                         @empty
                             <tr>
