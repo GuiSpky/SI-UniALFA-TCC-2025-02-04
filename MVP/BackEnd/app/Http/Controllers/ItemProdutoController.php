@@ -44,7 +44,6 @@ class ItemProdutoController extends Controller
 
         ItemProduto::create($dados);
         return redirect()->route('itemProdutos.index')->with('sucesso', 'Cadastro realizado com sucesso!');
-
     }
 
     /**
@@ -56,7 +55,7 @@ class ItemProdutoController extends Controller
         $produtos = Produto::all();
         $escolas = Escola::all();
 
-        return view('itemProdutos.show',compact('itemProduto', 'produtos', 'escolas'));
+        return view('itemProdutos.show', compact('itemProduto', 'produtos', 'escolas'));
     }
 
     public function edit(string $id)
@@ -65,25 +64,26 @@ class ItemProdutoController extends Controller
         $produtos = Produto::all();
         $escolas = Escola::all();
 
-        return view('itemProdutos.edit',compact('itemProduto', 'produtos', 'escolas'));
+        return view('itemProdutos.edit', compact('itemProduto', 'produtos', 'escolas'));
     }
 
     public function update(Request $request, string $id)
     {
-        $ItemProduto = ItemProduto::findOrFail($id);
+        $itemProduto = itemProduto::findOrFail($id);
 
-        $ItemProduto->update([
-            'id_produto' => $request->id_produto,
-            'quantidade_entrada' => $request->quantidade_entrada,
-            'quantidade_saida' => $request->quantidade_saida,
-            'validade' => $request->vallidade,
-            'DataEntrada' => $request->DataEntrada,
-            'id_escola' => $request->id_escola,
+        $dados = $request->validate([
+            'id_produto' => 'required|integer',
+            'quantidade_entrada' => 'required|integer',
+            'validade' => 'required|date',
+            'id_escola' => 'required|integer',
         ]);
 
-        $ItemProduto = ItemProduto::findOrFail($id);
-
-        return redirect()->route('itemProdutos.index')->with('sucesso', 'Cadastro realizado com sucesso!');
+        try {
+            $itemProduto->update($dados);
+            return redirect('/estoque')->with('sucesso', 'Entrada de estoque atualizada com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('erro', 'Falha ao atualizar entrada de estoque. Tente novamente.');
+        }
     }
 
     public function destroy(string $id)

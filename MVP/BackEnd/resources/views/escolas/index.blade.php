@@ -20,13 +20,13 @@
 
         <div class="card border-2 shadow-sm rounded-3">
             <div class="table-responsive">
-                <table class="table table-hover table-striped mb-0">
+                <table class="table table-hover table-striped mb-0 table-bordered custom-table">
                     <thead>
                         <tr class="text-uppercase small fw-bold">
                             <th>ID</th>
                             <th>Nome</th>
-                            <th>Cidade</th>
                             <th>Bairro</th>
+                            <th>Cidade</th>
                             @if (in_array(Auth::user()->cargo, [1]))
                                 <th class="text-end">Ações</th>
                             @endif
@@ -46,10 +46,10 @@
                                     </a>
                                 </td>
                                 <td>
-                                    {{ $cidades->where('id', $escola->id_cidade)->pluck('nome')->first() ?? 'N/A' }}
+                                    {{ $bairros->where('id', $escola->id_bairro)->pluck('nome')->first() ?? 'N/A' }}
                                 </td>
                                 <td>
-                                    {{ $bairros->where('id', $escola->id_bairro)->pluck('nome')->first() ?? 'N/A' }}
+                                    {{ $cidades->where('id', $escola->id_cidade)->pluck('nome')->first() ?? 'N/A' }}
                                 </td>
                                 @if (in_array(Auth::user()->cargo, [1]))
                                     <td class="text-end">

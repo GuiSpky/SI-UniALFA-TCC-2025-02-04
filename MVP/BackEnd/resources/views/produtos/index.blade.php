@@ -11,14 +11,15 @@
                     <p class="text-muted mb-0">Gerencie as produtos cadastrados</p>
                 </div>
                 @if (in_array(Auth::user()->cargo, [1, 4]))
-                    <a href="{{ route('produtos.create') }}" class="btn btn-primary btn-sm ms-auto shadow-sm">Novo Produto</a>
+                    <a href="{{ route('produtos.create') }}" class="btn btn-primary btn-sm ms-auto shadow-sm"> 
+                        <i class="bi bi-plus-circle me-1"></i> Novo Produto</a>
                 @endif
             </div>
         </div>
 
         <div class="card shadow-sm border-2 shadow-sm rounded-3">
             <div class="table-responsive">
-                <table class="table table-hover table-striped mb-0">
+                <table class="table table-hover table-striped mb-0 table-bordered custom-table">
                     <thead>
                         <tr class="text-uppercase small fw-bold">
                             <th>Id</th>

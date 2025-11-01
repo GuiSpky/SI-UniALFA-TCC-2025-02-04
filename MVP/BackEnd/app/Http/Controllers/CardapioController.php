@@ -59,15 +59,18 @@ class CardapioController extends Controller
     {
         $cardapio = Cardapio::findOrFail($id);
 
-        $cardapio = $request->validate([
+        $dados = $request->validate([
             'nome' => 'required|String|max:255',
             'item' => 'required|string|max:255',
             'data' => 'required|date|max:255|after_or_equal:today',
         ]);
 
-        $cardapio = Cardapio::update();
-
-        return redirect()->route('cardapios.index')->with('sucesso', 'Cardápio atualizado com sucesso!');
+        try {
+            $cardapio->update($dados);
+            return redirect('/cardapios')->with('sucesso', 'Cardápio atualizado com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('erro', 'Falha ao atualizar cardápio. Tente novamente.');
+        }
     }
 
     public function destroy(string $id)
