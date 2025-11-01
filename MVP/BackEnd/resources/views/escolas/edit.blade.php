@@ -44,20 +44,6 @@
                                     value="{{ old('nome', $escola->nome) }}" required>
                             </div>
 
-                            {{-- Cidade --}}
-                            <div class="mb-3">
-                                <label for="id_cidade" class="form-label">Cidade</label>
-                                <select name="id_cidade" id="id_cidade" class="form-select" required>
-                                    <option value="">Selecione uma Cidade</option>
-                                    @foreach ($cidades as $cidade)
-                                        <option value="{{ $cidade->id }}"
-                                            {{ old('id_cidade', $escola->id_cidade) == $cidade->id ? 'selected' : '' }}>
-                                            {{ $cidade->nome }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
                             {{-- Bairro --}}
                             <div class="mb-3">
                                 <label for="id_bairro" class="form-label">Bairro</label>
@@ -67,6 +53,20 @@
                                         <option value="{{ $bairro->id }}"
                                             {{ old('id_bairro', $escola->id_bairro) == $bairro->id ? 'selected' : '' }}>
                                             {{ $bairro->nome }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            {{-- Cidade --}}
+                            <div class="mb-3">
+                                <label for="id_cidade" class="form-label">Cidade</label>
+                                <select name="id_cidade" id="id_cidade" class="form-select" required>
+                                    <option value="">Selecione uma Cidade</option>
+                                    @foreach ($cidades as $cidade)
+                                        <option value="{{ $cidade->id }}"
+                                            {{ old('id_cidade', $escola->id_cidade) == $cidade->id ? 'selected' : '' }}>
+                                            {{ $cidade->nome }}
                                         </option>
                                     @endforeach
                                 </select>
