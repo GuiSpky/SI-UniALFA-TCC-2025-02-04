@@ -317,7 +317,7 @@
     <aside class="sidebar light" id="sidebar">
         <div>
             <div class="sidebar-header">
-                <i class="bi bi-bootstrap-fill fs-4"></i>
+                <i class="bi bi-gem fs-4"></i>
                 <span>GEMA</span>
             </div>
 
@@ -356,7 +356,7 @@
 
                     @if (in_array(Auth::user()->cargo, [1, 2, 3, 4]))
                         <li><a href="{{ route('itemProdutos.index') }}"
-                                class="nav-link {{ Request::is('itemProdutos*') ? 'active' : '' }}"><i
+                                class="nav-link {{ Request::is('estoque*') ? 'active' : '' }}"><i
                                     class="bi bi-shop-window"></i> Estoque</a></li>
                     @endif
                 @endauth

@@ -43,9 +43,9 @@
                                 <select class="form-select" id="grupo" name="grupo" required>
                                     <option value="" selected disabled>Selecione o grupo</option>
                                     <option value="1">Proteína</option>
-                                    <option value="2">Cozinheiro Cheff</option>
-                                    <option value="3">Cozinheiro</option>
-                                    <option value="4">Nutricionista</option>
+                                    <option value="2">Carboidratos</option>
+                                    <option value="3">Oleogenosos</option>
+                                    <option value="4">Fibras</option>
                                 </select>
                             </div>
 
