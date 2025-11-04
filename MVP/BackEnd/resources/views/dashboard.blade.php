@@ -7,8 +7,9 @@
     <div class="row justify-content-center">
         <div class="col-lg-8">
 	<h1 class="display-4 fw-bold mb-4">
-	                <i class="bi bi-lightning-fill me-3 text-info"></i>Bem-vindo ao <span class="text-primary">GEMA</span>
+	                <i class="bi bi-gem me-3 text-info"></i>Bem-vindo ao <span class="text-primary">GEMA</span>
 	            </h1>
+                <h3>Gestão Escolar de Merenda e Alimentos</h3>
 	            <p class="lead mb-5">
                 Seu sistema de gestão eficiente para a prefeitura. Organize, planeje e execute com facilidade.
             </p>

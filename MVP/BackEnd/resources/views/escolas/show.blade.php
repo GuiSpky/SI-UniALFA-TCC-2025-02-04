@@ -32,15 +32,15 @@
                         <p class="fw-semibold">{{ $escola->nome }}</p>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <p class="mb-1 text-muted small">Cidade</p>
-                        <p class="fw-semibold">
-                            {{ $cidades->where('id', $escola->id_cidade)->pluck('nome')->first() }}
-                        </p>
-                    </div>
-                    <div class="col-md-6 mb-3">
                         <p class="mb-1 text-muted small">Bairro</p>
                         <p class="fw-semibold">
                             {{ $bairro->where('id', $escola->id_bairro)->pluck('nome')->first() }}
+                        </p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <p class="mb-1 text-muted small">Cidade</p>
+                        <p class="fw-semibold">
+                            {{ $cidades->where('id', $escola->id_cidade)->pluck('nome')->first() }}
                         </p>
                     </div>
                 </div>

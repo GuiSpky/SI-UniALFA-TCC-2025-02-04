@@ -19,7 +19,7 @@
 
         <div class="card border-2 shadow-sm rounded-3">
             <div class="table-responsive">
-                <table class="table table-hover table-striped mb-0">
+                <table class="table table-hover table-striped mb-0 table-bordered custom-table">
                     <thead>
                         <tr class="text-uppercase small fw-bold">
                             <th>ID</th>

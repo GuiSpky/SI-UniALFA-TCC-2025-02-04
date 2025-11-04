@@ -21,7 +21,7 @@
             <div class="table-responsive">
                 <table class="table table-hover table-striped mb-0 table-bordered custom-table">
                     <thead>
-                        <tr class="table-light text-uppercase small fw-bold">
+                        <tr class="text-uppercase small fw-bold">
                             <th>ID</th>
                             <th>Produto</th>
                             <th>Qtd. Entrada</th>

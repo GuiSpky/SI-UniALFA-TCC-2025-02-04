@@ -57,7 +57,7 @@ class CidadeController extends Controller
     {
         $dados = $request->validate([
             'codIbge' => 'required|Integer',
-            'nome' => 'required|string|unique:cidades,nome',
+            'nome' => 'required|string',
             'uf' => 'required|string|max:2',
         ], [
             'codIbge.required' => "Código IBGE deve ser inserido",
@@ -68,7 +68,7 @@ class CidadeController extends Controller
 
         try {
             Cidade::create($dados);
-            return redirect('/usuarios')->with('sucesso', 'Cidade cadastrada com sucesso!');
+            return redirect('/cidades')->with('sucesso', 'Cidade cadastrada com sucesso!');
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('erro', 'Falha ao cadastrar cidade. Tente novamente.');
         }
