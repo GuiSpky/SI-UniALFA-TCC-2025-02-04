@@ -101,12 +101,14 @@ class EscolaController extends Controller
 
     public function destroy(string $id)
     {
-        $escola = Escola::findOrFail($id);
 
-        $escola->delete();
-
-        // Retorna apenas uma mensagem de sucesso
-        return redirect('/escolas');
+        try {
+            $escola = Escola::findOrFail($id);
+            $escola->delete();
+            return redirect('/escolas')->with('sucesso', 'Escola excluído com sucesso!');
+        } catch (\Exception $e) {
+            return redirect('/escolas')->with('erro', 'Erro ao excluir Escola.');
+        }
 
     }
 
