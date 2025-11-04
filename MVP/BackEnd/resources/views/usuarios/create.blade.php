@@ -52,10 +52,11 @@
                                 <label for="cargo" class="form-label">Cargo</label>
                                 <select class="form-select" id="cargo" name="cargo" required>
                                     <option value="" selected disabled>Selecione o cargo</option>
-                                    <option value="1">Gerente</option>
-                                    <option value="2">Cozinheiro Cheff</option>
-                                    <option value="3">Cozinheiro</option>
-                                    <option value="4">Nutricionista</option>
+                                    @foreach ($cargos as $id => $nome)
+                                        <option value="{{ $id }}" {{ old('cargo') == $id ? 'selected' : '' }}>
+                                            {{ $nome }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
 

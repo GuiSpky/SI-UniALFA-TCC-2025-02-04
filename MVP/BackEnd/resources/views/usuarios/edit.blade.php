@@ -60,8 +60,10 @@
 
                             {{-- Cargo --}}
                             <div class="mb-3">
-                                <x-select-field name="cargo" label="Cargo" :options="$cargos" :selected="old('cargo', $usuario->cargo ?? null)" />
+                                <x-select-field name="cargo" label="Cargo" :options="$cargos" :selected="old('cargo', $user->cargo ?? null)" />
                             </div>
+
+
 
                             {{-- Escola --}}
                             <div class="mb-3">
