@@ -42,10 +42,11 @@
                                 <label for="grupo" class="form-label">Grupo</label>
                                 <select class="form-select" id="grupo" name="grupo" required>
                                     <option value="" selected disabled>Selecione o grupo</option>
-                                    <option value="1">Proteína</option>
-                                    <option value="2">Carboidratos</option>
-                                    <option value="3">Oleogenosos</option>
-                                    <option value="4">Fibras</option>
+                                    @foreach ($grupos as $id => $nome)
+                                        <option value="{{ $id }}" {{ old('grupo') == $id ? 'selected' : '' }}>
+                                            {{ $nome }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
 
