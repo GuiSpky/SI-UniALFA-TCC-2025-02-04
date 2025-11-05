@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CardapioResource;
 use App\Models\Cardapio;
+use App\Models\ItemReceita;
+use App\Models\Produto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CardapioController extends Controller
 {
@@ -17,28 +20,42 @@ class CardapioController extends Controller
 
     public function create()
     {
-        return view('cardapios.create');
+        $produtos = Produto::all();
+        return view('cardapios.create', compact('produtos'));
     }
 
     public function store(Request $request)
     {
-        $dados = $request->validate([
+        $validated = $request->validate([
             'nome' => 'required|String|max:255',
-            'item' => 'required|string|max:255',
+            'receita' => 'required|String|max:255',
             'data' => 'required|date|max:255|after_or_equal:today',
+            'produtos' => 'required|array',
+            'produtos.*' => 'exists:produtos,id'
         ], [
             'nome.required' => 'Nome deve ser informado',
-            'item.required' => 'Item deve ser informado',
             'data.required' => 'Data deve ser informado',
             'data.after_or_equal' => 'Data informada menor do que data atual',
 
         ]);
 
         try {
-            Cardapio::create($dados);
+            $cardapio = Cardapio::create([
+                'Receita' => $validated['nome'],
+                'data' => $validated['data'],
+            ]);
+
+            // Salva os produtos na tabela item_receita
+            foreach ($validated['produtos'] as $produtoId) {
+                ItemReceita::create([
+                    'id_cardapio' => $cardapio->id,
+                    'id_produto' => $produtoId,
+                ]);
+            }
+
             return redirect('/cardapios')->with('sucesso', 'Cardápio cadastrado com sucesso!');
         } catch (\Exception $e) {
-            return redirect()->back()->withInput()->with('erro', 'Falha ao cadastrar o cardápio. Tente novamente.');
+            dd($e->getMessage());
         }
     }
 

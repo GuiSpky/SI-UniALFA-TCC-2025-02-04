@@ -63,6 +63,12 @@ Route::middleware('auth')->group(function () {
         Route::put('/estoque/{id}', [ItemProdutoController::class, 'update'])->name('itemProdutos.update');
         Route::delete('/estoque/{id}', [ItemProdutoController::class, 'destroy'])->name('itemProdutos.destroy');
         Route::post('/estoque', [ItemProdutoController::class, 'store'])->name('itemProdutos.store');
+
+        // Rotas Escolas
+        Route::get('/escolas/{id}/edite', [EscolaController::class, 'edit'])->name('escolas.edit');
+        Route::put('/escolas/{id}', [EscolaController::class, 'update'])->name('escolas.update');
+        Route::delete('/escolas/{id}', [EscolaController::class, 'destroy'])->name('escolas.destroy');
+        Route::post('/escolas', [EscolaController::class, 'store'])->name('escolas.store');
     });
 
     // == NÍVEL COZINHEIRO-CHEFE ==
@@ -74,12 +80,8 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:gerente,cozinheiro-chefe,nutricionista')->group(function () {
         // Rotas Escolas
         Route::get('/escolas', [EscolaController::class, 'index'])->name('escolas.index');
-        Route::get('/escolas/create', [EscolaController::class, 'create'])->name('escolas.create');
         Route::get('/escolas/{id}', [EscolaController::class, 'show'])->name('escola.show');
-        Route::get('/escolas/{id}/edite', [EscolaController::class, 'edit'])->name('escolas.edit');
-        Route::put('/escolas/{id}', [EscolaController::class, 'update'])->name('escolas.update');
-        Route::delete('/escolas/{id}', [EscolaController::class, 'destroy'])->name('escolas.destroy');
-        Route::post('/escolas', [EscolaController::class, 'store'])->name('escolas.store');
+        Route::get('/escolas/create', [EscolaController::class, 'create'])->name('escolas.create');
 
         // Rotas Produtos
         Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos.index');

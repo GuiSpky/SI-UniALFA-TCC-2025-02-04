@@ -9,6 +9,7 @@ use App\Models\Cidade;
 use App\Models\Escola;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class EscolaController extends Controller
 {
@@ -48,23 +49,22 @@ class EscolaController extends Controller
 
         ]);
 
-       try {
+        try {
             Escola::create($dados);
             return redirect('/escolas')->with('sucesso', 'Escola cadastrada com sucesso!');
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('erro', 'Falha ao cadastrar escola. Tente novamente.');
         }
-
     }
 
-     public function edit(string $id)
+    public function edit(string $id)
     {
         $escola = Escola::find($id);
         $cidades = Cidade::all();
         $bairros = Bairro::all();
 
         // return($escola);
-        return view('escolas.edit',[
+        return view('escolas.edit', [
             'escola' => $escola,
             'cidades' => $cidades,
             'bairros' => $bairros
@@ -88,26 +88,34 @@ class EscolaController extends Controller
     {
         $escola = Escola::findOrFail($id);
 
-        $escola->update([
-            "nome" => $request->nome,
-            "id_cidade" => $request->id_cidade,
-            "id_bairro" => $request->id_bairro,
+        $dados = $request->validate([
+            'nome' => ['required', 'string', 'max:255', Rule::unique('escolas')->ignore($id)],
+            'id_cidade' => 'required|integer',
+            'id_bairro' => 'required|integer',
+        ], [
+            'nome.required' => 'Nome deve ser informado.',
+            'nome.unique' => 'Escola já cadastrada.',
+
         ]);
 
-        $escola = Escola::findOrFail($id);
-
-        return redirect('/escolas');
+        try {
+            $escola->update($dados);
+            return redirect('/escolas')->with('sucesso', 'Escola atualizada com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('erro', 'Falha ao atualizar Escola. Tente novamente.');
+        }
     }
 
     public function destroy(string $id)
     {
-        $escola = Escola::findOrFail($id);
 
-        $escola->delete();
-
-        // Retorna apenas uma mensagem de sucesso
-        return redirect('/escolas');
-
+        try {
+            $escola = Escola::findOrFail($id);
+            $escola->delete();
+            return redirect('/escolas')->with('sucesso', 'Escola excluído com sucesso!');
+        } catch (\Exception $e) {
+            return redirect('/escolas')->with('erro', 'Erro ao excluir Escola.');
+        }
     }
 
     public function getEscolaBairro()

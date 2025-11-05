@@ -34,15 +34,24 @@
                             @csrf
 
                             <div class="mb-3">
-                                <label for="nome" class="form-label">Nome</label>
-                                <input type="text" class="form-control" id="nome" name="nome" required>
+                                <label for="receita" class="form-label">Receita</label>
+                                <input type="text" class="form-control" id="receita" name="receita" required>
                             </div>
 
                             <div class="mb-3">
-                                <label for="item" class="form-label">Item</label>
-                                <input type="text" class="form-control" id="item" name="item" required>
+                                <label class="form-label">Itens do Cardápio</label>
+                                <div id="itens-container">
+                                    <div class="input-group mb-2">
+                                        <select name="produtos[]" class="form-select" required>
+                                            <option value="">Selecione um produto</option>
+                                            @foreach ($produtos as $produto)
+                                                <option value="{{ $produto->id }}">{{ $produto->nome }}</option>
+                                            @endforeach
+                                        </select>
+                                        <button type="button" class="btn btn-outline-success add-item">+</button>
+                                    </div>
+                                </div>
                             </div>
-
                             <div class="mb-3">
                                 <label for="data" class="form-label">Data</label>
                                 <input type="date" class="form-control" id="data" name="data" required>
@@ -57,4 +66,33 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('add-item')) {
+                e.preventDefault();
+
+                const container = document.getElementById('itens-container');
+                const newItem = document.createElement('div');
+                newItem.classList.add('input-group', 'mb-2');
+
+                newItem.innerHTML = `
+            <select name="produtos[]" class="form-select" required>
+                <option value="">Selecione um produto</option>
+                @foreach ($produtos as $produto)
+                    <option value="{{ $produto->id }}">{{ $produto->nome }}</option>
+                @endforeach
+            </select>
+            <button type="button" class="btn btn-outline-danger remove-item">−</button>
+        `;
+
+                container.appendChild(newItem);
+            }
+
+            if (e.target.classList.contains('remove-item')) {
+                e.preventDefault();
+                e.target.closest('.input-group').remove();
+            }
+        });
+    </script>
 @endsection
