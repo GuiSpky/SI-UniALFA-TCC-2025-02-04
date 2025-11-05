@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Produto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class ProdutoController extends Controller
@@ -61,7 +62,6 @@ class ProdutoController extends Controller
 
     public function update(Request $request, string $id)
     {
-
         $produto = Produto::find($id);
 
         $dados = $request->validate([

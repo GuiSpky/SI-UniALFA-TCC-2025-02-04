@@ -89,13 +89,12 @@ class EscolaController extends Controller
         $escola = Escola::findOrFail($id);
 
         $dados = $request->validate([
-            'nome' => ['required', 'string', 'max:255', Rule::unique('escolas')->ignore($id)],
+            'nome' => ['required', 'string', 'max:200',Rule::unique('escolas')->ignore($id)],
             'id_cidade' => 'required|integer',
             'id_bairro' => 'required|integer',
         ], [
             'nome.required' => 'Nome deve ser informado.',
             'nome.unique' => 'Escola já cadastrada.',
-
         ]);
 
         try {
