@@ -7,6 +7,7 @@ use App\Http\Controllers\EscolaController;
 use App\Http\Controllers\ItemProdutoController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RelatorioController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -63,12 +64,20 @@ Route::middleware('auth')->group(function () {
         Route::put('/estoque/{id}', [ItemProdutoController::class, 'update'])->name('itemProdutos.update');
         Route::delete('/estoque/{id}', [ItemProdutoController::class, 'destroy'])->name('itemProdutos.destroy');
         Route::post('/estoque', [ItemProdutoController::class, 'store'])->name('itemProdutos.store');
+<<<<<<< HEAD
 
         // Rotas Escolas
         Route::get('/escolas/{id}/edite', [EscolaController::class, 'edit'])->name('escolas.edit');
         Route::put('/escolas/{id}', [EscolaController::class, 'update'])->name('escolas.update');
         Route::delete('/escolas/{id}', [EscolaController::class, 'destroy'])->name('escolas.destroy');
         Route::post('/escolas', [EscolaController::class, 'store'])->name('escolas.store');
+=======
+        // Rotas Relatório
+        
+        Route::get('/relatorios', [RelatorioController::class, 'index'])->name('relatorios.index');
+        Route::get('/relatorios/resultado', [RelatorioController::class, 'gerar'])->name('relatorios.resultado');
+        Route::post('/relatorios', [RelatorioController::class, 'store'])->name('relatorios.store');
+>>>>>>> 75bab80da799a1666c07e8340361f956c2b3963c
     });
 
     // == NÍVEL COZINHEIRO-CHEFE ==
