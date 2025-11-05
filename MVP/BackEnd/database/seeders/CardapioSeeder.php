@@ -13,6 +13,6 @@ class CardapioSeeder extends Seeder
      */
     public function run(): void
     {
-        Cardapio::factory(10)->create();
+        // Cardapio::factory(10)->create();
     }
 }
