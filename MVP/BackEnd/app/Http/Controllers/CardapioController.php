@@ -41,8 +41,7 @@ class CardapioController extends Controller
 
         try {
             $cardapio = Cardapio::create([
-                'nome' => $validated['nome'],
-                'receita' => $validated['receita'],
+                'Receita' => $validated['nome'],
                 'data' => $validated['data'],
             ]);
 

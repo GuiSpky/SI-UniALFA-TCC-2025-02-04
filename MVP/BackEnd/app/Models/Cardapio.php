@@ -10,7 +10,6 @@ class Cardapio extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nome',
         'receita',
         'data',
     ];

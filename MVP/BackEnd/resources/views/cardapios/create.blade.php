@@ -34,8 +34,8 @@
                             @csrf
 
                             <div class="mb-3">
-                                <label for="nome" class="form-label">Nome</label>
-                                <input type="text" class="form-control" id="nome" name="nome" required>
+                                <label for="receita" class="form-label">Receita</label>
+                                <input type="text" class="form-control" id="receita" name="receita" required>
                             </div>
 
                             <div class="mb-3">
@@ -51,11 +51,6 @@
                                         <button type="button" class="btn btn-outline-success add-item">+</button>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="receita" class="form-label">Receita</label>
-                                <input type="text" class="form-control" id="receita" name="receita" required>
                             </div>
                             <div class="mb-3">
                                 <label for="data" class="form-label">Data</label>
