@@ -65,7 +65,7 @@ class ProdutoController extends Controller
         $produto = Produto::find($id);
 
         $dados = $request->validate([
-            'nome' => ['required', 'string', 'max:200',Rule::unique('produtos')->ignore($id)],
+            'nome' => ['required', 'string', 'max:200', Rule::unique('produtos')->ignore($id)],
             'grupo' => 'required|integer|in:1,2,3,4',
         ], [
             'nome.required' => 'Nome deve ser informado.',
@@ -86,11 +86,15 @@ class ProdutoController extends Controller
     {
         $produto = Produto::findOrFail($id); // Encontra o recurso ou lança um erro 404
 
-        // Exclui o ambiente
-        $produto->delete();
 
-        // Retorna apenas uma mensagem de sucesso
-        return redirect('/produtos');
+        try {
+            $produto->delete();
+            return redirect('/produtos')->with('sucesso', 'Produto removido com sucesso!');
+        } catch (\Exception $e) {
+            // Chamada ao Log corrigida (sem a barra invertida)
+            Log::error('Falha ao remover produto: ' . $e->getMessage());
+            return redirect()->back()->withInput()->with('erro', 'Falha ao remover produto. Tente novamente.');
+        }
     }
 
     public function count()

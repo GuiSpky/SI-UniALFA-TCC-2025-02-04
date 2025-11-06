@@ -458,7 +458,7 @@
                 title: 'Erro!',
                 text: '{{ session('erro') }}',
                 icon: 'error',
-                confirmButtonText: 'Tentar novamente',
+                confirmButtonText: 'Continuar',
                 confirmButtonColor: '#dc3545'
             });
         </script>

@@ -64,20 +64,25 @@ Route::middleware('auth')->group(function () {
         Route::put('/estoque/{id}', [ItemProdutoController::class, 'update'])->name('itemProdutos.update');
         Route::delete('/estoque/{id}', [ItemProdutoController::class, 'destroy'])->name('itemProdutos.destroy');
         Route::post('/estoque', [ItemProdutoController::class, 'store'])->name('itemProdutos.store');
-<<<<<<< HEAD
 
         // Rotas Escolas
         Route::get('/escolas/{id}/edite', [EscolaController::class, 'edit'])->name('escolas.edit');
         Route::put('/escolas/{id}', [EscolaController::class, 'update'])->name('escolas.update');
         Route::delete('/escolas/{id}', [EscolaController::class, 'destroy'])->name('escolas.destroy');
         Route::post('/escolas', [EscolaController::class, 'store'])->name('escolas.store');
-=======
+
         // Rotas Relatório
-        
         Route::get('/relatorios', [RelatorioController::class, 'index'])->name('relatorios.index');
         Route::get('/relatorios/resultado', [RelatorioController::class, 'gerar'])->name('relatorios.resultado');
         Route::post('/relatorios', [RelatorioController::class, 'store'])->name('relatorios.store');
->>>>>>> 75bab80da799a1666c07e8340361f956c2b3963c
+
+        //Rota Produto
+        Route::get('/produtos/create', [ProdutoController::class, 'create'])->name('produtos.create');
+        Route::get('/produtos/{id}/edite', [ProdutoController::class, 'edit'])->name('produtos.edit');
+        Route::put('/produtos/{id}', [ProdutoController::class, 'update'])->name('produtos.update');
+        Route::delete('/produtos/{id}', [ProdutoController::class, 'destroy'])->name('produtos.destroy');
+        Route::post('/produtos', [ProdutoController::class, 'store'])->name('produtos.store');
+    
     });
 
     // == NÍVEL COZINHEIRO-CHEFE ==
@@ -94,13 +99,8 @@ Route::middleware('auth')->group(function () {
 
         // Rotas Produtos
         Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos.index');
-        Route::get('/produtos/create', [ProdutoController::class, 'create'])->name('produtos.create');
         Route::get('/produtos/{id}', [ProdutoController::class, 'show'])->name('produto.show');
-        Route::get('/produtos/{id}/edite', [ProdutoController::class, 'edit'])->name('produtos.edit');
-        Route::put('/produtos/{id}', [ProdutoController::class, 'update'])->name('produtos.update');
-        Route::delete('/produtos/{id}', [ProdutoController::class, 'destroy'])->name('produtos.destroy');
-        Route::post('/produtos', [ProdutoController::class, 'store'])->name('produtos.store');
-    });
+        });
 
     // == NÍVEL COZINHEIRO ==
     // TODOS os cargos (1, 2, 3, 4) podem acessar esta rota.

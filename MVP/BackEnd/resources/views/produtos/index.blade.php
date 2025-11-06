@@ -11,7 +11,7 @@
                     <p class="text-muted mb-0">Gerencie as produtos cadastrados</p>
                 </div>
                 @if (in_array(Auth::user()->cargo, [1, 4]))
-                    <a href="{{ route('produtos.create') }}" class="btn btn-primary btn-sm ms-auto shadow-sm"> 
+                    <a href="{{ route('produtos.create') }}" class="btn btn-primary btn-sm ms-auto shadow-sm">
                         <i class="bi bi-plus-circle me-1"></i> Novo Produto</a>
                 @endif
             </div>
@@ -46,6 +46,7 @@
                                 <td>
                                     <x-grupo-label :value="$produto->grupo" />
                                 </td>
+                            @if (in_array(Auth::user()->cargo, [1, 4]))
                                 <td class="text-end">
                                     <a href="{{ route('produtos.edit', $produto->id) }}"
                                         class="btn btn-outline-primary btn-sm">
@@ -61,6 +62,7 @@
                                         </button>
                                     </form>
                                 </td>
+                                @endif
                             </tr>
                         @empty
                             <tr>
