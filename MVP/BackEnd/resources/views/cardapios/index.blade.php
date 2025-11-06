@@ -23,7 +23,7 @@
                     <thead>
                         <tr class="text-uppercase small fw-bold">
                             <th>ID</th>
-                            <th>Nome</th>
+                            <th>Receita</th>
                             <th>Item</th>
                             <th>Data</th>
                             @if (in_array(Auth::user()->cargo, [1, 4]))
@@ -41,10 +41,14 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('cardapio.show', $cardapio) }}">
-                                        {{ $cardapio->nome }}
+                                        {{ $cardapio->receita }}
                                     </a>
                                 </td>
-                                <td>{{ $cardapio->item }}</td>
+                                <td>
+                                    @foreach ($cardapio->itens as $item)
+                                        {{ $item->produto->nome ?? 'N/A' }}<br>
+                                    @endforeach
+                                </td>
                                 <td>
                                     <i
                                         class="bi bi-calendar me-2"></i>{{ \Carbon\Carbon::parse($cardapio->data)->format('d/m/Y') }}

@@ -12,4 +12,9 @@ class ItemReceita extends Model
         'id_produto',
         'id_cardapio',
     ];
+
+    public function produto()
+    {
+        return $this->belongsTo(Produto::class, 'id_produto');
+    }
 }

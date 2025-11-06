@@ -18,7 +18,7 @@
         <div class="card border-2 shadow-sm rounded-3">
             <div class="card-header border-0 py-3 d-flex justify-content-between align-items-center">
                 <h5 class="mb-0 text-secondary">
-                    <i class="bi bi-person-badge me-2"></i>{{ $cardapio->nome }}
+                    <i class="bi bi-person-badge me-2"></i>{{ $cardapio->receita }}
                 </h5>
                 <span class="badge bg-light text-secondary px-3 py-2 border">
                     ID: {{ $cardapio->id }}
@@ -28,11 +28,13 @@
                 <div class="row mb-3">
                     <div class="col-md-6 mb-3">
                         <p class="mb-1 text-muted small">Nome</p>
-                        <p class="fw-semibold">{{ $cardapio->nome }}</p>
+                        <p class="fw-semibold">{{ $cardapio->receita }}</p>
                     </div>
                     <div class="col-md-6 mb-3">
                         <p class="mb-1 text-muted small">Item</p>
-                        <p class="fw-semibold">{{ $cardapio->item }}</p>
+                        @foreach ($cardapio->itens as $item)
+                           <li class="fw-semibold">{{ $item->produto->nome ?? 'N/A' }}</li>
+                        @endforeach
                     </div>
                     <div class="col-md-6 mb-3">
                         <p class="mb-1 text-muted small">Data</p>

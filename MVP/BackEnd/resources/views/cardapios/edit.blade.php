@@ -3,7 +3,6 @@
 @section('title', 'Editar Cardápio')
 
 @section('content')
-
     <div class="container-fluid py-4">
         <div class="mb-4 fade-in-up">
             <div class="d-flex align-items-center mb-3">
@@ -12,7 +11,7 @@
                 </a>
                 <div>
                     <h1 class="h2 fw-bold mb-1"><i class="bi bi-pencil-square me-2"></i>Editar Cardápio</h1>
-                    <p class="text-muted mb-0">Atualize os dados do usuário</p>
+                    <p class="text-muted mb-0">Atualize as informações do cardápio e seus produtos</p>
                 </div>
             </div>
         </div>
@@ -37,18 +36,11 @@
                                 </div>
                             @endif
 
-                            {{-- Nome --}}
+                            {{-- Nome da Receita --}}
                             <div class="mb-3">
-                                <label for="nome" class="form-label">Nome</label>
-                                <input type="text" class="form-control" id="nome" name="nome"
-                                    value="{{ old('nome', $cardapio->nome) }}" required>
-                            </div>
-
-                            {{-- Item --}}
-                            <div class="mb-3">
-                                <label for="item" class="form-label">Item</label>
-                                <input type="text" class="form-control" id="item" name="item"
-                                    value="{{ old('item', $cardapio->item) }}" required>
+                                <label for="receita" class="form-label">Receita</label>
+                                <input type="text" class="form-control" id="receita" name="receita"
+                                    value="{{ old('receita', $cardapio->receita) }}" required>
                             </div>
 
                             {{-- Data --}}
@@ -56,6 +48,24 @@
                                 <label for="data" class="form-label">Data</label>
                                 <input type="date" class="form-control" id="data" name="data"
                                     value="{{ old('data', $cardapio->data) }}" required>
+                            </div>
+
+                            {{-- Itens (Produtos do Cardápio) --}}
+                            <div class="mb-3">
+                                <label for="produtos" class="form-label">Produtos do Cardápio</label>
+                                <div class="border rounded p-3 bg-light">
+                                    @foreach ($produtos as $produto)
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="produtos[]"
+                                                value="{{ $produto->id }}"
+                                                id="produto_{{ $produto->id }}"
+                                                {{ in_array($produto->id, $cardapio->itens->pluck('id_produto')->toArray()) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="produto_{{ $produto->id }}">
+                                                {{ $produto->nome }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
 
                             {{-- Botões --}}

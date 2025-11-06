@@ -13,4 +13,9 @@ class Cardapio extends Model
         'receita',
         'data',
     ];
+
+    public function itens()
+    {
+        return $this->hasMany(ItemReceita::class, 'id_cardapio');
+    }
 }

@@ -14,7 +14,7 @@ class CardapioController extends Controller
 {
     public function index()
     {
-        $cardapios = Cardapio::all();
+        $cardapios = Cardapio::with(['itens.produto'])->get();
         return view('cardapios.index', compact('cardapios'));
     }
 
@@ -27,13 +27,12 @@ class CardapioController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nome' => 'required|String|max:255',
             'receita' => 'required|String|max:255',
             'data' => 'required|date|max:255|after_or_equal:today',
             'produtos' => 'required|array',
             'produtos.*' => 'exists:produtos,id'
         ], [
-            'nome.required' => 'Nome deve ser informado',
+            'receita.required' => 'Receita deve ser informado',
             'data.required' => 'Data deve ser informado',
             'data.after_or_equal' => 'Data informada menor do que data atual',
 
@@ -41,7 +40,7 @@ class CardapioController extends Controller
 
         try {
             $cardapio = Cardapio::create([
-                'Receita' => $validated['nome'],
+                'receita' => $validated['receita'],
                 'data' => $validated['data'],
             ]);
 
@@ -61,34 +60,55 @@ class CardapioController extends Controller
 
     public function show(string $id)
     {
-        $cardapio = Cardapio::findOrFail($id);
-
+        $cardapio = Cardapio::with(['itens.produto'])->get()->findOrFail($id);
         return view('cardapios.show', compact('cardapio'));
     }
 
     public function edit(string $id)
     {
         $cardapio = Cardapio::findOrFail($id);
-        return view('cardapios.edit', compact('cardapio'));
+        $produtos = Produto::all();
+        return view('cardapios.edit', compact('cardapio','produtos'));
     }
 
     public function update(Request $request, string $id)
-    {
-        $cardapio = Cardapio::findOrFail($id);
+{
+    $cardapio = Cardapio::with('itens')->findOrFail($id);
 
-        $dados = $request->validate([
-            'nome' => 'required|String|max:255',
-            'item' => 'required|string|max:255',
-            'data' => 'required|date|max:255|after_or_equal:today',
+    $dados = $request->validate([
+        'receita' => 'required|string|max:255',
+        'data' => 'required|date|after_or_equal:today',
+        'produtos' => 'required|array', // produtos devem vir em array
+    ]);
+
+    try {
+        // Atualiza os dados básicos do cardápio
+        $cardapio->update([
+            'receita' => $dados['receita'],
+            'data' => $dados['data'],
         ]);
 
-        try {
-            $cardapio->update($dados);
-            return redirect('/cardapios')->with('sucesso', 'Cardápio atualizado com sucesso!');
-        } catch (\Exception $e) {
-            return redirect()->back()->withInput()->with('erro', 'Falha ao atualizar cardápio. Tente novamente.');
+        // Remove os itens antigos
+        $cardapio->itens()->delete();
+
+        // Recria os novos itens vinculados
+        foreach ($dados['produtos'] as $id_produto) {
+            $cardapio->itens()->create([
+                'id_produto' => $id_produto,
+            ]);
         }
+
+        return redirect()
+            ->route('cardapios.index')
+            ->with('sucesso', 'Cardápio atualizado com sucesso!');
+    } catch (\Exception $e) {
+        return redirect()
+            ->back()
+            ->withInput()
+            ->with('erro', 'Falha ao atualizar cardápio. Tente novamente.');
     }
+}
+
 
     public function destroy(string $id)
     {
