@@ -337,6 +337,9 @@
                         <li><a href="{{ route('bairros.index') }}"
                                 class="nav-link {{ Request::is('bairros*') ? 'active' : '' }}"><i class="bi bi-map"></i>
                                 Bairros</a></li>
+                        <li><a href="{{ route('relatorios.index') }}"
+                                class="nav-link {{ Request::is('relatorios*') ? 'active' : '' }}"><i class="bi bi-card-list"></i>
+                                Relatórios</a></li>
                     @endif
 
                     @if (in_array(Auth::user()->cargo, [1, 2, 4]))
