@@ -40,10 +40,12 @@ class CidadeController extends Controller
         'TO' => 'Tocantins',
     ];
 
-    public function index()
+    public function index(Request $request)
     {
-        $cidades = Cidade::all();
-        return view('cidades.index', compact('cidades'));
+        $perPage = $request->input('per_page', 10);
+
+        $cidades = Cidade::paginate($perPage);
+        return view('cidades.index', compact('perPage','cidades'));
     }
 
     public function create()

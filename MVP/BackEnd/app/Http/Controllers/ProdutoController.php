@@ -16,10 +16,11 @@ class ProdutoController extends Controller
         4 => 'Fibras',
     ];
 
-    public function index()
+    public function index(Request $request)
     {
-        $produtos = Produto::all();
-        return view('produtos.index', compact('produtos'));
+        $perPage = $request->input('per_page', 10);
+        $produtos = Produto::paginate($perPage);
+        return view('produtos.index', compact('perPage','produtos'));
     }
 
     public function create()

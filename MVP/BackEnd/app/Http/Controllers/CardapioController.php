@@ -12,10 +12,11 @@ use Illuminate\Support\Facades\Log;
 
 class CardapioController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $cardapios = Cardapio::with(['itens.produto'])->get();
-        return view('cardapios.index', compact('cardapios'));
+        $perPage = $request->input('per_page', 10);
+        $cardapios = Cardapio::with(['itens.produto'])->paginate($perPage);
+        return view('cardapios.index', compact('perPage','cardapios'));
     }
 
     public function create()

@@ -21,6 +21,10 @@ require __DIR__ . '/auth.php';
 
 Route::middleware('auth')->group(function () {
 
+    Route::fallback(function () {
+    return redirect()->route('dashboard')->with('error', 'Página não encontrada.');
+});
+
     // Rota do Dashboard: Acessível para TODOS os usuários logados.
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -82,7 +86,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/produtos/{id}', [ProdutoController::class, 'update'])->name('produtos.update');
         Route::delete('/produtos/{id}', [ProdutoController::class, 'destroy'])->name('produtos.destroy');
         Route::post('/produtos', [ProdutoController::class, 'store'])->name('produtos.store');
-    
+
     });
 
     // == NÍVEL COZINHEIRO-CHEFE ==
