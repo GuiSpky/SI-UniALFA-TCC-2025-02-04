@@ -14,6 +14,10 @@ class Cardapio extends Model
         'data',
     ];
 
+    protected $casts =[
+        'data' => 'date',
+    ];
+
     public function itens()
     {
         return $this->hasMany(ItemReceita::class, 'id_cardapio');

@@ -6,15 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Consumo extends Model
 {
-    protected $fillable = [
-        'quantidade_consumo',
-        'id_item_produto',
-        'id_pedido'
-    ];
-    protected $table = 'consumo';
+    protected $table = 'consumos';
+    protected $fillable = ['data'];
 
-    public function item_produtos()
+    public function itens()
     {
-        return $this->belongsTo(ItemProduto::class, 'id_item_produto');
+        return $this->hasMany(ItemConsumo::class, 'id_consumo');
     }
 }

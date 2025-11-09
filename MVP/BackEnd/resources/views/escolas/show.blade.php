@@ -21,7 +21,7 @@
                 <h5 class="mb-0 text-secondary">
                     <i class="bi bi-person-badge me-2"></i>{{ $escola->nome }}
                 </h5>
-                <span class="badge bg-light text-secondary px-3 py-2 border">
+                <span class="badge bg-primary-subtle text-primary px-3 py-2 border border-primary-subtle">
                     ID: {{ $escola->id }}
                 </span>
             </div>

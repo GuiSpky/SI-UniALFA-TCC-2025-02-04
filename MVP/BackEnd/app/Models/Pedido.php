@@ -6,14 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pedido extends Model
 {
-    protected $fillable = [
-        'quantidade_pedido',
-        'id_item_pedido',
-    ];
-    protected $table = 'pedido';
+    protected $fillable = [];
 
-//     public function item_produtos()
-//     {
-//         return $this->belongsTo(ItemProduto::class, 'id_item_produto');
-//     }
+    public function itens()
+    {
+        return $this->hasMany(ItemPedido::class);
+    }
 }
