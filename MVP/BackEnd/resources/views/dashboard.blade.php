@@ -25,19 +25,7 @@
     </div>
 </div>
 
-@if(session('error'))
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                icon: 'error',
-                title: 'Ops...',
-                text: '{{ session('error') }}',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'OK'
-            });
-        });
-    </script>
-@endif
+
 
 
 
