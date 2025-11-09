@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Consumo;
 use App\Models\ItemProduto;
+use App\Models\ItemConsumo;
 use App\Models\Produto;
 use Illuminate\Http\Request;
 
@@ -11,83 +12,56 @@ class ConsumoController extends Controller
 {
     public function index()
     {
-        $consumo = Consumo::all();
-        $produtos = Produto::all();
-        $itemProdutos = ItemProduto::all();
-
-        return view('consumo.index', compact('consumo', 'itemProdutos', 'produtos'));
+        $consumos = Consumo::with('itens.itemProduto.produto')->get();
+        return view('consumos.index', compact('consumos'));
     }
 
     public function create()
     {
-        $consumo = Consumo::all();
         $produtos = Produto::all();
-        $itemProdutos = ItemProduto::all();
-
-        return view('consumo.create', compact('consumo', 'itemProdutos', 'produtos'));
+        return view('consumos.create', compact('produtos'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $dados = $request->validate([
-            'id_item_produto' => 'required|integer',
-            'quantidade_consumo' => 'required|integer',
+            'produtos' => 'required|array',
+            'produtos.*' => 'exists:produtos,id',
         ]);
 
-        ItemProduto::create($dados);
-        return redirect()->route('consumo.index')->with('sucesso', 'Cadastro realizado com sucesso!');
+        $consumo = Consumo::create([
+            'data' => now(),
+        ]);
+
+        foreach ($dados['produtos'] as $id_produto) {
+            // busca o item_estoque correspondente
+            $itemProduto = ItemProduto::where('id_produto', $id_produto)->first();
+            if ($itemProduto) {
+                ItemConsumo::create([
+                    'id_consumo' => $consumo->id,
+                    'id_item_produto' => $itemProduto->id,
+                    'quantidade' => 1,
+                ]);
+            }
+        }
+
+        return redirect()->route('consumos.index')->with('sucesso', 'Consumo cadastrado com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        $consumo = Consumo::findOrFail($id);
-        $itemProduto = ItemProduto::all();
-        $produtos = Produto::all();
-
-        return view('consumo.show', compact('consumo', 'itemProduto', 'produtos'));
-    }
-
-    public function edit(string $id)
-    {
-        $consumo = Consumo::findOrFail($id);
-        $itemProduto = ItemProduto::all();
-        $produtos = Produto::all();
-
-        return view('consumo.edit', compact('consumo', 'itemProduto', 'produtos'));
-    }
-
-    public function update(Request $request, string $id)
-    {
-        $consumo = Consumo::findOrFail($id);
-
-        $dados = $request->validate([
-            'id_item_estoque' => 'required|integer',
-            'quantidade_consumo' => 'required|integer',
-        ]);
-
-        try {
-            $consumo->update($dados);
-            return redirect('/consumo')->with('sucesso', 'Saída de estoque atualizada com sucesso!');
-        } catch (\Exception $e) {
-            return redirect()->back()->withInput()->with('erro', 'Falha ao atualizar saída de estoque. Tente novamente.');
-        }
+        $consumo = Consumo::with('itens.itemProduto.produto')->findOrFail($id);
+        return view('consumos.show', compact('consumo'));
     }
 
     public function destroy(string $id)
     {
         try {
-            // Usa o Model User
             $consumo = Consumo::findOrFail($id);
             $consumo->delete();
-            return redirect()->route('consumo.index')->with('sucesso', 'Item excluído com sucesso!');
+            return redirect()->route('consumos.index')->with('sucesso', 'Consumo excluído com sucesso!');
         } catch (\Exception $e) {
-            return redirect()->route('consumo.index')->with('erro', 'Erro ao excluir o item.');
+            return redirect()->route('consumos.index')->with('erro', 'Erro ao excluir consumo.');
         }
     }
 }

@@ -3,8 +3,10 @@
 use App\Http\Controllers\BairroController;
 use App\Http\Controllers\CardapioController;
 use App\Http\Controllers\CidadeController;
+use App\Http\Controllers\ConsumoController;
 use App\Http\Controllers\EscolaController;
 use App\Http\Controllers\ItemProdutoController;
+use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RelatorioController;
@@ -82,12 +84,24 @@ Route::middleware('auth')->group(function () {
         Route::put('/produtos/{id}', [ProdutoController::class, 'update'])->name('produtos.update');
         Route::delete('/produtos/{id}', [ProdutoController::class, 'destroy'])->name('produtos.destroy');
         Route::post('/produtos', [ProdutoController::class, 'store'])->name('produtos.store');
-    
     });
 
     // == NÍVEL COZINHEIRO-CHEFE ==
     // Gerentes (1) e Cozinheiros-Chefes (2) podem acessar.
     // (Não há rotas exclusivas para este nível no momento, mas a estrutura está aqui)
+    Route::middleware('role:gerente,cozinheiro-chefe')->group(function () {
+        // Rotas Consumos
+        Route::get('/consumos', [ConsumoController::class, 'index'])->name('consumos.index');
+        Route::get('/consumos/{id}', [ConsumoController::class, 'show'])->name('consumos.show');
+        Route::get('/consumos/create', [ConsumoController::class, 'create'])->name('consumos.create');
+        Route::post('/consumos', [PedidoController::class, 'store'])->name('consumos.store');
+
+        // Rotas Pedidos
+        Route::get('/pedidos', [PedidoController::class, 'index'])->name('pedidos.index');
+        Route::get('/pedidos/create', [PedidoController::class, 'create'])->name('pedidos.create');
+        Route::post('/pedidos', [PedidoController::class, 'store'])->name('pedidos.store');
+        Route::get('/pedidos/{id}', [PedidoController::class, 'show'])->name('pedidos.show');
+    });
 
     // == NÍVEL NUTRICIONISTA ==
     // Gerentes (1), Cozinheiros-Chefes (2) e Nutricionistas (4) podem acessar.
@@ -100,7 +114,7 @@ Route::middleware('auth')->group(function () {
         // Rotas Produtos
         Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos.index');
         Route::get('/produtos/{id}', [ProdutoController::class, 'show'])->name('produto.show');
-        });
+    });
 
     // == NÍVEL COZINHEIRO ==
     // TODOS os cargos (1, 2, 3, 4) podem acessar esta rota.
