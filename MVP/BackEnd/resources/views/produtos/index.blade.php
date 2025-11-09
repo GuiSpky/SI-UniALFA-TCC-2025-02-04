@@ -16,7 +16,16 @@
                 @endif
             </div>
         </div>
-
+<form method="GET" class="d-flex align-items-center">
+            <label for="per_page" class="me-2 mb-0">Itens por página:</label>
+            <select name="per_page" id="per_page" class="form-select form-select-sm" onchange="this.form.submit()">
+                @foreach ([10, 20, 50, 100] as $size)
+                    <option value="{{ $size }}" {{ $perPage == $size ? 'selected' : '' }}>
+                        {{ $size }}
+                    </option>
+                @endforeach
+            </select>
+        </form>
         <div class="card shadow-sm border-2 shadow-sm rounded-3">
             <div class="table-responsive">
                 <table class="table table-hover table-striped mb-0 table-bordered custom-table">
@@ -76,5 +85,10 @@
                 </table>
             </div>
         </div>
+        @if ($produtos->hasPages())
+            <div class="card-footer d-flex justify-content-center py-3">
+                {{ $produtos->links('pagination::bootstrap-5') }}
+            </div>
+        @endif
     </div>
 @endsection

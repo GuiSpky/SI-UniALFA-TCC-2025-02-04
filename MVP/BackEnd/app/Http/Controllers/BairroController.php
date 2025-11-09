@@ -11,12 +11,14 @@ use Illuminate\Http\Request;
 class BairroController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $bairros = Bairro::all();
+        $perPage = $request->input('per_page', 10);
+
+        $bairros = Bairro::paginate($perPage);
         $cidades = Cidade::all();
 
-        return view('bairros.index', compact('bairros', 'cidades'));
+        return view('bairros.index', compact('perPage', 'bairros', 'cidades'));
     }
 
     public function create()
@@ -79,7 +81,7 @@ class BairroController extends Controller
 
     public function destroy(string $id)
     {
-       try {
+        try {
             $bairro = Bairro::findOrFail($id);
             $bairro->delete();
             return redirect('/bairros')->with('sucesso', 'Bairro excluído com sucesso!');

@@ -13,17 +13,15 @@ use Illuminate\Validation\Rule;
 
 class EscolaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $escolas = Escola::all();
+        $perPage = $request->input('per_page', 10);
+
+        $escolas = Escola::paginate($perPage);
         $cidades = Cidade::all();
         $bairros = Bairro::all();
 
-        return view('escolas.index', [
-            'escolas' => $escolas,
-            'bairros' => $bairros,
-            'cidades' => $cidades
-        ]);
+        return view('escolas.index', compact('perPage' ,'escolas', 'cidades', 'bairros'));
     }
 
     public function create()

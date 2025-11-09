@@ -12,13 +12,15 @@ class ItemProdutoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->input('per_page', 10);
+
         $produtos = Produto::all();
         $escolas = Escola::all();
-        $itemProdutos = ItemProduto::all();
+        $itemProdutos = ItemProduto::paginate($perPage);
 
-        return view('itemProdutos.index', compact('escolas', 'itemProdutos', 'produtos'));
+        return view('itemProdutos.index', compact('perPage','escolas', 'itemProdutos', 'produtos'));
     }
 
     public function create()
