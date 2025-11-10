@@ -15,11 +15,11 @@ class ItemConsumo extends Model
 
     public function itemProduto()
     {
-        return $this->belongsTo(ItemProduto::class, 'id_item_produto');
+        return $this->belongsTo(ItemProduto::class, 'item_produto_id');
     }
 
     public function consumo()
     {
-        return $this->belongsTo(Consumo::class, 'id_consumo');
+        return $this->belongsTo(Consumo::class, 'consumo_id');
     }
 }

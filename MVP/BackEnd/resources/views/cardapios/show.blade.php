@@ -40,6 +40,10 @@
                         <p class="mb-1 text-muted small">Data</p>
                         <p class="fw-semibold">{{ $cardapio->data->format('d/m/Y') }}</p>
                     </div>
+                                        
+                    <hr>
+        
+                    <x-timestamps :created-at="$cardapio->created_at" :updated-at="$cardapio->updated_at" />
                 </div>
             </div>
         </div>

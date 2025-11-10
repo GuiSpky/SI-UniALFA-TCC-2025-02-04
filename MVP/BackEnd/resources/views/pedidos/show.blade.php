@@ -38,6 +38,10 @@
                             @endforeach
                         </p>
                     </div>
+                    
+                    <hr>
+        
+                    <x-timestamps :created-at="$pedido->created_at" :updated-at="$pedido->updated_at" />
                 </div>
             </div>
         </div>

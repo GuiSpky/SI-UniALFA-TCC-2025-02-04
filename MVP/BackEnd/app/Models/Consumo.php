@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Consumo extends Model
 {
     protected $table = 'consumos';
-    protected $fillable = ['data'];
+    protected $fillable = [];
 
     public function itens()
     {
-        return $this->hasMany(ItemConsumo::class, 'id_consumo');
+        return $this->hasMany(ItemConsumo::class, 'consumo_id');
     }
 }

@@ -75,12 +75,12 @@
                                 </td>
                                 <td>
 
-                                    {{ $itemProduto->validade }}
+                                    {{ \Carbon\Carbon::parse($itemProduto->validade)->format('d/m/Y') }}
 
                                 </td>
                                 <td>
 
-                                    {{ $itemProduto->created_at }}
+                                    {{ \Carbon\Carbon::parse($itemProduto->data)->format('d/m/Y') }}
 
                                 </td>
                                 <td>

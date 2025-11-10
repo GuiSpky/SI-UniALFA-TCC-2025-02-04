@@ -3,14 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Cidade;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CidadeSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $cidades = [
@@ -27,6 +23,10 @@ class CidadeSeeder extends Seeder
             ['codIbge' => '4128104', 'nome' => 'Umuarama', 'uf' => 'PR'],
         ];
 
+        foreach ($cidades as &$cidade) {
+            $cidade['created_at'] = now();
+            $cidade['updated_at'] = now();
+        }
 
         Cidade::insert($cidades);
     }

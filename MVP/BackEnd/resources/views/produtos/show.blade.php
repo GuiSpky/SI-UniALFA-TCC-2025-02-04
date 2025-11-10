@@ -39,6 +39,10 @@
                             <x-grupo-label :value="$produto->grupo" />
                         </p>
                     </div>
+                                        
+                    <hr>
+        
+                    <x-timestamps :created-at="$produto->created_at" :updated-at="$produto->updated_at" />
                 </div>
             </div>
         </div>

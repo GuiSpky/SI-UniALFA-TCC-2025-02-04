@@ -43,6 +43,10 @@
                             {{ $cidades->where('id', $escola->id_cidade)->pluck('nome')->first() }}
                         </p>
                     </div>
+                                        
+                    <hr>
+        
+                    <x-timestamps :created-at="$escola->created_at" :updated-at="$escola->updated_at" />
                 </div>
             </div>
         </div>

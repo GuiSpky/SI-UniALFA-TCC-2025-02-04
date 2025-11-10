@@ -27,16 +27,27 @@
             <div class="card-body">
                 <div class="row mb-3">
                     <div class="col-md-6 mb-3">
-                        <p class="mb-1 text-muted small">Item</p>
-                        @foreach ($consumo->itens as $item)
-                           <li class="fw-semibold">{{ $item->itemProduto->produto->nome ?? 'N/A' }}</li>
-                        @endforeach
+                        <p class="mb-1 text-muted small">Itens</p>
+                        <ul>
+                            @foreach ($consumo->itens as $item)
+                                <li class="fw-semibold">
+                                    {{ $item->itemProduto->produto->nome ?? 'Produto não encontrado' }}
+                                    (Qtd: {{ $item->quantidade }})
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
+
                     <div class="col-md-6 mb-3">
-                        <p class="mb-1 text-muted small">Data</p>
-                        <p class="fw-semibold">{{ $consumo->data }}</p>
+                        <p class="mb-1 text-muted small">Data do Consumo</p>
+                        <p class="fw-semibold">{{ $consumo->created_at->format('d/m/Y') }}</p>
                     </div>
                 </div>
+                                    
+                    <hr>
+        
+                    <x-timestamps :created-at="$consumo->created_at" :updated-at="$consumo->updated_at" />
             </div>
         </div>
-    @endsection
+    </div>
+@endsection

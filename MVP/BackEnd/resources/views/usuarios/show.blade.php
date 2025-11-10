@@ -50,6 +50,10 @@
                             {{ $escolas->where('id', $user->id_escola)->pluck('nome')->first() }}
                         </p>
                     </div>
+                                        
+                    <hr>
+        
+                    <x-timestamps :created-at="$user->created_at" :updated-at="$user->updated_at" />
                 </div>
             </div>
         </div>
