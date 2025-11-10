@@ -36,9 +36,9 @@
                             <th>Qtd. Entrada</th>
                             <th>Qtd. Saída</th>
                             <th>Qtd. Saldo</th>
-                            <th>Validade</th>
-                            {{-- <th>Nr Pedido</th> --}}
                             <th>Data Entrada</th>
+                            <th>Nr Pedido</th>
+                            <th>Validade</th>
                             <th>Depósito</th>
                             @if (in_array(Auth::user()->cargo, [1, 2]))
                                 <th class="text-end">Ações</th>
@@ -59,29 +59,20 @@
                                     </a>
                                 </td>
                                 <td>
-
                                     {{ $itemProduto->quantidade_entrada }}
-
                                 </td>
                                 <td>
-
                                     {{ $itemProduto->quantidade_saida }}
-
                                 </td>
                                 <td>
-
                                     {{ $itemProduto->quantidade_entrada - $itemProduto->quantidade_saida }}
-
                                 </td>
                                 <td>
-
-                                    {{ \Carbon\Carbon::parse($itemProduto->validade)->format('d/m/Y') }}
-
-                                </td>
-                                <td>
-
                                     {{ \Carbon\Carbon::parse($itemProduto->data)->format('d/m/Y') }}
-
+                                </td>
+                                <td>------</td>
+                                <td>
+                                    {{ \Carbon\Carbon::parse($itemProduto->validade)->format('d/m/Y') }}
                                 </td>
                                 <td>
                                     {{ $escolas->where('id', $itemProduto->id_escola)->pluck('nome')->first() ?? 'N/A' }}

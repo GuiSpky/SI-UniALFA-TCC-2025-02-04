@@ -35,7 +35,7 @@ class UsuarioSeeder extends Seeder
                 'email' => "{$emailNome}@gmail.com",
                 'password' => Hash::make("{$emailNome}123"),
                 'cargo' => $cargoId,
-                'id_escola' => $escola->id,
+                'id_escola' => $cargoId,
                 'telefone' => '4499999999' . $cargoId, // Telefone fictício único
             ]);
         }

@@ -34,9 +34,13 @@
                         <p class="mb-1 text-muted small">Produtos</p>
                         <p class="fw-semibold">
                             @foreach ($pedido->itens as $item)
-                                <li>{{ $item->produto->nome }} - {{ $item->quantidade }}</li>
+                            <li>{{ $item->produto->nome }} - {{ $item->quantidade }}</li>
                             @endforeach
                         </p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <p class="mb-1 text-muted small">Setor</p>
+                        <p class="fw-semibold"><td>{{ $pedido->escola->nome ?? '—' }}</td></p>
                     </div>
                     
                     <hr>

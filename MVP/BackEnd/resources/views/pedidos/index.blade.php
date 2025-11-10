@@ -23,28 +23,73 @@
                     <thead>
                         <tr class="text-uppercase small fw-bold">
                             <th>Número do Pedido</th>
+                            <th>Escola</th>
                             <th>Data do Pedido</th>
+                            <th>Status</th>
                             <th>Produtos</th>
+                            <th class="align-ite-center">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($pedidos as $pedido)
+                        @forelse ($pedidos as $pedido)
                             <tr>
                                 <td>
                                     <a class="badge bg-primary" href="{{ route('pedidos.show', $pedido) }}">
                                         {{ $pedido->id }}
                                     </a>
                                 </td>
+                                <td>{{ $pedido->escola->nome ?? '—' }}</td>
                                 <td>{{ $pedido->created_at->format('d/m/Y') }}</td>
+                                <td>
+                                    <span
+                                        class="badge 
+                        @if ($pedido->status == 'Editando') bg-warning
+                        @elseif($pedido->status == 'Enviado') bg-info
+                        @elseif($pedido->status == 'Recebido') bg-secondary
+                        @elseif($pedido->status == 'Confirmado') bg-success @endif">
+                                        {{ $pedido->status }}
+                                    </span>
+                                </td>
                                 <td>
                                     @foreach ($pedido->itens as $item)
                                         {{ $item->produto->nome }} ({{ $item->quantidade }})<br>
                                     @endforeach
                                 </td>
+                                <td class="text-end">
+                                    @if ($pedido->status == 'Editando')
+                                        <a href="{{ route('pedidos.edit', $pedido) }}"
+                                            class="btn btn-sm btn-warning">Editar</a>
+                                        <form action="{{ route('pedidos.enviar', $pedido) }}" method="POST"
+                                            class="d-inline">
+                                            @csrf
+                                            @method('PUT')
+                                            <button class="btn btn-sm btn-primary">Enviar</button>
+                                        </form>
+                                    @elseif ($pedido->status == 'Enviado')
+                                        <form action="{{ route('pedidos.confirmado', $pedido) }}" method="POST"
+                                            class="d-inline">
+                                            @csrf
+                                            @method('PUT')
+                                            <button class="btn btn-sm btn-success">Confirmar</button>
+                                        </form>
+                                    @elseif ($pedido->status == 'Confirmado')
+                                        <form action="{{ route('pedidos.recebido', $pedido) }}" method="POST"
+                                            class="d-inline">
+                                            @csrf
+                                            @method('PUT')
+                                            <button class="btn btn-sm btn-secondary">Recebido</button>
+                                        </form>
+                                    @endif
+                                </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">Nenhum pedido encontrado.</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
+
             </div>
         </div>
     </div>
