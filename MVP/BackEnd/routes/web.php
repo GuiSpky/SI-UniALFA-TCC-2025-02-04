@@ -24,8 +24,8 @@ require __DIR__ . '/auth.php';
 Route::middleware('auth')->group(function () {
 
     Route::fallback(function () {
-    return redirect()->route('dashboard')->with('error', 'Página não encontrada.');
-});
+        return redirect()->route('dashboard')->with('error', 'Página não encontrada.');
+    });
 
     // Rota do Dashboard: Acessível para TODOS os usuários logados.
     Route::get('/dashboard', function () {
@@ -88,7 +88,6 @@ Route::middleware('auth')->group(function () {
         Route::put('/produtos/{id}', [ProdutoController::class, 'update'])->name('produtos.update');
         Route::delete('/produtos/{id}', [ProdutoController::class, 'destroy'])->name('produtos.destroy');
         Route::post('/produtos', [ProdutoController::class, 'store'])->name('produtos.store');
-
     });
 
     // == NÍVEL COZINHEIRO-CHEFE ==
@@ -106,6 +105,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/pedidos/create', [PedidoController::class, 'create'])->name('pedidos.create');
         Route::post('/pedidos', [PedidoController::class, 'store'])->name('pedidos.store');
         Route::get('/pedidos/{id}', [PedidoController::class, 'show'])->name('pedidos.show');
+        Route::resource('pedidos', PedidoController::class);
+        Route::put('pedidos/{id}/enviar', [PedidoController::class, 'enviar'])->name('pedidos.enviar');
+        Route::put('pedidos/{id}/recebido', [PedidoController::class, 'recebido'])->name('pedidos.recebido');
+        Route::put('pedidos/{id}/confirmado', [PedidoController::class, 'confirmado'])->name('pedidos.confirmado');
     });
 
     // == NÍVEL NUTRICIONISTA ==

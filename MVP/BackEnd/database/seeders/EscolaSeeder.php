@@ -10,7 +10,7 @@ class EscolaSeeder extends Seeder
     public function run(): void
     {
         $escolas = [
-            ['id_cidade' => 11, 'id_bairro' => 1, 'nome' => 'Escola Municipal Centro Educacional'],
+            ['id_cidade' => 11, 'id_bairro' => 1, 'nome' => 'Merenda'],
             ['id_cidade' => 11, 'id_bairro' => 2, 'nome' => 'Colégio Estadual Zona I'],
             ['id_cidade' => 11, 'id_bairro' => 3, 'nome' => 'Escola Municipal Zona II'],
             ['id_cidade' => 11, 'id_bairro' => 4, 'nome' => 'Colégio Estadual Zona III'],
