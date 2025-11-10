@@ -38,7 +38,10 @@
                         <p class="mb-1 text-muted small">UF</p>
                         <p class="fw-semibold">{{ $ufs[$cidade->uf] ?? $cidade->uf }}</p>
                     </div>
-
+                    
+                    <hr>
+        
+                    <x-timestamps :created-at="$cidade->created_at" :updated-at="$cidade->updated_at" />
                 </div>
             </div>
         </div>

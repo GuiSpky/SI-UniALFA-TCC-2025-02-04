@@ -3,14 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Bairro;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class BairroSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $bairros = [
@@ -26,6 +22,10 @@ class BairroSeeder extends Seeder
             ['id_cidade' => 11, 'nome' => 'Jardim Cruzeiro'],
         ];
 
+        foreach ($bairros as &$bairro) {
+            $bairro['created_at'] = now();
+            $bairro['updated_at'] = now();
+        }
 
         Bairro::insert($bairros);
     }

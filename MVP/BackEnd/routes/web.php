@@ -97,9 +97,9 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:gerente,cozinheiro-chefe')->group(function () {
         // Rotas Consumos
         Route::get('/consumos', [ConsumoController::class, 'index'])->name('consumos.index');
-        Route::get('/consumos/{id}', [ConsumoController::class, 'show'])->name('consumos.show');
         Route::get('/consumos/create', [ConsumoController::class, 'create'])->name('consumos.create');
-        Route::post('/consumos', [PedidoController::class, 'store'])->name('consumos.store');
+        Route::post('/consumos', [ConsumoController::class, 'store'])->name('consumos.store');
+        Route::get('/consumos/{id}', [ConsumoController::class, 'show'])->name('consumos.show');
 
         // Rotas Pedidos
         Route::get('/pedidos', [PedidoController::class, 'index'])->name('pedidos.index');

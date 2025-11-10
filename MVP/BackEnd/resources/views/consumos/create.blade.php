@@ -3,7 +3,6 @@
 @section('title', 'Novo Consumo')
 
 @section('content')
-
     <div class="container-fluid py-4">
         <div class="mb-4 fade-in-up">
             <div class="d-flex align-items-center mb-3">
@@ -30,6 +29,7 @@
                                 </ul>
                             </div>
                         @endif
+
                         <form action="{{ route('consumos.store') }}" method="POST">
                             @csrf
 
@@ -43,11 +43,12 @@
                                                 <option value="{{ $produto->id }}">{{ $produto->nome }}</option>
                                             @endforeach
                                         </select>
+                                        <input type="number" name="quantidades[]" class="form-control" placeholder="Qtd"
+                                            min="1" required>
                                         <button type="button" class="btn btn-outline-success add-item">+</button>
                                     </div>
                                 </div>
                             </div>
-
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-save me-2"></i>Salvar Consumo
                             </button>
@@ -68,14 +69,15 @@
                 newItem.classList.add('input-group', 'mb-2');
 
                 newItem.innerHTML = `
-            <select name="produtos[]" class="form-select" required>
-                <option value="">Selecione um produto</option>
-                @foreach ($produtos as $produto)
-                    <option value="{{ $produto->id }}">{{ $produto->nome }}</option>
-                @endforeach
-            </select>
-            <button type="button" class="btn btn-outline-danger remove-item">−</button>
-        `;
+                    <select name="produtos[]" class="form-select" required>
+                        <option value="">Selecione um produto</option>
+                        @foreach ($produtos as $produto)
+                            <option value="{{ $produto->id }}">{{ $produto->nome }}</option>
+                        @endforeach
+                    </select>
+                    <input type="number" name="quantidades[]" class="form-control" placeholder="Qtd" min="1" required>
+                    <button type="button" class="btn btn-outline-danger remove-item">−</button>
+                `;
 
                 container.appendChild(newItem);
             }

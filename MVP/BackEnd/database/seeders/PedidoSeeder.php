@@ -3,11 +3,11 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Cardapio;
+use App\Models\Pedido;
 use App\Models\Produto;
-use App\Models\ItemReceita;
+use App\Models\ItemPedido;
 
-class CardapioSeeder extends Seeder
+class PedidoSeeder extends Seeder
 {
     public function run(): void
     {
@@ -19,17 +19,14 @@ class CardapioSeeder extends Seeder
         }
 
         for ($i = 0; $i < 10; $i++) {
-            $cardapio = Cardapio::create([
-                'receita' => 'Receita ' . ($i + 1),
-                'data' => now()->subDays(rand(1, 30)),
-            ]);
+            $pedido = Pedido::create();
 
-            // Adiciona itens aleatórios ao cardápio
             $idsAleatorios = collect($produtos)->random(min(3, count($produtos)));
             foreach ($idsAleatorios as $id) {
-                ItemReceita::create([
-                    'id_produto' => $id,
-                    'id_cardapio' => $cardapio->id,
+                ItemPedido::create([
+                    'pedido_id' => $pedido->id,
+                    'produto_id' => $id,
+                    'quantidade' => rand(1, 5),
                 ]);
             }
         }

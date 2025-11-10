@@ -27,5 +27,5 @@ class Bairro extends Model
         return $this->hasMany(Escola::class);
     }
 
-
+    public $timestamps = true;
 }

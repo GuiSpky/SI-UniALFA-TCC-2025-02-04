@@ -3,14 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Escola;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class EscolaSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $escolas = [
@@ -26,6 +22,10 @@ class EscolaSeeder extends Seeder
             ['id_cidade' => 11, 'id_bairro' => 10, 'nome' => 'Escola Municipal Jardim Cruzeiro'],
         ];
 
+        foreach ($escolas as &$escola) {
+            $escola['created_at'] = now();
+            $escola['updated_at'] = now();
+        }
 
         Escola::insert($escolas);
     }

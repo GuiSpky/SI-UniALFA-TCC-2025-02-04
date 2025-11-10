@@ -329,48 +329,48 @@
 
                     @if (in_array(Auth::user()->cargo, [1]))
                         <li><a href="{{ route('usuarios.index') }}"
-                                class="nav-link {{ Request::is('usuarios*') ? 'active' : '' }}"><i class="bi bi-people fs-5"></i>
+                                class="nav-link {{ Request::is('usuarios*') ? 'active' : '' }}"><i class="bi bi-people"></i>
                                 Usuários</a></li>
                         <li><a href="{{ route('cidades.index') }}"
-                                class="nav-link {{ Request::is('cidades*') ? 'active' : '' }}"><i class="bi bi-geo-alt fs-5"></i>
+                                class="nav-link {{ Request::is('cidades*') ? 'active' : '' }}"><i class="bi bi-geo-alt"></i>
                                 Cidades</a></li>
                         <li><a href="{{ route('bairros.index') }}"
-                                class="nav-link {{ Request::is('bairros*') ? 'active' : '' }}"><i class="bi bi-map fs-5"></i>
+                                class="nav-link {{ Request::is('bairros*') ? 'active' : '' }}"><i class="bi bi-map"></i>
                                 Bairros</a></li>
                         <li><a href="{{ route('relatorios.index') }}"
                                 class="nav-link {{ Request::is('relatorios*') ? 'active' : '' }}"><i
-                                    class="bi bi-card-list fs-5"></i>
+                                    class="bi bi-card-list"></i>
                                 Relatórios</a></li>
                     @endif
 
                     @if (in_array(Auth::user()->cargo, [1, 2]))
                         <li><a href="{{ route('consumos.index') }}"
                                 class="nav-link {{ Request::is('consumos*') ? 'active' : '' }}"><i
-                                    class="bi bi-journal-arrow-down fs-5"></i> Consumos</a></li>
+                                    class="bi bi-journal-arrow-down"></i> Consumos</a></li>
                         <li><a href="{{ route('pedidos.index') }}"
-                                class="nav-link {{ Request::is('pedidos*') ? 'active' : '' }}"><i class="bi bi-journal-text fs-5"></i>
+                                class="nav-link {{ Request::is('pedidos*') ? 'active' : '' }}"><i class="bi bi-journal-text"></i>
                                 Pedidos</a></li>
                     @endif
 
                     @if (in_array(Auth::user()->cargo, [1, 2, 4]))
                         <li><a href="{{ route('escolas.index') }}"
                                 class="nav-link {{ Request::is('escolas*') ? 'active' : '' }}"><i
-                                    class="bi bi-person-workspace fs-5"></i> Escolas</a></li>
+                                    class="bi bi-person-workspace"></i> Escolas</a></li>
                         <li><a href="{{ route('produtos.index') }}"
-                                class="nav-link {{ Request::is('produtos*') ? 'active' : '' }}"><i class="bi bi-egg fs-5"></i>
+                                class="nav-link {{ Request::is('produtos*') ? 'active' : '' }}"><i class="bi bi-egg"></i>
                                 Produtos</a></li>
                     @endif
 
                     @if (in_array(Auth::user()->cargo, [1, 2, 3, 4]))
                         <li><a href="{{ route('cardapios.index') }}"
                                 class="nav-link {{ Request::is('cardapios*') ? 'active' : '' }}"><i
-                                    class="bi bi-menu-button-wide fs-5"></i> Cardápios</a></li>
+                                    class="bi bi-menu-button-wide"></i> Cardápios</a></li>
                     @endif
 
                     @if (in_array(Auth::user()->cargo, [1, 2, 3, 4]))
                         <li><a href="{{ route('itemProdutos.index') }}"
                                 class="nav-link {{ Request::is('estoque*') ? 'active' : '' }}"><i
-                                    class="bi bi-shop-window fs-5"></i> Estoque</a></li>
+                                    class="bi bi-shop-window"></i> Estoque</a></li>
                     @endif
                 @endauth
             </ul>

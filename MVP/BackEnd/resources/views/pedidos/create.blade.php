@@ -1,4 +1,5 @@
 @extends('layouts.app')
+
 @section('title', 'Novo Pedido')
 
 @section('content')
@@ -46,7 +47,6 @@
                                             min="1" required>
                                         <button type="button" class="btn btn-outline-success add-item">+</button>
                                     </div>
-
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">

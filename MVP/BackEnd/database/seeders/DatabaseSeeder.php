@@ -16,12 +16,18 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
         User::truncate();
-        $this->call(CidadeSeeder::class);
-        $this->call(BairroSeeder::class);
-        $this->call(EscolaSeeder::class);
-        $this->call(CardapioSeeder::class);
-        $this->call(UsuarioSeeder::class);
-        $this->call(ProdutoSeeder::class);
+        $this->call([
+        CidadeSeeder::class,
+        BairroSeeder::class,
+        EscolaSeeder::class,
+        ProdutoSeeder::class,
+        CardapioSeeder::class,
+        UsuarioSeeder::class,
+        ItemProdutoSeeder::class,
+        CardapioSeeder::class,
+        PedidoSeeder::class,
+        ConsumoSeeder::class,
+        ]);
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',

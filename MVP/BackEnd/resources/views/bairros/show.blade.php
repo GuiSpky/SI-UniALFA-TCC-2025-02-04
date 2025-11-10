@@ -11,20 +11,24 @@
                     <i class="bi bi-arrow-left me-2"></i>Voltar
                 </a>
                 <div>
-                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-person-fill me-2"></i>Detalhes do Bairro</h1>
+                    <h1 class="h2 fw-bold mb-1">
+                        <i class="bi bi-geo-alt-fill me-2"></i>Detalhes do Bairro
+                    </h1>
                     <p class="text-muted mb-0">Informações detalhadas do bairro</p>
                 </div>
             </div>
         </div>
-	        <div class="card border-2 shadow-sm rounded-3">
-	            <div class="card-header border-0 py-3 d-flex justify-content-between align-items-center">
+
+        <div class="card border-2 shadow-sm rounded-3">
+            <div class="card-header border-0 py-3 d-flex justify-content-between align-items-center">
                 <h5 class="mb-0 text-secondary">
-                    <i class="bi bi-person-badge me-2"></i>{{ $bairro->nome }}
+                    <i class="bi bi-house-door me-2"></i>{{ $bairro->nome }}
                 </h5>
-	                <span class="badge bg-primary-subtle text-primary px-3 py-2 border border-primary-subtle">
+                <span class="badge bg-primary-subtle text-primary px-3 py-2 border border-primary-subtle">
                     ID: {{ $bairro->id }}
                 </span>
             </div>
+
             <div class="card-body">
                 <div class="row mb-3">
                     <div class="col-md-6 mb-3">
@@ -38,6 +42,11 @@
                         </p>
                     </div>
                 </div>
+
+                <hr>
+
+                <x-timestamps :created-at="$bairro->created_at" :updated-at="$bairro->updated_at" />
             </div>
         </div>
-    @endsection
+    </div>
+@endsection
