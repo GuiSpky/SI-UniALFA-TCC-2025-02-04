@@ -34,11 +34,11 @@
                         </p>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <p class="mb-1 text-muted small">Quantidade de entrada</p>
+                        <p class="mb-1 text-muted small">Quantidade de entrada ({{ $produtos->where('id', $itemProduto->id_produto)->pluck('medida')->first() ?? 'N/A' }})</p>
                         <p class="fw-semibold">{{ $itemProduto->quantidade_entrada }}</p>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <p class="mb-1 text-muted small">Quantidade de saldo</p>
+                        <p class="mb-1 text-muted small">Quantidade de saldo ({{ $produtos->where('id', $itemProduto->id_produto)->pluck('medida')->first() ?? 'N/A' }})</p>
                         <p class="fw-semibold">{{ $itemProduto->quantidade_entrada - $itemProduto->quantidade_saida }}</p>
                     </div>
                     <div class="col-md-6 mb-3">
@@ -56,9 +56,9 @@
                         </p>
                     </div>
                 </div>
-                                    
+
                     <hr>
-        
+
                     <x-timestamps :created-at="$itemProduto->created_at" :updated-at="$itemProduto->updated_at" />
             </div>
         </div>

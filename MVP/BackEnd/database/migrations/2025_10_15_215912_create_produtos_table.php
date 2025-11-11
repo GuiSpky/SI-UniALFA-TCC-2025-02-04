@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nome', 200)->isNotEmpty();
             $table->integer('grupo')->isNotEmpty();
+            $table->string('medida')->isNotEmpty();
             $table->timestamps();
         });
     }

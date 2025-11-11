@@ -34,7 +34,7 @@
                         <p class="mb-1 text-muted small">Produtos</p>
                         <p class="fw-semibold">
                             @foreach ($pedido->itens as $item)
-                            <li>{{ $item->produto->nome }} - {{ $item->quantidade }}</li>
+                            <li>{{ $item->produto->nome }} - {{ $item->quantidade }} </li>
                             @endforeach
                         </p>
                     </div>
@@ -42,9 +42,9 @@
                         <p class="mb-1 text-muted small">Setor</p>
                         <p class="fw-semibold"><td>{{ $pedido->escola->nome ?? '—' }}</td></p>
                     </div>
-                    
+
                     <hr>
-        
+
                     <x-timestamps :created-at="$pedido->created_at" :updated-at="$pedido->updated_at" />
                 </div>
             </div>

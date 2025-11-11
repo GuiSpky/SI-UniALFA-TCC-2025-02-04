@@ -34,7 +34,7 @@
                                     <option value="">Selecione um produto</option>
                                     @foreach ($produtos as $produto)
                                         <option value="{{ $produto->id }}" {{ $item->produto_id == $produto->id ? 'selected' : '' }}>
-                                            {{ $produto->nome }}
+                                            {{ $produto->nome }} ({{ $produtos->where('id', $produto->id)->pluck('medida')->first() ?? 'N/A' }})
                                         </option>
                                     @endforeach
                                 </select>

@@ -50,6 +50,11 @@
                                 <x-select-field name="grupo" label="Grupo" :options="$grupos" :selected="old('grupo', $produto->grupo ?? null)" />
                             </div>
 
+                            <div class="mb-3">
+                                <label for="medida" class="form-label">Medida</label>
+                                <input type="text" class="form-control" id="medida" name="medida"
+                                    value="{{ old('medida', $produto->medida) }}" required>
+                            </div>
 
                             {{-- Botões --}}
                             <div class="d-flex justify-content-between mt-4">

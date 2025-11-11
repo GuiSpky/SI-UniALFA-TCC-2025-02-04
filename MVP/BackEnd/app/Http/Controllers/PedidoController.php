@@ -13,7 +13,8 @@ class PedidoController extends Controller
     {
         $escolas = Escola::all();
         $pedidos = Pedido::with('itens.produto')->get();
-        return view('pedidos.index', compact('pedidos', 'escolas'));
+        $produtos = Produto::all();
+        return view('pedidos.index', compact('pedidos', 'escolas', 'produtos'));
     }
 
     public function create()

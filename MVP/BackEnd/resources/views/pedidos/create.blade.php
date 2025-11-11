@@ -40,7 +40,7 @@
                                         <select name="produtos[]" class="form-select" required>
                                             <option value="">Selecione um produto</option>
                                             @foreach ($produtos as $produto)
-                                                <option value="{{ $produto->id }}">{{ $produto->nome }}</option>
+                                                <option value="{{ $produto->id }}">{{ $produto->nome }} ({{ $produtos->where('id', $produto->id)->pluck('medida')->first() ?? 'N/A' }})</option>
                                             @endforeach
                                         </select>
                                         <input type="number" name="quantidades[]" class="form-control" placeholder="Qtd"

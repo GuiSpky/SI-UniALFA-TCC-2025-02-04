@@ -39,9 +39,12 @@
                             <x-grupo-label :value="$produto->grupo" />
                         </p>
                     </div>
-                                        
+                    <div class="col-md-6 mb-3">
+                        <p class="mb-1 text-muted small">Medida</p>
+                        <p class="fw-semibold">{{ $produto->medida }}</p>
+                    </div>
                     <hr>
-        
+
                     <x-timestamps :created-at="$produto->created_at" :updated-at="$produto->updated_at" />
                 </div>
             </div>

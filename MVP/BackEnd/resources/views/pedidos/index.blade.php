@@ -42,7 +42,7 @@
                                 <td>{{ $pedido->created_at->format('d/m/Y') }}</td>
                                 <td>
                                     <span
-                                        class="badge 
+                                        class="badge
                         @if ($pedido->status == 'Editando') bg-warning
                         @elseif($pedido->status == 'Enviado') bg-info
                         @elseif($pedido->status == 'Recebido') bg-secondary
@@ -52,7 +52,7 @@
                                 </td>
                                 <td>
                                     @foreach ($pedido->itens as $item)
-                                        {{ $item->produto->nome }} ({{ $item->quantidade }})<br>
+                                        {{ $item->produto->nome }} ({{ $item->quantidade }} {{ $produtos->where('id', $item->produto->id)->pluck('medida')->first() ?? 'N/A' }})<br>
                                     @endforeach
                                 </td>
                                 <td class="text-end">

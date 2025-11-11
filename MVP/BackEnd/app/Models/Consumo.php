@@ -13,4 +13,5 @@ class Consumo extends Model
     {
         return $this->hasMany(ItemConsumo::class, 'consumo_id');
     }
+
 }

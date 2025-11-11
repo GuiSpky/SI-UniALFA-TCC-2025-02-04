@@ -49,7 +49,10 @@
                                     @endforeach
                                 </select>
                             </div>
-
+                            <div class="mb-3">
+                                <label for="medida" class="form-label">Medida</label>
+                                <input type="text" class="form-control" id="medida" name="medida" required>
+                            </div>
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-save me-2"></i>Salvar Produto
                             </button>

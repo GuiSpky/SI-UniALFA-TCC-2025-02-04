@@ -54,7 +54,7 @@
 
                         {{-- Quantidade --}}
                         <div class="mb-3">
-                            <label for="quantidade_entrada" class="form-label">Quantidade</label>
+                            <label for="quantidade_entrada" class="form-label">Quantidade ({{ $produtos->where('id', $itemProduto->id_produto)->pluck('medida')->first() ?? 'N/A' }})</label>
                             <input
                                 type="number"
                                 class="form-control"

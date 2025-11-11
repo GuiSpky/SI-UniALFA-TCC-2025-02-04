@@ -19,8 +19,9 @@ class ItemProduto extends Model
     {
         return $this->belongsTo(Escola::class, 'id_escola');
     }
-    public function produtos()
+    public function produto()
     {
         return $this->belongsTo(Produto::class, 'id_produto');
     }
+
 }

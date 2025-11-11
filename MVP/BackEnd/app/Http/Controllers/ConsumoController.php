@@ -14,13 +14,17 @@ class ConsumoController extends Controller
     public function index()
     {
         try {
-            $consumos = Consumo::with('itens.itemProduto.produto')->latest()->get();
+            $consumos = Consumo::with('itens.itemProduto.produto')
+                ->orderByDesc('created_at')
+                ->get();
+
             return view('consumos.index', compact('consumos'));
-        } catch (\Exception $e) {
-            Log::error('Erro ao listar consumos: ' . $e->getMessage());
-            return redirect()->back()->with('erro', 'Erro ao carregar a lista de consumos.');
+        } catch (\Throwable $e) {
+            Log::error('Erro ao listar consumos', ['erro' => $e->getMessage()]);
+            return redirect()->route('dashboard')->with('error', 'Erro ao listar consumos.');
         }
     }
+
 
     public function create()
     {

@@ -37,7 +37,9 @@
                                 </td>
                                 <td>
                                     @foreach ($consumo->itens as $item)
-                                        {{ $item->itemProduto->produto->nome }} ({{ $item->quantidade }})<br>
+                                        {{ $item->itemProduto?->produto?->nome ?? 'Produto não encontrado' }}
+                                        ({{ $item->quantidade }} {{ $item->itemProduto?->produto?->medida ?? ''  }})
+                                        <br>
                                     @endforeach
                                 </td>
                                 <td>

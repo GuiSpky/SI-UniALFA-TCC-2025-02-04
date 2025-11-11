@@ -60,12 +60,17 @@
                                 </td>
                                 <td>
                                     {{ $itemProduto->quantidade_entrada }}
+                                    {{ $produtos->where('id', $itemProduto->id_produto)->pluck('medida')->first() ?? 'N/A' }}
+
                                 </td>
                                 <td>
                                     {{ $itemProduto->quantidade_saida }}
+                                    {{ $produtos->where('id', $itemProduto->id_produto)->pluck('medida')->first() ?? 'N/A' }}
+
                                 </td>
                                 <td>
                                     {{ $itemProduto->quantidade_entrada - $itemProduto->quantidade_saida }}
+                                    {{ $produtos->where('id', $itemProduto->id_produto)->pluck('medida')->first() ?? 'N/A' }}
                                 </td>
                                 <td>
                                     {{ \Carbon\Carbon::parse($itemProduto->data)->format('d/m/Y') }}

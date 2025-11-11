@@ -16,7 +16,7 @@
                 @endif
             </div>
         </div>
-<form method="GET" class="d-flex align-items-center">
+        <form method="GET" class="d-flex align-items-center">
             <label for="per_page" class="me-2 mb-0">Itens por página:</label>
             <select name="per_page" id="per_page" class="form-select form-select-sm" onchange="this.form.submit()">
                 @foreach ([10, 20, 50, 100] as $size)
@@ -34,6 +34,7 @@
                             <th>Id</th>
                             <th>Nome</th>
                             <th>Grupo</th>
+                            <th>Medida</th>
                             @if (in_array(Auth::user()->cargo, [1, 4]))
                                 <th class="text-end">Ações</th>
                             @endif
@@ -55,22 +56,25 @@
                                 <td>
                                     <x-grupo-label :value="$produto->grupo" />
                                 </td>
-                            @if (in_array(Auth::user()->cargo, [1, 4]))
-                                <td class="text-end">
-                                    <a href="{{ route('produtos.edit', $produto->id) }}"
-                                        class="btn btn-outline-primary btn-sm">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <form action="{{ route('produtos.destroy', $produto->id) }}" method="POST"
-                                        class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-outline-danger btn-sm"
-                                            onclick="return confirm('Tem certeza?')">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
+                                <td>
+                                    {{ $produto->medida }}
                                 </td>
+                                @if (in_array(Auth::user()->cargo, [1, 4]))
+                                    <td class="text-end">
+                                        <a href="{{ route('produtos.edit', $produto->id) }}"
+                                            class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <form action="{{ route('produtos.destroy', $produto->id) }}" method="POST"
+                                            class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-outline-danger btn-sm"
+                                                onclick="return confirm('Tem certeza?')">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
                                 @endif
                             </tr>
                         @empty
