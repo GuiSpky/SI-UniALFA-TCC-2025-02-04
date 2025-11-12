@@ -9,12 +9,14 @@ use Illuminate\Http\Request;
 
 class PedidoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->input('per_page', 10);
+
         $escolas = Escola::all();
-        $pedidos = Pedido::with('itens.produto')->get();
+        $pedidos = Pedido::with('itens.produto')->paginate($perPage);
         $produtos = Produto::all();
-        return view('pedidos.index', compact('pedidos', 'escolas', 'produtos'));
+        return view('pedidos.index', compact('perPage' ,'pedidos', 'escolas', 'produtos'));
     }
 
     public function create()

@@ -21,14 +21,16 @@ class UserController extends Controller
         4 => 'Nutricionista',
     ];
 
-    public function index()
+    public function index(Request $request)
     {
         // Usa o Model User
-        $users = Usuario::all();
+        $perPage = $request->input('per_page', 10);
+        $users = Usuario::paginate($perPage);
         $escolas = Escola::all();
 
         // Renomeia a variável para o plural correto ('users')
-        return view('usuarios.index', compact('users', 'escolas'));
+        return view('usuarios.index', compact('perPage','users', 'escolas'));
+
     }
 
     public function create()

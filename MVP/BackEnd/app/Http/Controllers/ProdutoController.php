@@ -33,8 +33,10 @@ class ProdutoController extends Controller
         $dados = $request->validate([
             'nome' => 'required|string|max:200|unique:produtos,nome',
             'grupo' => 'required|integer|in:1,2,3,4',
+            'medida' => 'required|string',
         ], [
             'nome.required' => 'Nome deve ser informado.',
+            'medida.required' => 'Medida deve ser informado.',
             'nome.unique' => 'Produto já cadastrado.',
         ]);
 

@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\Log;
 
 class ConsumoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
+            $perPage = $request->input('per_page', 10);
             $consumos = Consumo::with('itens.itemProduto.produto')
                 ->orderByDesc('created_at')
-                ->get();
-
-            return view('consumos.index', compact('consumos'));
+                ->paginate($perPage);
+            return view('consumos.index', compact('perPage', 'consumos'));
         } catch (\Throwable $e) {
             Log::error('Erro ao listar consumos', ['erro' => $e->getMessage()]);
             return redirect()->route('dashboard')->with('error', 'Erro ao listar consumos.');

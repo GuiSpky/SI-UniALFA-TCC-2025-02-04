@@ -59,5 +59,29 @@
                 </table>
             </div>
         </div>
+        <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+            <!-- Itens por página (à esquerda) -->
+            <form method="GET" class="d-flex align-items-center mb-2 mb-md-0">
+                <label for="per_page" class="me-2 mb-0 fw-semibold">Itens por página:</label>
+                <select name="per_page" id="per_page" class="form-select form-select-sm w-auto"
+                    onchange="this.form.submit()">
+                    @foreach ([10, 20, 50, 100] as $size)
+                        <option value="{{ $size }}" {{ $perPage == $size ? 'selected' : '' }}>
+                            {{ $size }}
+                        </option>
+                    @endforeach
+                </select>
+            </form>
+
+            <!-- Pesquisa (centralizada) -->
+            <div class="flex-grow-1 text-center">
+                <!-- Paginação -->
+                @if ($consumos->hasPages())
+                    <div class="card-footer d-flex justify-content-center py-3">
+                        {{ $consumos->links('pagination::bootstrap-5') }}
+                    </div>
+                @endif
+            </div>
+        </div>
     </div>
 @endsection
