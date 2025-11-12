@@ -44,32 +44,41 @@ class ConsumoController extends Controller
 
     public function store(Request $request)
     {
-        try {
-            $dados = $request->validate([
-                'produtos' => 'required|array|min:1',
-                'produtos.*' => 'exists:produtos,id',
-            ], [
-                'produtos.required' => 'Selecione ao menos um produto.',
-                'produtos.*.exists' => 'Produto selecionado é inválido.',
-            ]);
+        $dados = $request->validate([
+            'produtos' => 'required|array|min:1',
+            'produtos.*' => 'exists:produtos,id',
+            'quantidades' => 'required|array',
+            'quantidades.*' => 'required|integer|min:1',
+        ], [
+            'produtos.required' => 'Selecione ao menos um produto.',
+            'produtos.*.exists' => 'Produto selecionado é inválido.',
+            'quantidades.required' => 'Informe ao menos uma quantidade.',
+            'quantidades.*.required' => 'Informe a quantidade para cada produto selecionado.',
+        ]);
 
+        try {
             // Cria o consumo (timestamps automáticos)
             $consumo = Consumo::create();
 
-            foreach ($dados['produtos'] as $id_produto) {
+            foreach ($dados['produtos'] as $index => $id_produto) {
                 $itemProduto = ItemProduto::where('id_produto', $id_produto)->first();
 
                 if (!$itemProduto) {
                     Log::warning("Produto ID {$id_produto} não encontrado em item_produtos.");
-                    continue; // ignora produto não associado
+                    continue;
                 }
 
+                $quantidade = $dados['quantidades'][$index] ?? 1;
+
                 ItemConsumo::create([
-                    'id_consumo' => $consumo->id,
-                    'id_item_produto' => $itemProduto->id,
-                    'quantidade' => 1,
+                    'consumo_id' => $consumo->id,
+                    'item_produto_id' => $itemProduto->id,
+                    'quantidade' => $quantidade,
                 ]);
             }
+
+
+
 
             return redirect()->route('consumos.index')->with('sucesso', 'Consumo cadastrado com sucesso!');
         } catch (\Illuminate\Validation\ValidationException $e) {
