@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreign('id_cidade')->references('id')->on('cidades');
             $table->bigInteger('id_bairro')->unsigned();
             $table->foreign('id_bairro')->references('id')->on('bairros');
+            $table->boolean('estoque_central')->default(0);
             $table->timestamps();
         });
     }

@@ -17,8 +17,9 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
-    {
+    public function boot(): void {}
 
-    }
+    protected $policies = [
+        \App\Models\Pedido::class => \App\Policies\PedidoPolicy::class,
+    ];
 }

@@ -13,6 +13,7 @@ class Escola extends Model
         'nome',
         'id_cidade',
         'id_bairro',
+        'estoque_central',
     ];
 
     protected $table = 'escolas';

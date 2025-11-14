@@ -15,11 +15,6 @@ class PedidoSeeder extends Seeder
         $produtos = Produto::pluck('id')->toArray();
         $escolas  = Escola::pluck('id')->toArray();
 
-        if (empty($produtos) || empty($escolas)) {
-            $this->command->warn('⚠️ É necessário ter produtos e escolas cadastrados antes de rodar este seeder.');
-            return;
-        }
-
         for ($i = 0; $i < 10; $i++) {
             $pedido = Pedido::create([
                 'id_escola' => collect($escolas)->random(),
@@ -38,6 +33,6 @@ class PedidoSeeder extends Seeder
             }
         }
 
-        $this->command->info('✅ 10 pedidos criados com itens aleatórios!');
+    
     }
 }

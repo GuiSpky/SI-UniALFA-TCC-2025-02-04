@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('item_produtos', function (Blueprint $table) {
+        Schema::create('estoque', function (Blueprint $table) {
             $table->id();
             $table->integer('quantidade_entrada')->isNotEmpty();
             $table->integer('quantidade_saida')->default(0);
+            $table->integer('quantidade_saldo')->default(0);
             $table->date('validade')->isNotEmpty();
             $table->bigInteger('id_produto')->unsigned();
             $table->foreign('id_produto')->references('id')->on('produtos');
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('item_produtos');
+        Schema::dropIfExists('estoque');
     }
 };

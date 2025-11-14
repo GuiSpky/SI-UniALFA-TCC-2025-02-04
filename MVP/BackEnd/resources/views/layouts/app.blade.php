@@ -53,6 +53,10 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
+        .id {
+            font-size: 0.9rem;
+        }
+
         body.dark {
             background-color: var(--bg-dark);
             color: var(--text-dark);
@@ -348,7 +352,8 @@
                                 class="nav-link {{ Request::is('consumos*') ? 'active' : '' }}"><i
                                     class="bi bi-journal-arrow-down"></i> Consumos</a></li>
                         <li><a href="{{ route('pedidos.index') }}"
-                                class="nav-link {{ Request::is('pedidos*') ? 'active' : '' }}"><i class="bi bi-journal-text"></i>
+                                class="nav-link {{ Request::is('pedidos*') ? 'active' : '' }}"><i
+                                    class="bi bi-journal-text"></i>
                                 Pedidos</a></li>
                     @endif
 
@@ -368,7 +373,7 @@
                     @endif
 
                     @if (in_array(Auth::user()->cargo, [1, 2, 3, 4]))
-                        <li><a href="{{ route('itemProdutos.index') }}"
+                        <li><a href="{{ route('estoque.index') }}"
                                 class="nav-link {{ Request::is('estoque*') ? 'active' : '' }}"><i
                                     class="bi bi-shop-window"></i> Estoque</a></li>
                     @endif
@@ -479,5 +484,3 @@
 </body>
 
 </html>
-
-

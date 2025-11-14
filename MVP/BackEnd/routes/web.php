@@ -5,7 +5,7 @@ use App\Http\Controllers\CardapioController;
 use App\Http\Controllers\CidadeController;
 use App\Http\Controllers\ConsumoController;
 use App\Http\Controllers\EscolaController;
-use App\Http\Controllers\ItemProdutoController;
+use App\Http\Controllers\EstoqueController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\ProfileController;
@@ -65,11 +65,11 @@ Route::middleware('auth')->group(function () {
         Route::delete('/usuarios/{id}', [UserController::class, 'destroy'])->name('usuarios.destroy');
         Route::post('/usuarios', [UserController::class, 'store'])->name('usuarios.store');
         // Rotas Estoque
-        Route::get('/estoque/create', [ItemProdutoController::class, 'create'])->name('itemProdutos.create');
-        Route::get('/estoque/{id}/edite', [ItemProdutoController::class, 'edit'])->name('itemProdutos.edit');
-        Route::put('/estoque/{id}', [ItemProdutoController::class, 'update'])->name('itemProdutos.update');
-        Route::delete('/estoque/{id}', [ItemProdutoController::class, 'destroy'])->name('itemProdutos.destroy');
-        Route::post('/estoque', [ItemProdutoController::class, 'store'])->name('itemProdutos.store');
+        Route::get('/estoque/create', [EstoqueController::class, 'create'])->name('estoque.create');
+        Route::get('/estoque/{id}/edite', [EstoqueController::class, 'edit'])->name('estoque.edit');
+        Route::put('/estoque/{id}', [EstoqueController::class, 'update'])->name('estoque.update');
+        Route::delete('/estoque/{id}', [EstoqueController::class, 'destroy'])->name('estoque.destroy');
+        Route::post('/estoque', [EstoqueController::class, 'store'])->name('estoque.store');
 
         // Rotas Escolas
         Route::get('/escolas/{id}/edite', [EscolaController::class, 'edit'])->name('escolas.edit');
@@ -136,7 +136,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/cardapios/{id}', [CardapioController::class, 'destroy'])->name('cardapios.destroy');
         Route::post('/cardapios', [CardapioController::class, 'store'])->name('cardapios.store');
         // Rotas Estoque
-        Route::get('/estoque', [ItemProdutoController::class, 'index'])->name('itemProdutos.index');
-        Route::get('/estoque/{id}', [ItemProdutoController::class, 'show'])->name('itemProdutos.show');
+        Route::get('/estoque', [EstoqueController::class, 'index'])->name('estoque.index');
+        Route::get('/estoque/{id}', [EstoqueController::class, 'show'])->name('estoque.show');
     });
 });

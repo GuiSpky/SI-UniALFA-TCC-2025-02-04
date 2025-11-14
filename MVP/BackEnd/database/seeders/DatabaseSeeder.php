@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         ProdutoSeeder::class,
         CardapioSeeder::class,
         UsuarioSeeder::class,
-        ItemProdutoSeeder::class,
+        EstoqueSeeder::class,
         CardapioSeeder::class,
         PedidoSeeder::class,
         ConsumoSeeder::class,
