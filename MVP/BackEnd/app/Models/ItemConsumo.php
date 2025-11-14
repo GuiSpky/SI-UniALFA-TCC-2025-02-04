@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 class ItemConsumo extends Model
 {
     protected $table = 'item_consumos'; 
-    protected $fillable = ['consumo_id', 'item_produto_id', 'quantidade'];
+    protected $fillable = ['consumo_id', 'estoque_id', 'quantidade'];
 
     public function consumo()
     {
         return $this->belongsTo(Consumo::class, 'consumo_id');
     }
 
-    public function itemProduto()
+    public function estoque()
     {
-        return $this->belongsTo(ItemProduto::class, 'item_produto_id');
+        return $this->belongsTo(Estoque::class, 'estoque_id');
     }
 }

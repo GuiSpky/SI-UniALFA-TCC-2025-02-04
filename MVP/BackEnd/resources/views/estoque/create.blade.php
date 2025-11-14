@@ -7,7 +7,7 @@
     <div class="container-fluid py-4">
         <div class="mb-4 fade-in-up">
             <div class="d-flex align-items-center mb-3">
-                <a href="{{ route('itemProdutos.index') }}" class="btn btn-outline-secondary btn-sm me-3">
+                <a href="{{ route('estoque.index') }}" class="btn btn-outline-secondary btn-sm me-3">
                     <i class="bi bi-arrow-left me-2"></i>Voltar
                 </a>
                 <div>
@@ -30,7 +30,7 @@
                                 </ul>
                             </div>
                         @endif
-                        <form action="{{ route('itemProdutos.store') }}" method="POST">
+                        <form action="{{ route('estoque.store') }}" method="POST">
                             @csrf
 
                             <div class="mb-3">

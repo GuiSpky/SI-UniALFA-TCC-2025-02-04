@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Consumo;
-use App\Models\ItemProduto;
+use App\Models\Estoque;
 use App\Models\ItemConsumo;
 use App\Models\Produto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ConsumoController extends Controller
@@ -15,7 +16,7 @@ class ConsumoController extends Controller
     {
         try {
             $perPage = $request->input('per_page', 10);
-            $consumos = Consumo::with('itens.itemProduto.produto')
+            $consumos = Consumo::with('itens.estoque.produto')
                 ->orderByDesc('created_at')
                 ->paginate($perPage);
             return view('consumos.index', compact('perPage', 'consumos'));
@@ -29,13 +30,13 @@ class ConsumoController extends Controller
     public function create()
     {
         try {
-            $produtos = Produto::all();
+            $estoques = Estoque::with('produto')->get();
 
-            if ($produtos->isEmpty()) {
+            if ($estoques->isEmpty()) {
                 return redirect()->route('produtos.index')->with('aviso', 'Nenhum produto cadastrado para consumo.');
             }
 
-            return view('consumos.create', compact('produtos'));
+            return view('consumos.create', compact('estoques'));
         } catch (\Exception $e) {
             Log::error('Erro ao carregar formulário de consumo: ' . $e->getMessage());
             return redirect()->route('consumos.index')->with('erro', 'Erro ao carregar formulário.');
@@ -43,58 +44,52 @@ class ConsumoController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $dados = $request->validate([
-            'produtos' => 'required|array|min:1',
-            'produtos.*' => 'exists:produtos,id',
-            'quantidades' => 'required|array',
-            'quantidades.*' => 'required|integer|min:1',
-        ], [
-            'produtos.required' => 'Selecione ao menos um produto.',
-            'produtos.*.exists' => 'Produto selecionado é inválido.',
-            'quantidades.required' => 'Informe ao menos uma quantidade.',
-            'quantidades.*.required' => 'Informe a quantidade para cada produto selecionado.',
-        ]);
+{
+    $dados = $request->validate([
+        'estoques' => 'required|array|min:1',
+        'estoques.*' => 'exists:estoque,id',
+        'quantidades' => 'required|array',
+        'quantidades.*' => 'required|integer|min:1',
+    ]);
 
-        try {
-            // Cria o consumo (timestamps automáticos)
-            $consumo = Consumo::create();
+    DB::beginTransaction();
 
-            foreach ($dados['produtos'] as $index => $id_produto) {
-                $itemProduto = ItemProduto::where('id_produto', $id_produto)->first();
+    try {
+        $consumo = Consumo::create();
 
-                if (!$itemProduto) {
-                    Log::warning("Produto ID {$id_produto} não encontrado em item_produtos.");
-                    continue;
-                }
+        foreach ($dados['estoques'] as $i => $estoqueId) {
+            $estoque = Estoque::findOrFail($estoqueId);
+            $qtd = $dados['quantidades'][$i];
 
-                $quantidade = $dados['quantidades'][$index] ?? 1;
+            $saldo = $estoque->quantidade_entrada - $estoque->quantidade_saida;
 
-                ItemConsumo::create([
-                    'consumo_id' => $consumo->id,
-                    'item_produto_id' => $itemProduto->id,
-                    'quantidade' => $quantidade,
-                ]);
+            if ($saldo < $qtd) {
+                throw new \Exception("Estoque insuficiente para o produto {$estoque->produto->nome}. Saldo: $saldo");
             }
 
+            ItemConsumo::create([
+                'consumo_id' => $consumo->id,
+                'estoque_id' => $estoque->id,
+                'quantidade' => $qtd,
+            ]);
 
-
-
-            return redirect()->route('consumos.index')->with('sucesso', 'Consumo cadastrado com sucesso!');
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return redirect()->back()
-                ->withErrors($e->validator)
-                ->withInput();
-        } catch (\Exception $e) {
-            Log::error('Erro ao salvar consumo: ' . $e->getMessage());
-            return redirect()->route('consumos.index')->with('erro', 'Erro ao salvar consumo.');
+            $estoque->increment('quantidade_saida', $qtd);
         }
+
+        DB::commit();
+
+        return redirect()->route('consumos.index')->with('sucesso', 'Consumo registrado com sucesso!');
+    } catch (\Throwable $e) {
+        DB::rollBack();
+        return back()->with('erro', $e->getMessage())->withInput();
     }
+}
+
 
     public function show(string $id)
     {
         try {
-            $consumo = Consumo::with('itens.itemProduto.produto')->findOrFail($id);
+            $consumo = Consumo::with('itens.estoque.produto')->findOrFail($id);
             return view('consumos.show', compact('consumo'));
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return redirect()->route('consumos.index')->with('erro', 'Consumo não encontrado.');

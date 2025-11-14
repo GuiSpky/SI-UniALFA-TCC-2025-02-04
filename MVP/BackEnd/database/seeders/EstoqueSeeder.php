@@ -3,10 +3,10 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\ItemProduto;
+use App\Models\Estoque;
 use Carbon\Carbon;
 
-class ItemProdutoSeeder extends Seeder
+class EstoqueSeeder extends Seeder
 {
     public function run(): void
     {
@@ -24,6 +24,6 @@ class ItemProdutoSeeder extends Seeder
             ];
         }
 
-        ItemProduto::insert($itens);
+        Estoque::insert($itens);
     }
 }

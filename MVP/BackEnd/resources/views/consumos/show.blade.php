@@ -31,7 +31,7 @@
                         <ul>
                             @foreach ($consumo->itens as $item)
                                 <li class="fw-semibold">
-                                    {{ $item->itemProduto->produto->nome ?? 'Produto não encontrado' }}
+                                    {{ $item->estoque->produto->nome ?? 'Produto não encontrado' }}
                                     (Qtd: {{ $item->quantidade }})
                                 </li>
                             @endforeach

@@ -10,6 +10,14 @@ return new class extends Migration
     {
         Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
+
+            // Relacionamento com escola
+            $table->unsignedBigInteger('id_escola');
+            $table->foreign('id_escola')->references('id')->on('escolas')->onDelete('cascade');
+
+            // Status do pedido
+            $table->string('status')->default('Editando');
+
             $table->timestamps();
         });
     }

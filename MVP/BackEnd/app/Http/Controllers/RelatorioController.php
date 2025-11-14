@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Escola;
-use App\Models\ItemProduto;
 use App\Models\Produto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

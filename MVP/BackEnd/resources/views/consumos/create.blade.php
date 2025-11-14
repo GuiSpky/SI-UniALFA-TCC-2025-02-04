@@ -37,12 +37,18 @@
                                 <label class="form-label">Itens do Consumo</label>
                                 <div id="itens-container">
                                     <div class="input-group mb-2">
-                                        <select name="produtos[]" class="form-select" required>
-                                            <option value="">Selecione um produto</option>
-                                            @foreach ($produtos as $produto)
-                                                <option value="{{ $produto->id }}">{{ $produto->nome }} - {{ $produto->medida}}</option>
+                                        <select name="estoques[]" class="form-select" required>
+                                            <option value="">Selecione um lote</option>
+                                            @foreach ($estoques as $e)
+                                                <option value="{{ $e->id }}">
+                                                    {{ $e->produto->nome }} -
+                                                    Lote: {{ $e->id }} -
+                                                    Validade: {{ date('d/m/Y', strtotime($e->validade)) }} -
+                                                    Saldo: {{ $e->quantidade_entrada - $e->quantidade_saida }}
+                                                </option>
                                             @endforeach
                                         </select>
+
                                         <input type="number" name="quantidades[]" class="form-control" placeholder="Qtd"
                                             min="1" required>
                                         <button type="button" class="btn btn-outline-success add-item">+</button>
@@ -69,12 +75,18 @@
                 newItem.classList.add('input-group', 'mb-2');
 
                 newItem.innerHTML = `
-                    <select name="produtos[]" class="form-select" required>
-                        <option value="">Selecione um produto</option>
-                        @foreach ($produtos as $produto)
-                            <option value="{{ $produto->id }}">{{ $produto->nome }} - {{ $produto->medida }}</option>
+                    <select name="estoques[]" class="form-select" required>
+                        <option value="">Selecione um lote</option>
+                        @foreach ($estoques as $e)
+                            <option value="{{ $e->id }}">
+                                {{ $e->produto->nome }} - 
+                                Lote: {{ $e->id }} - 
+                                Validade: {{ date('d/m/Y', strtotime($e->validade)) }} - 
+                                Saldo: {{ $e->quantidade_entrada - $e->quantidade_saida }}
+                            </option>
                         @endforeach
                     </select>
+
                     <input type="number" name="quantidades[]" class="form-control" placeholder="Qtd" min="1" required>
                     <button type="button" class="btn btn-outline-danger remove-item">−</button>
                 `;

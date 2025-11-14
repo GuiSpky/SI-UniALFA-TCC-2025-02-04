@@ -9,7 +9,7 @@
                     <h1 class="h2 fw-bold mb-1"><i class="bi bi-journal-check me-2"></i>Pedidos</h1>
                     <p class="text-muted mb-0">Gerencie os pedidos cadastrados no sistema</p>
                 </div>
-                @if (in_array(Auth::user()->cargo, [1, 4]))
+                @if (in_array(Auth::user()->cargo, [2]))
                     <a href="{{ route('pedidos.create') }}" class="btn btn-primary btn-sm ms-auto shadow-sm">
                         <i class="bi bi-plus-circle me-1"></i> Novo Pedido
                     </a>
@@ -52,33 +52,39 @@
                                 </td>
                                 <td>
                                     @foreach ($pedido->itens as $item)
-                                        {{ $item->produto->nome }} ({{ $item->quantidade }} {{ $produtos->where('id', $item->produto->id)->pluck('medida')->first() ?? 'N/A' }})<br>
+                                        {{ $item->produto->nome }} ({{ $item->quantidade }}
+                                        {{ $produtos->where('id', $item->produto->id)->pluck('medida')->first() ?? 'N/A' }})<br>
                                     @endforeach
                                 </td>
                                 <td class="text-end">
                                     @if ($pedido->status == 'Editando')
-                                        <a href="{{ route('pedidos.edit', $pedido) }}"
-                                            class="btn btn-sm btn-warning">Editar</a>
-                                        <form action="{{ route('pedidos.enviar', $pedido) }}" method="POST"
-                                            class="d-inline">
-                                            @csrf
-                                            @method('PUT')
-                                            <button class="btn btn-sm btn-primary">Enviar</button>
-                                        </form>
+                                        @can('update', $pedido)
+                                            <a href="{{ route('pedidos.edit', $pedido) }}"
+                                                class="btn btn-warning btn-sm">Editar</a>
+                                        @endcan
+                                        @can('enviar', $pedido)
+                                            <form method="POST" action="{{ route('pedidos.enviar', $pedido) }}"
+                                                class="d-inline">
+                                                @csrf @method('PUT')
+                                                <button class="btn btn-primary btn-sm">Enviar</button>
+                                            </form>
+                                        @endcan
                                     @elseif ($pedido->status == 'Enviado')
-                                        <form action="{{ route('pedidos.confirmado', $pedido) }}" method="POST"
-                                            class="d-inline">
-                                            @csrf
-                                            @method('PUT')
-                                            <button class="btn btn-sm btn-success">Confirmar</button>
-                                        </form>
+                                        @can('confirmar', $pedido)
+                                            <form method="POST" action="{{ route('pedidos.confirmado', $pedido) }}"
+                                                class="d-inline">
+                                                @csrf @method('PUT')
+                                                <button class="btn btn-success btn-sm">Confirmar</button>
+                                            </form>
+                                        @endcan
                                     @elseif ($pedido->status == 'Confirmado')
-                                        <form action="{{ route('pedidos.recebido', $pedido) }}" method="POST"
-                                            class="d-inline">
-                                            @csrf
-                                            @method('PUT')
-                                            <button class="btn btn-sm btn-secondary">Recebido</button>
-                                        </form>
+                                        @can('recebido', $pedido)
+                                            <form method="POST" action="{{ route('pedidos.recebido', $pedido) }}"
+                                                class="d-inline">
+                                                @csrf @method('PUT')
+                                                <button class="btn btn-secondary btn-sm">Recebido</button>
+                                            </form>
+                                        @endcan
                                     @endif
                                 </td>
                             </tr>
