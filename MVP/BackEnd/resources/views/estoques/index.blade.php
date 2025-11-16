@@ -9,13 +9,30 @@
                     <h1 class="h2 fw-bold mb-1"><i class="bi bi-map me-2"></i>Estoque</h1>
                     <p class="text-muted mb-0">Gerencie o estoque no sistema</p>
                 </div>
-                @if (in_array(Auth::user()->cargo, [1, 2]))
-                    <a href="{{ route('estoque.create') }}" class="btn btn-primary btn-sm ms-auto shadow-sm">
+                @if (Auth::user()->cargo == 1)
+                    <a href="{{ route('estoques.create') }}" class="btn btn-primary btn-sm ms-auto shadow-sm">
                         <i class="bi bi-plus-circle me-1"></i> Nova Entrada
                     </a>
                 @endif
+
             </div>
         </div>
+        @if (Auth::user()->cargo == 1)
+            <form method="GET" class="d-flex align-items-center mb-3">
+                <label for="escola_id" class="me-2 fw-semibold">Filtrar por escola:</label>
+
+                <select name="escola_id" id="escola_id" class="form-select w-auto" onchange="this.form.submit()">
+
+                    @foreach ($escolas as $escola)
+                        <option value="{{ $escola->id }}" {{ $escolaSelecionada == $escola->id ? 'selected' : '' }}>
+                            {{ $escola->nome }}
+                        </option>
+                    @endforeach
+
+                </select>
+            </form>
+        @endif
+
         <div class="card shadow-sm border-2 shadow-sm rounded-3">
             <div class="table-responsive">
                 <table class="table table-hover table-striped mb-0 table-bordered custom-table">
@@ -23,9 +40,9 @@
                         <tr class="text-uppercase small fw-bold">
                             <th>ID</th>
                             <th>Produto</th>
-                            <th>Qtd. Saldo</th>
+                            <th>Saldo</th>
                             <th>Data Entrada</th>
-                            {{-- <th>Nr Pedido</th> --}}
+                            <th>Pedido</th>
                             <th>Validade</th>
                             <th>Depósito</th>
                         </tr>
@@ -38,21 +55,31 @@
                                 </td>
 
                                 <td>
-                                    <a href="{{ route('estoque.show', $item) }}">
-                                        {{ $produtos->where('id', $item->id_produto)->pluck('nome')->first() ?? 'N/A' }}
+                                    <a href="{{ route('estoques.show', $item) }}">
+                                        {{ $produtos->where('id', $item->produto_id)->pluck('nome')->first() ?? 'N/A' }}
                                     </a>
                                 </td>
 
                                 <td>
                                     {{ $item->quantidade_saldo }}
-                                    {{ $produtos->where('id', $item->id_produto)->pluck('medida')->first() ?? 'N/A' }}
+                                    {{ $produtos->where('id', $item->produto_id)->pluck('medida')->first() ?? 'N/A' }}
                                 </td>
 
                                 <td>{{ \Carbon\Carbon::parse($item->data)->format('d/m/Y') }}</td>
 
+                                <td>
+                                    @if ($item->pedido_id)
+                                        <a href="{{ route('pedidos.show', $item->pedido_id) }}">
+                                            {{ $item->pedido_id }}
+                                        </a>
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+
                                 <td>{{ \Carbon\Carbon::parse($item->validade)->format('d/m/Y') }}</td>
 
-                                <td>{{ $escolas->where('id', $item->id_escola)->pluck('nome')->first() ?? 'N/A' }}</td>
+                                <td>{{ $escolas->where('id', $item->escola_id)->first()->nome ?? 'Sem escola' }}</td>
 
                             </tr>
                         @empty

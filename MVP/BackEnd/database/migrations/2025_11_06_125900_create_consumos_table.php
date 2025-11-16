@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('consumos', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignId('escola_id')
+                ->constrained('escolas')
+                ->onDelete('cascade');
+
             $table->timestamps();
         });
     }

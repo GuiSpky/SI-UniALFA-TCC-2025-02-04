@@ -9,7 +9,7 @@ class Pedido extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['status', 'id_escola'];
+    protected $fillable = ['status', 'escola_id'];
 
     public function itens()
     {
@@ -18,6 +18,6 @@ class Pedido extends Model
 
     public function escola()
     {
-        return $this->belongsTo(Escola::class, 'id_escola');
+        return $this->belongsTo(Escola::class);
     }
 }

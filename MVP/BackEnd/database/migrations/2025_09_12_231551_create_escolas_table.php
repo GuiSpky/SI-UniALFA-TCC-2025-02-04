@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('escolas', function (Blueprint $table) {
             $table->id();
             $table->string('nome', 50);
-            $table->bigInteger('id_cidade')->unsigned();
-            $table->foreign('id_cidade')->references('id')->on('cidades');
-            $table->bigInteger('id_bairro')->unsigned();
-            $table->foreign('id_bairro')->references('id')->on('bairros');
+            $table->bigInteger('cidade_id')->unsigned();
+            $table->foreign('cidade_id')->references('id')->on('cidades');
+            $table->bigInteger('bairro_id')->unsigned();
+            $table->foreign('bairro_id')->references('id')->on('bairros');
             $table->boolean('estoque_central')->default(0);
             $table->timestamps();
         });

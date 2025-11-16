@@ -9,12 +9,12 @@ class ItemReceita extends Model
     protected $table = 'item_receitas';
     public $timestamps = false;
     protected $fillable = [
-        'id_produto',
-        'id_cardapio',
+        'produto_id',
+        'cardapio_id',
     ];
 
     public function produto()
     {
-        return $this->belongsTo(Produto::class, 'id_produto');
+        return $this->belongsTo(Produto::class);
     }
 }

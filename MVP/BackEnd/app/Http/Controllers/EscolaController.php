@@ -39,8 +39,8 @@ class EscolaController extends Controller
     {
         $dados = $request->validate([
             'nome' => 'required|string|max:255|unique:escolas,nome',
-            'id_cidade' => 'required|integer',
-            'id_bairro' => 'required|integer',
+            'cidade_id' => 'required|integer',
+            'bairro_id' => 'required|integer',
         ], [
             'nome.required' => 'Nome deve ser informado.',
             'nome.unique' => 'Escola já cadastrada.',
@@ -88,8 +88,8 @@ class EscolaController extends Controller
 
         $dados = $request->validate([
             'nome' => ['required', 'string', 'max:200',Rule::unique('escolas')->ignore($id)],
-            'id_cidade' => 'required|integer',
-            'id_bairro' => 'required|integer',
+            'cidade_id' => 'required|integer',
+            'bairro_id' => 'required|integer',
         ], [
             'nome.required' => 'Nome deve ser informado.',
             'nome.unique' => 'Escola já cadastrada.',
@@ -118,8 +118,8 @@ class EscolaController extends Controller
     public function getEscolaBairro()
     {
         $escolas = DB::table('escolas')
-            ->join('bairros', 'escolas.id_bairro', '=', 'bairros.id')
-            ->join('cidades', 'escolas.id_cidade', '=', 'cidades.id')
+            ->join('bairros', 'escolas.cidade_id', '=', 'bairros.id')
+            ->join('cidades', 'escolas.bairro_id', '=', 'cidades.id')
             ->select(
                 'escolas.id',
                 'escolas.nome as nome',

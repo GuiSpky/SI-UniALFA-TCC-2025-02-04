@@ -46,12 +46,12 @@
 
                             {{-- Cidade --}}
                             <div class="mb-3">
-                                <label for="id_cidade" class="form-label">Cidade</label>
-                                <select name="id_cidade" id="id_cidade" class="form-select" required>
+                                <label for="cidade_id" class="form-label">Cidade</label>
+                                <select name="cidade_id" id="cidade_id" class="form-select" required>
                                     <option value="">Selecione uma Cidade</option>
                                     @foreach ($cidades as $cidade)
                                         <option value="{{ $cidade->id }}"
-                                            {{ old('id_cidade', $bairro->id_cidade) == $cidade->id ? 'selected' : '' }}>
+                                            {{ old('cidade_id', $bairro->cidade_id) == $cidade->id ? 'selected' : '' }}>
                                             {{ $cidade->nome }}
                                         </option>
                                     @endforeach

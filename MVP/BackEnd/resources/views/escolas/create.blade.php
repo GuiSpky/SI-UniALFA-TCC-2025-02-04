@@ -39,8 +39,8 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="id_bairro" class="form-label">Bairro</label>
-                                <select class="form-select" id="id_bairro" name="id_bairro" required>
+                                <label for="bairro_id" class="form-label">Bairro</label>
+                                <select class="form-select" id="bairro_id" name="bairro_id" required>
                                     <option value="">Selecione um Bairro</option>
                                     @foreach ($bairros as $bairro)
                                         <option value="{{ $bairro->id }}">{{ $bairro->nome }}</option>
@@ -49,8 +49,8 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="id_cidade" class="form-label">Cidade</label>
-                                <select class="form-select" id="id_cidade" name="id_cidade" required>
+                                <label for="cidade-id" class="form-label">Cidade</label>
+                                <select class="form-select" id="cidade-id" name="cidade-id" required>
                                     <option value="">Selecione uma Cidade</option>
                                     @foreach ($cidades as $cidade)
                                         <option value="{{ $cidade->id }}">{{ $cidade->nome }}</option>

@@ -67,12 +67,12 @@
 
                             {{-- Escola --}}
                             <div class="mb-3">
-                                <label for="id_escola" class="form-label">Escola</label>
-                                <select name="id_escola" id="id_escola" class="form-select" required>
+                                <label for="escola_id" class="form-label">Escola</label>
+                                <select name="escola_id" id="escola_id" class="form-select" required>
                                     <option value="">Selecione uma Escola</option>
                                     @foreach ($escolas as $escola)
                                         <option value="{{ $escola->id }}"
-                                            {{ old('id_escola', $user->id_escola) == $escola->id ? 'selected' : '' }}>
+                                            {{ old('escola_id', $user->escola_id) == $escola->id ? 'selected' : '' }}>
                                             {{ $escola->nome }}
                                         </option>
                                     @endforeach

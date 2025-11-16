@@ -13,9 +13,17 @@ return new class extends Migration
     {
         Schema::create('item_consumos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('consumo_id')->constrained('consumos')->onDelete('cascade');
-            $table->foreignId('estoque_id')->constrained('estoque')->onDelete('cascade');
+
+            $table->foreignId('consumo_id')
+                ->constrained('consumos')
+                ->onDelete('cascade');
+
+            $table->foreignId('estoque_id')
+                ->constrained('estoques')
+                ->onDelete('cascade');
+
             $table->integer('quantidade');
+
             $table->timestamps();
         });
     }

@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('item_receitas', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('id_produto')->unsigned();
-            $table->foreign('id_produto')->references('id')->on('produtos');
-            $table->bigInteger('id_cardapio')->unsigned();
-            $table->foreign('id_cardapio')->references('id')->on('cardapios');
+            $table->bigInteger('produto_id')->unsigned();
+            $table->foreign('produto_id')->references('id')->on('produtos');
+            $table->bigInteger('cardapio_id')->unsigned();
+            $table->foreign('cardapio_id')->references('id')->on('cardapios');
             $table->timestamps();
         });
     }

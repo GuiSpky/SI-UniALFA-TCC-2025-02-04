@@ -47,7 +47,7 @@
                     <div class="col-md-6 mb-3">
                         <p class="mb-1 text-muted small">Local de Trabalho</p>
                         <p class="fw-semibold">
-                            {{ $escolas->where('id', $user->id_escola)->pluck('nome')->first() }}
+                            {{ $escolas->where('id', $user->escola_id)->pluck('nome')->first() }}
                         </p>
                     </div>
                                         

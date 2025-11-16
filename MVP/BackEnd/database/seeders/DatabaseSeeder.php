@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Produto;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -26,7 +25,7 @@ class DatabaseSeeder extends Seeder
         EstoqueSeeder::class,
         CardapioSeeder::class,
         PedidoSeeder::class,
-        ConsumoSeeder::class,
+        // ConsumoSeeder::class,
         ]);
         User::factory()->create([
             'name' => 'Test User',

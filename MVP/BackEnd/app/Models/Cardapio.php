@@ -20,6 +20,6 @@ class Cardapio extends Model
 
     public function itens()
     {
-        return $this->hasMany(ItemReceita::class, 'id_cardapio');
+        return $this->hasMany(ItemReceita::class);
     }
 }

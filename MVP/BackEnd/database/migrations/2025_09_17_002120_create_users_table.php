@@ -30,9 +30,8 @@ return new class extends Migration
             $table->rememberToken();
 
             // Relacionamento com escolas (mantido, mas atenção ao nome da chave estrangeira)
-            // O Laravel por padrão esperaria 'escola_id'.
             // Vamos manter o seu, mas fique ciente disso ao definir os relacionamentos no Model.
-            $table->foreignId('id_escola')
+            $table->foreignId('escola_id')
                 ->nullable()
                 ->constrained('escolas')
                 ->nullOnDelete();

@@ -13,14 +13,19 @@ class EstoqueSeeder extends Seeder
         $itens = [];
 
         for ($i = 1; $i <= 10; $i++) {
+            $entrada = rand(50, 200);
+            $saida = 0;
+            $saldo = $entrada;
+
             $itens[] = [
-                'quantidade_entrada' => rand(50, 200),
-                'quantidade_saida' => rand(0, 50),
-                'validade' => Carbon::now()->addDays(rand(30, 180))->toDateString(),
-                'id_produto' => $i,
-                'id_escola' => rand(1, 10),
-                'created_at' => now(),
-                'updated_at' => now(),
+                'quantidade_entrada' => $entrada,
+                'quantidade_saida'   => $saida,
+                'quantidade_saldo'   => $saldo,
+                'validade'           => Carbon::now()->addDays(rand(30, 180))->toDateString(),
+                'produto_id'         => $i,
+                'escola_id'          => 1,
+                'created_at'         => now(),
+                'updated_at'         => now(),
             ];
         }
 

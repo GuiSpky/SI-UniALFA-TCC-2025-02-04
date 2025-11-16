@@ -48,8 +48,8 @@ class CardapioController extends Controller
             // Salva os produtos na tabela item_receita
             foreach ($validated['produtos'] as $produtoId) {
                 ItemReceita::create([
-                    'id_cardapio' => $cardapio->id,
-                    'id_produto' => $produtoId,
+                    'cardapio_id' => $cardapio->id,
+                    'produto_id' => $produtoId,
                 ]);
             }
 
@@ -93,9 +93,9 @@ class CardapioController extends Controller
         $cardapio->itens()->delete();
 
         // Recria os novos itens vinculados
-        foreach ($dados['produtos'] as $id_produto) {
+        foreach ($dados['produtos'] as $produto_id) {
             $cardapio->itens()->create([
-                'id_produto' => $id_produto,
+                'produto_id' => $produto_id,
             ]);
         }
 

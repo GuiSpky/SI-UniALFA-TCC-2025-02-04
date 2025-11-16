@@ -39,7 +39,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    {{ $cidades->where('id', $bairro->id_cidade)->pluck('nome')->first() ?? 'N/A' }}
+                                    {{ $cidades->where('id', $bairro->cidade_id)->pluck('nome')->first() ?? 'N/A' }}
                                 </td>
                                 <td class="text-end">
                                     <a href="{{ route('bairros.edit', $bairro->id) }}"

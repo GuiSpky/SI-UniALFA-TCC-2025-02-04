@@ -17,7 +17,7 @@ class PedidoSeeder extends Seeder
 
         for ($i = 0; $i < 10; $i++) {
             $pedido = Pedido::create([
-                'id_escola' => collect($escolas)->random(),
+                'escola_id' => collect($escolas)->random(),
                 'status' => 'Editando',
             ]);
 

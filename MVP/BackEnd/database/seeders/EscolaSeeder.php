@@ -10,16 +10,16 @@ class EscolaSeeder extends Seeder
     public function run(): void
     {
         $escolas = [
-            ['id_cidade' => 11, 'id_bairro' => 1, 'estoque_central' => 1, 'nome' => 'Merenda'],
-            ['id_cidade' => 11, 'id_bairro' => 2, 'estoque_central' => 0, 'nome' => 'Colégio Estadual Zona I'],
-            ['id_cidade' => 11, 'id_bairro' => 3, 'estoque_central' => 0, 'nome' => 'Escola Municipal Zona II'],
-            ['id_cidade' => 11, 'id_bairro' => 4, 'estoque_central' => 0, 'nome' => 'Colégio Estadual Zona III'],
-            ['id_cidade' => 11, 'id_bairro' => 5, 'estoque_central' => 0, 'nome' => 'Escola Municipal Zona IV'],
-            ['id_cidade' => 11, 'id_bairro' => 6, 'estoque_central' => 0, 'nome' => 'Colégio Estadual Zona V'],
-            ['id_cidade' => 11, 'id_bairro' => 7, 'estoque_central' => 0, 'nome' => 'Escola Municipal Jardim Aeroporto'],
-            ['id_cidade' => 11, 'id_bairro' => 8, 'estoque_central' => 0, 'nome' => 'Colégio Parque Dom Pedro I'],
-            ['id_cidade' => 11, 'id_bairro' => 9, 'estoque_central' => 0, 'nome' => 'Centro Educacional Jardim Panorama'],
-            ['id_cidade' => 11, 'id_bairro' => 10, 'estoque_central' => 0, 'nome' => 'Escola Municipal Jardim Cruzeiro'],
+            ['cidade_id' => 11, 'bairro_id' => 1, 'estoque_central' => 1, 'nome' => 'Merenda'],
+            ['cidade_id' => 11, 'bairro_id' => 2, 'estoque_central' => 0, 'nome' => 'Colégio Estadual Zona I'],
+            ['cidade_id' => 11, 'bairro_id' => 3, 'estoque_central' => 0, 'nome' => 'Escola Municipal Zona II'],
+            ['cidade_id' => 11, 'bairro_id' => 4, 'estoque_central' => 0, 'nome' => 'Colégio Estadual Zona III'],
+            ['cidade_id' => 11, 'bairro_id' => 5, 'estoque_central' => 0, 'nome' => 'Escola Municipal Zona IV'],
+            ['cidade_id' => 11, 'bairro_id' => 6, 'estoque_central' => 0, 'nome' => 'Colégio Estadual Zona V'],
+            ['cidade_id' => 11, 'bairro_id' => 7, 'estoque_central' => 0, 'nome' => 'Escola Municipal Jardim Aeroporto'],
+            ['cidade_id' => 11, 'bairro_id' => 8, 'estoque_central' => 0, 'nome' => 'Colégio Parque Dom Pedro I'],
+            ['cidade_id' => 11, 'bairro_id' => 9, 'estoque_central' => 0, 'nome' => 'Centro Educacional Jardim Panorama'],
+            ['cidade_id' => 11, 'bairro_id' => 10, 'estoque_central' => 0, 'nome' => 'Escola Municipal Jardim Cruzeiro'],
         ];
 
         foreach ($escolas as &$escola) {
