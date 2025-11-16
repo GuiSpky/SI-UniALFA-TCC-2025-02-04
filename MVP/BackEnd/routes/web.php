@@ -4,6 +4,7 @@ use App\Http\Controllers\BairroController;
 use App\Http\Controllers\CardapioController;
 use App\Http\Controllers\CidadeController;
 use App\Http\Controllers\ConsumoController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EscolaController;
 use App\Http\Controllers\EstoqueController;
 use App\Http\Controllers\PedidoController;
@@ -14,9 +15,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', function () {
-    return view('dashboard');
-})->middleware('auth')->name('dashboard');
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 // Inclui as rotas de autenticação do Breeze (login, registro, etc.)
 require __DIR__ . '/auth.php';
@@ -65,11 +64,11 @@ Route::middleware('auth')->group(function () {
         Route::delete('/usuarios/{id}', [UserController::class, 'destroy'])->name('usuarios.destroy');
         Route::post('/usuarios', [UserController::class, 'store'])->name('usuarios.store');
         // Rotas Estoque
-        Route::get('/estoque/create', [EstoqueController::class, 'create'])->name('estoque.create');
-        Route::get('/estoque/{id}/edite', [EstoqueController::class, 'edit'])->name('estoque.edit');
-        Route::put('/estoque/{id}', [EstoqueController::class, 'update'])->name('estoque.update');
-        Route::delete('/estoque/{id}', [EstoqueController::class, 'destroy'])->name('estoque.destroy');
-        Route::post('/estoque', [EstoqueController::class, 'store'])->name('estoque.store');
+        Route::get('/estoque/create', [EstoqueController::class, 'create'])->name('estoques.create');
+        Route::get('/estoque/{id}/edite', [EstoqueController::class, 'edit'])->name('estoques.edit');
+        Route::put('/estoque/{id}', [EstoqueController::class, 'update'])->name('estoques.update');
+        Route::delete('/estoque/{id}', [EstoqueController::class, 'destroy'])->name('estoques.destroy');
+        Route::post('/estoque', [EstoqueController::class, 'store'])->name('estoques.store');
 
         // Rotas Escolas
         Route::get('/escolas/{id}/edite', [EscolaController::class, 'edit'])->name('escolas.edit');
@@ -81,6 +80,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/relatorios', [RelatorioController::class, 'index'])->name('relatorios.index');
         Route::get('/relatorios/resultado', [RelatorioController::class, 'gerar'])->name('relatorios.resultado');
         Route::post('/relatorios', [RelatorioController::class, 'store'])->name('relatorios.store');
+        // Exportar Relatórios
+        Route::get('/relatorios/exportar/pdf', [RelatorioController::class, 'exportarPDF'])
+            ->name('relatorios.exportar.pdf');
+
+        Route::get('/relatorios/exportar/excel', [RelatorioController::class, 'exportarExcel'])
+            ->name('relatorios.exportar.excel');
+
 
         //Rota Produto
         Route::get('/produtos/create', [ProdutoController::class, 'create'])->name('produtos.create');
@@ -136,7 +142,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/cardapios/{id}', [CardapioController::class, 'destroy'])->name('cardapios.destroy');
         Route::post('/cardapios', [CardapioController::class, 'store'])->name('cardapios.store');
         // Rotas Estoque
-        Route::get('/estoque', [EstoqueController::class, 'index'])->name('estoque.index');
-        Route::get('/estoque/{id}', [EstoqueController::class, 'show'])->name('estoque.show');
+        Route::get('/estoque', [EstoqueController::class, 'index'])->name('estoques.index');
+        Route::get('/estoque/{id}', [EstoqueController::class, 'show'])->name('estoques.show');
     });
 });

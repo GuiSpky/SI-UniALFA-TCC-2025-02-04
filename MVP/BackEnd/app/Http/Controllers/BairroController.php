@@ -33,10 +33,10 @@ class BairroController extends Controller
     {
         $dados = $request->validate([
             'nome' => 'required|string|max:100|unique:bairros,nome',
-            'id_cidade' => 'required|integer|exists:cidades,id',
+            'cidade_id' => 'required|integer|exists:cidades,id',
         ], [
             'nome.unique' => 'Bairro já está cadastrado.',
-            'id_cidade.unique' => 'Informe a cidade.',
+            'cidade_id.unique' => 'Informe a cidade.',
         ]);
 
         try {
@@ -69,10 +69,10 @@ class BairroController extends Controller
 
         $validated = $request->validate([
             'nome' => 'required|string|max:100',
-            'id_cidade' => 'required|integer|exists:cidades,id',
+            'cidade_id' => 'required|integer|exists:cidades,id',
         ]);
 
-        $validated['id_cidade'] = (int) $validated['id_cidade'];
+        $validated['cidade_id'] = (int) $validated['cidade_id'];
 
         $bairro->update($validated);
 
@@ -92,8 +92,8 @@ class BairroController extends Controller
 
     public function getBairrosByCidade($id)
     {
-        $dados = Bairro::join('cidades', 'bairros.id_cidade', '=', 'cidades.id')
-            ->where('bairros.id_cidade', $id)
+        $dados = Bairro::join('cidades', 'bairros.cidade_id', '=', 'cidades.id')
+            ->where('bairros.cidade_id', $id)
             ->select('bairros.*', 'cidades.nome as nome_cidade')
             ->get();
 

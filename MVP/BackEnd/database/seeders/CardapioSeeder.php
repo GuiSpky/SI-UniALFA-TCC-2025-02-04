@@ -28,8 +28,8 @@ class CardapioSeeder extends Seeder
             $idsAleatorios = collect($produtos)->random(min(3, count($produtos)));
             foreach ($idsAleatorios as $id) {
                 ItemReceita::create([
-                    'id_produto' => $id,
-                    'id_cardapio' => $cardapio->id,
+                    'produto_id' => $id,
+                    'cardapio_id' => $cardapio->id,
                 ]);
             }
         }

@@ -10,20 +10,27 @@ use Illuminate\Support\Facades\DB;
 class RelatorioController extends Controller
 {
     /**
-     * Exibe o formulário de filtros.
+     * Exibe filtros e resultados (caso existam).
      */
-    public function index()
+    public function index(Request $request)
     {
-        $escolas = Escola::orderBy('nome')->get();
+        $escolas  = Escola::orderBy('nome')->get();
         $produtos = Produto::orderBy('nome')->get();
+        $dados    = collect();
+        $titulo   = null;
 
-        return view('relatorios.index', compact('escolas', 'produtos'));
+        if ($request->filled('tipo')) {
+            $dados = $this->gerarDados($request, $titulo);
+        }
+
+        return view('relatorios.index', compact('escolas', 'produtos', 'dados', 'titulo'));
     }
 
+
     /**
-     * Gera o relatório com base no tipo e filtros selecionados.
+     * Processa os filtros e retorna os dados.
      */
-    public function gerar(Request $request)
+    private function gerarDados($request, &$titulo)
     {
         $request->validate([
             'tipo' => 'required|string',
@@ -33,20 +40,29 @@ class RelatorioController extends Controller
 
         $dados = collect();
         $titulo = '';
-        $query = null;
 
         switch ($request->tipo) {
+
+            /* --------------------------------------------------------------
+            | RELATÓRIO 1 — CONSUMO POR ESCOLA
+            ---------------------------------------------------------------*/
             case 'consumo_escolas':
                 $titulo = 'Consumo por Escola';
-                $query = DB::table('consumos')
-                    ->join('escolas', 'escolas.id', '=', 'consumos.id_escola')
-                    ->join('produtos', 'produtos.id', '=', 'consumos.id_produto')
-                    ->select('escolas.nome as escola', DB::raw('SUM(consumos.quantidade) as total_consumido'))
+
+                $query = DB::table('item_consumos')
+                    ->join('consumos', 'consumos.id', '=', 'item_consumos.consumo_id')
+                    ->join('escolas', 'escolas.id', '=', 'consumos.escola_id')
+                    ->join('estoques', 'estoques.id', '=', 'item_consumos.estoque_id')
+                    ->join('produtos', 'produtos.id', '=', 'estoques.produto_id')
+                    ->select(
+                        'escolas.nome as escola',
+                        DB::raw('SUM(item_consumos.quantidade) as total_consumido')
+                    )
                     ->groupBy('escolas.nome')
                     ->orderByDesc('total_consumido');
 
                 if ($request->filled('data_inicio') && $request->filled('data_fim')) {
-                    $query->whereBetween('consumos.data', [$request->data_inicio, $request->data_fim]);
+                    $query->whereBetween('consumos.created_at', [$request->data_inicio, $request->data_fim]);
                 }
 
                 if ($request->filled('escola_id')) {
@@ -57,49 +73,88 @@ class RelatorioController extends Controller
                     $query->where('produtos.id', $request->produto_id);
                 }
 
-                $dados = $query->get();
-                break;
+                return $query->get();
 
+
+                /* --------------------------------------------------------------
+            | RELATÓRIO 2 — PRODUTOS MAIS SOLICITADOS
+            | Baseado na tabela itens do PEDIDO!
+            ---------------------------------------------------------------*/
             case 'solicitacoes_produtos':
                 $titulo = 'Produtos Mais Solicitados';
-                $query = DB::table('solicitacoes')
-                    ->join('produtos', 'produtos.id', '=', 'solicitacoes.id_produto')
-                    ->select('produtos.nome as produto', DB::raw('COUNT(*) as total_solicitacoes'))
+
+                $query = DB::table('item_pedidos')
+                    ->join('produtos', 'produtos.id', '=', 'item_pedidos.produto_id')
+                    ->join('pedidos', 'pedidos.id', '=', 'item_pedidos.pedido_id')
+                    ->select(
+                        'produtos.nome as produto',
+                        DB::raw('SUM(item_pedidos.quantidade) as total_solicitado')
+                    )
                     ->groupBy('produtos.nome')
-                    ->orderByDesc('total_solicitacoes');
+                    ->orderByDesc('total_solicitado');
 
                 if ($request->filled('data_inicio') && $request->filled('data_fim')) {
-                    $query->whereBetween('solicitacoes.data', [$request->data_inicio, $request->data_fim]);
+                    $query->whereBetween('pedidos.created_at', [$request->data_inicio, $request->data_fim]);
                 }
 
                 if ($request->filled('limite')) {
                     $query->limit($request->limite);
                 }
 
-                $dados = $query->get();
-                break;
+                return $query->get();
 
+
+                /* --------------------------------------------------------------
+            | RELATÓRIO 3 — ESTOQUE CRÍTICO
+            ---------------------------------------------------------------*/
             case 'estoque_critico':
-                $titulo = 'Estoque Atual';
-                $query = DB::table('produtos')
-                    ->select('nome as produto', 'quantidade_atual as estoque')
-                    ->orderBy('quantidade_atual');
+                $titulo = 'Estoque Crítico';
+
+                $query = DB::table('estoques')
+                    ->join('produtos', 'produtos.id', '=', 'estoques.produto_id')
+                    ->select(
+                        'produtos.nome as produto',
+                        DB::raw('(estoques.quantidade_entrada - estoques.quantidade_saida) AS saldo'),
+                        'estoques.validade'
+                    )
+                    ->orderBy('saldo');
 
                 if ($request->filled('limite_estoque')) {
-                    $query->where('quantidade_atual', '<', $request->limite_estoque);
+                    $query->havingRaw('(estoques.quantidade_entrada - estoques.quantidade_saida) < ?', [
+                        $request->limite_estoque
+                    ]);
                 }
 
-                $dados = $query->get();
-                break;
+                return $query->get();
+
 
             default:
-                return redirect()->back()->withErrors('Tipo de relatório inválido.');
+                return collect();
         }
 
-        // Extrair dados para o gráfico
-        $labels = $dados->pluck(array_keys((array) $dados->first())[0] ?? '')->toArray();
-        $valores = $dados->pluck(array_keys((array) $dados->first())[1] ?? '')->toArray();
+        return [
+            'dados' => $dados,
+            'titulo' => $titulo,
+            'labels' => $dados->pluck(array_keys((array) $dados->first())[0] ?? '')->toArray(),
+            'valores' => $dados->pluck(array_keys((array) $dados->first())[1] ?? '')->toArray(),
+        ];
+    }
 
-        return view('relatorios.resultado', compact('dados', 'titulo', 'labels', 'valores'));
+    public function exportarPDF(Request $request)
+    {
+        // Reexecuta a geração do relatório com os filtros atuais
+        $dadosRelatorio = $this->gerarDados($request);
+
+        // Gera o PDF
+        $pdf = Pdf::loadView('relatorios.pdf', $dadosRelatorio);
+
+        return $pdf->download('relatorio.pdf');
+    }
+
+    public function exportarExcel(Request $request)
+    {
+        $dadosRelatorio = $this->gerarDados($request);
+
+        return Excel::download(new \App\Exports\RelatorioExport($dadosRelatorio), 'relatorio.xlsx');
     }
 }

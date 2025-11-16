@@ -61,8 +61,8 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="id_escola" class="form-label">Escola</label>
-                                <select class="form-select" id="id_escola" name="id_escola" required>
+                                <label for="escola_id" class="form-label">Escola</label>
+                                <select class="form-select" id="escola_id" name="escola_id" required>
                                     <option value="">Selecione uma Escola</option>
                                     @foreach ($escolas as $escola)
                                         <option value="{{ $escola->id }}">{{ $escola->nome }}</option>

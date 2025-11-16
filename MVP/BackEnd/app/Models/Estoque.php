@@ -11,18 +11,23 @@ class Estoque extends Model
         'quantidade_saida',
         'quantidade_saldo',
         'validade',
-        'id_escola',
-        'id_produto'
+        'escola_id',
+        'produto_id',
+        'pedido_id'
     ];
 
-    protected $table = 'estoque';
+    protected $table = 'estoques';
 
     public function escola()
     {
-        return $this->belongsTo(Escola::class, 'id_escola');
+        return $this->belongsTo(Escola::class);
     }
     public function produto()
     {
-        return $this->belongsTo(Produto::class, 'id_produto');
+        return $this->belongsTo(Produto::class);
+    }
+    public function pedido()
+    {
+        return $this->belongsTo(Pedido::class);
     }
 }

@@ -18,7 +18,7 @@ class UserFactory extends Factory
             'telefone' => $this->faker->numerify('44########'),
             'cargo' => $this->faker->randomElement([1, 2, 3, 4]),
             'password' => Hash::make('senhateste123'),
-            'id_escola' => $escola->id,
+            'escola_id' => $escola->id,
         ];
     }
 }

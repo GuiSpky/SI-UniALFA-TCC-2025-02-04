@@ -17,17 +17,17 @@ class Usuario extends Model
         'telefone',
         'cargo',
         'password',
-        'id_escola',
+        'escola_id',
     ];
 
     protected $casts = [
         'cargo' => 'integer',
-        'id_escola' => 'integer',
+        'escola_id' => 'integer',
     ];
 
     // Relação com Escola (cada usuário pertence a uma escola)
     public function escola()
     {
-        return $this->belongsTo(Escola::class, 'id_escola');
+        return $this->belongsTo(Escola::class);
     }
 }

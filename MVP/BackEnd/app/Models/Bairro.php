@@ -12,7 +12,7 @@ class Bairro extends Model
 
     protected $fillable = [
         'nome',
-        'id_cidade',
+        'cidade_id',
     ];
 
     public function cidade()

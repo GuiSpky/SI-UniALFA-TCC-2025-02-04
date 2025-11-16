@@ -43,10 +43,10 @@
                                 <td>
                                     <span
                                         class="badge
-                        @if ($pedido->status == 'Editando') bg-warning
-                        @elseif($pedido->status == 'Enviado') bg-info
-                        @elseif($pedido->status == 'Recebido') bg-secondary
-                        @elseif($pedido->status == 'Confirmado') bg-success @endif">
+                        @if ($pedido->status == 'Editando') bg-primary
+                        @elseif($pedido->status == 'Enviado') bg-info text-dark
+                        @elseif($pedido->status == 'Confirmado') bg-success
+                        @elseif($pedido->status == 'Recebido') bg-dark @endif">
                                         {{ $pedido->status }}
                                     </span>
                                 </td>
@@ -60,13 +60,17 @@
                                     @if ($pedido->status == 'Editando')
                                         @can('update', $pedido)
                                             <a href="{{ route('pedidos.edit', $pedido) }}"
-                                                class="btn btn-warning btn-sm">Editar</a>
+                                                class="btn btn-outline-primary btn-sm" title="Editar">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
                                         @endcan
                                         @can('enviar', $pedido)
                                             <form method="POST" action="{{ route('pedidos.enviar', $pedido) }}"
                                                 class="d-inline">
                                                 @csrf @method('PUT')
-                                                <button class="btn btn-primary btn-sm">Enviar</button>
+                                                <button class="btn btn-outline-info btn-sm" title="Enviar">
+                                                    <i class="bi bi-send"></i>
+                                                    </a>
                                             </form>
                                         @endcan
                                     @elseif ($pedido->status == 'Enviado')
@@ -74,7 +78,9 @@
                                             <form method="POST" action="{{ route('pedidos.confirmado', $pedido) }}"
                                                 class="d-inline">
                                                 @csrf @method('PUT')
-                                                <button class="btn btn-success btn-sm">Confirmar</button>
+                                                <button class="btn btn-outline-success btn-sm" title="Confirmar">
+                                                    <i class="bi bi-check-lg"></i>
+                                                    </a>
                                             </form>
                                         @endcan
                                     @elseif ($pedido->status == 'Confirmado')
@@ -82,7 +88,9 @@
                                             <form method="POST" action="{{ route('pedidos.recebido', $pedido) }}"
                                                 class="d-inline">
                                                 @csrf @method('PUT')
-                                                <button class="btn btn-secondary btn-sm">Recebido</button>
+                                                <button class="btn btn-outline-dark btn-sm" title="Recebido">
+                                                    <i class="bi bi-arrow-down"></i>
+                                                    </a>
                                             </form>
                                         @endcan
                                     @endif

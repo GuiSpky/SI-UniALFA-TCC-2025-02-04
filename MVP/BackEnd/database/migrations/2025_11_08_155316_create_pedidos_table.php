@@ -12,8 +12,8 @@ return new class extends Migration
             $table->id();
 
             // Relacionamento com escola
-            $table->unsignedBigInteger('id_escola');
-            $table->foreign('id_escola')->references('id')->on('escolas')->onDelete('cascade');
+            $table->unsignedBigInteger('escola_id');
+            $table->foreign('escola_id')->references('id')->on('escolas')->onDelete('cascade');
 
             // Status do pedido
             $table->string('status')->default('Editando');

@@ -96,7 +96,26 @@
         }
 
         body.dark .table-striped>tbody>tr:nth-of-type(odd)>* {
-            --bs-table-bg-type: #374151;
+            --bs-table-bg-type: #2d3748;
+            /* linha ímpar mais escura */
+        }
+
+        body.dark .table-striped>tbody>tr:nth-of-type(even) {
+            background-color: #1f2937 !important;
+            /* linha par mais clara */
+        }
+
+        body.dark .table-hover>tbody>tr:hover {
+            background-color: #374151 !important;
+            /* destaque forte no hover */
+        }
+
+        body.dark .table thead th {
+            background-color: #111827 !important;
+            /* cabeçalho mais contrastado */
+            color: #f9fafb !important;
+            /* texto branco */
+            border-bottom: 2px solid #4b5563 !important;
         }
 
         body.dark .form-control,
@@ -269,6 +288,11 @@
             transition: margin-left 0.3s;
         }
 
+        body.dark .table> :not(caption)>*>* {
+            border-color: #4b5563 !important;
+            /* borda mais forte */
+        }
+
         /* Responsividade */
         @media (max-width: 768px) {
             .sidebar {
@@ -321,8 +345,8 @@
     <aside class="sidebar light" id="sidebar">
         <div>
             <div class="sidebar-header">
-                <i class="bi bi-gem fs-3"></i>
-                <span>GEMA</span>
+                <img src="{{ asset('images/logo_gema.png') }}" alt="Logo" style="height: 40px; width: auto;">
+                <span style="font-size: 1.2rem; font-weight: 600;">GEMA</span>
             </div>
 
             <ul class="nav flex-column">
@@ -373,8 +397,8 @@
                     @endif
 
                     @if (in_array(Auth::user()->cargo, [1, 2, 3, 4]))
-                        <li><a href="{{ route('estoque.index') }}"
-                                class="nav-link {{ Request::is('estoque*') ? 'active' : '' }}"><i
+                        <li><a href="{{ route('estoques.index') }}"
+                                class="nav-link {{ Request::is('estoques*') ? 'active' : '' }}"><i
                                     class="bi bi-shop-window"></i> Estoque</a></li>
                     @endif
                 @endauth

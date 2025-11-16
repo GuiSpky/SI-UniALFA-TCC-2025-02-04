@@ -59,7 +59,7 @@
                                             <input class="form-check-input" type="checkbox" name="produtos[]"
                                                 value="{{ $produto->id }}"
                                                 id="produto_{{ $produto->id }}"
-                                                {{ in_array($produto->id, $cardapio->itens->pluck('id_produto')->toArray()) ? 'checked' : '' }}>
+                                                {{ in_array($produto->id, $cardapio->itens->pluck('produto_id')->toArray()) ? 'checked' : '' }}>
                                             <label class="form-check-label" for="produto_{{ $produto->id }}">
                                                 {{ $produto->nome }}
                                             </label>

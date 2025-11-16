@@ -38,7 +38,7 @@
                     <div class="col-md-6 mb-3">
                         <p class="mb-1 text-muted small">Cidade</p>
                         <p class="fw-semibold">
-                            {{ $cidades->where('id', $bairro->id_cidade)->pluck('nome')->first() }}
+                            {{ $cidades->where('id', $bairro->cidade_id)->pluck('nome')->first() }}
                         </p>
                     </div>
                 </div>

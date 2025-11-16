@@ -7,7 +7,7 @@
     <div class="container-fluid py-4">
         <div class="mb-4 fade-in-up">
             <div class="d-flex align-items-center mb-4">
-                <a href="{{ route('estoque.index') }}" class="btn btn-outline-secondary btn-sm rounded-pill me-3">
+                <a href="{{ route('estoques.index') }}" class="btn btn-outline-secondary btn-sm rounded-pill me-3">
                     <i class="bi bi-arrow-left me-2"></i>Voltar
                 </a>
                 <div>
@@ -30,15 +30,19 @@
                     <div class="col-md-6 mb-3">
                         <p class="mb-1 text-muted small">Produto</p>
                         <p class="fw-semibold">
-                            {{ $produtos->where('id', $estoque->id_produto)->pluck('nome')->first() }}
+                            {{ $estoque->produto->nome }}
                         </p>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <p class="mb-1 text-muted small">Quantidade de entrada ({{ $produtos->where('id', $estoque->id_produto)->pluck('medida')->first() ?? 'N/A' }})</p>
+                        <p class="mb-1 text-muted small">Quantidade de entrada</p>
                         <p class="fw-semibold">{{ $estoque->quantidade_entrada }}</p>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <p class="mb-1 text-muted small">Quantidade de saldo ({{ $produtos->where('id', $estoque->id_produto)->pluck('medida')->first() ?? 'N/A' }})</p>
+                        <p class="mb-1 text-muted small">Quantidade de saída</p>
+                        <p class="fw-semibold">{{ $estoque->quantidade_saida }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <p class="mb-1 text-muted small">Quantidade de saldo</p>
                         <p class="fw-semibold">{{ $estoque->quantidade_saldo }}</p>
                     </div>
                     <div class="col-md-6 mb-3">
@@ -52,7 +56,7 @@
                     <div class="col-md-6 mb-3">
                         <p class="mb-1 text-muted small">Armazém</p>
                         <p class="fw-semibold">
-                            {{ $escolas->where('id', $estoque->id_escola)->pluck('nome')->first() }}
+                            {{ $estoque->escola->nome }}
                         </p>
                     </div>
                 </div>

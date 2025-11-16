@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Escola;
 use App\Models\Estoque;
+use App\Models\Pedido;
 use App\Models\Produto;
 use Illuminate\Http\Request;
 
@@ -14,43 +15,70 @@ class EstoqueController extends Controller
      */
     public function index(Request $request)
     {
+        $user = auth()->user();
         $perPage = $request->input('per_page', 10);
 
         $produtos = Produto::all();
-        $escolas = Escola::all();
-        $estoque = Estoque::paginate($perPage);
+        $escolas  = Escola::all();
 
-        return view('estoque.index', compact('perPage', 'escolas', 'estoque', 'produtos'));
+        // 📌 Cargo 1 → pode filtrar por qualquer escola
+        if ($user->cargo == 1) {
+
+            $escolaSelecionada = $request->input('escola_id', $user->escola_id);
+
+            $estoque = Estoque::where('escola_id', $escolaSelecionada)
+                ->paginate($perPage);
+
+            return view('estoques.index', compact('perPage', 'estoque', 'produtos', 'escolas', 'escolaSelecionada'));
+        }
+
+        // 📌 Cargo 2 → só vê sua própria escola
+        $estoque = Estoque::where('escola_id', $user->escola_id)
+            ->paginate($perPage);
+
+        $escolaSelecionada = $user->escola_id;
+
+        return view('estoques.index', compact('perPage', 'estoque', 'produtos', 'escolas', 'escolaSelecionada'));
     }
+
 
     public function create()
     {
+        if (auth()->user()->cargo != 1) {
+            return redirect()->route('estoques.index')
+                ->with('error', 'Acesso permitido somente para administradores municipais.');
+        }
+
         $produtos = Produto::all();
         $escolas = Escola::all();
-        $estoque = Estoque::all();
 
-        return view('estoque.create', compact('escolas', 'estoque', 'produtos'));
+        return view('estoques.create', compact('escolas', 'produtos'));
     }
+
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
+        if (auth()->user()->cargo != 1) {
+            return redirect()->route('estoques.index')
+                ->with('error', 'Acesso permitido somente para administradores municipais.');
+        }
+
         $dados = $request->validate([
-            'id_produto' => 'required|integer',
+            'produto_id' => 'required|integer',
             'quantidade_entrada' => 'required|integer|min:1',
             'validade' => 'required|date',
-            'id_escola' => 'required|integer',
+            'escola_id' => 'required|integer',
         ]);
 
-        // Saldo inicial = quantidade de entrada
         $dados['quantidade_saldo'] = $dados['quantidade_entrada'];
         $dados['quantidade_saida'] = 0;
 
         Estoque::create($dados);
 
-        return redirect()->route('estoque.index')->with('sucesso', 'Cadastro realizado com sucesso!');
+        return redirect()->route('estoques.index')->with('sucesso', 'Cadastro realizado com sucesso!');
     }
 
 
@@ -59,20 +87,18 @@ class EstoqueController extends Controller
      */
     public function show(string $id)
     {
-        $estoque = Estoque::find($id);
-        $produtos = Produto::all();
-        $escolas = Escola::all();
+        $estoque = Estoque::with(['produto', 'escola', 'pedido'])->findOrFail($id);
 
-        return view('estoque.show', compact('estoque', 'produtos', 'escolas'));
+        return view('estoques.show', compact('estoque'));
     }
 
     public function edit(string $id)
     {
-        $estoque = Estoque::find($id);
-        $produtos = Produto::all();
-        $escolas = Escola::all();
-
-        return view('estoque.edit', compact('estoque', 'produtos', 'escolas'));
+        return view('estoques.edit', [
+            'estoque' => Estoque::findOrFail($id),
+            'produtos' => Produto::all(),
+            'escolas' => Escola::all()
+        ]);
     }
 
     public function update(Request $request, string $id)
@@ -80,10 +106,10 @@ class EstoqueController extends Controller
         $estoque = Estoque::findOrFail($id);
 
         $dados = $request->validate([
-            'id_produto' => 'required|integer',
+            'produto_id' => 'required|integer|exists:produtos,id',
             'quantidade_entrada' => 'required|integer|min:1',
             'validade' => 'required|date',
-            'id_escola' => 'required|integer',
+            'escola_id' => 'required|integer|exists:escolas,id',
         ]);
 
         // Recalcular saldo (entrada - saídas já registradas)
@@ -95,19 +121,24 @@ class EstoqueController extends Controller
 
         $estoque->update($dados);
 
-        return redirect('/estoque')->with('sucesso', 'Entrada de estoque atualizada com sucesso!');
+        return redirect()
+            ->route('estoques.index')
+            ->with('sucesso', 'Entrada de estoque atualizada com sucesso!');
     }
-
 
     public function destroy(string $id)
     {
         try {
-            // Usa o Model User
             $estoque = Estoque::findOrFail($id);
             $estoque->delete();
-            return redirect()->route('estoque.index')->with('sucesso', 'Item excluído com sucesso!');
+
+            return redirect()
+                ->route('estoques.index')
+                ->with('sucesso', 'Item excluído com sucesso!');
         } catch (\Exception $e) {
-            return redirect()->route('estoque.index')->with('erro', 'Erro ao excluir o item.');
+            return redirect()
+                ->route('estoques.index')
+                ->with('erro', 'Erro ao excluir o item.');
         }
     }
 }

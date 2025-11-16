@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Consumo;
+use App\Models\Estoque;
+use App\Models\ItemConsumo;
 use App\Models\Pedido;
 use App\Models\Produto;
 use Illuminate\Http\Request;
@@ -22,10 +25,10 @@ class PedidoController extends Controller
                 ->where('status', '!=', 'Editando')
                 ->paginate($perPage);
 
-        // Usuários normais: apenas pedidos da própria escola
+            // Usuários normais: apenas pedidos da própria escola
         } else {
             $pedidos = Pedido::with(['escola', 'itens.produto'])
-                ->where('id_escola', $user->id_escola)
+                ->where('escola_id', $user->escola_id)
                 ->paginate($perPage);
         }
 
@@ -46,8 +49,10 @@ class PedidoController extends Controller
         }
 
         // Usuário normal só pode acessar pedidos de sua escola
-        if (!in_array($user->cargo, [1, 2]) &&
-            $pedido->id_escola !== $user->id_escola) {
+        if (
+            !in_array($user->cargo, [1, 2]) &&
+            $pedido->escola_id !== $user->escola_id
+        ) {
             return redirect()->route('pedidos.index')
                 ->with('error', 'Você não tem permissão para acessar este pedido.');
         }
@@ -72,13 +77,13 @@ class PedidoController extends Controller
 
         $user = auth()->user();
 
-        if (!$user || !$user->id_escola) {
+        if (!$user || !$user->escola_id) {
             return redirect()->back()->with('error', 'Usuário sem escola vinculada.');
         }
 
         $pedido = Pedido::create([
             'status' => 'Editando',
-            'id_escola' => $user->id_escola,
+            'escola_id' => $user->escola_id,
         ]);
 
         foreach ($request->produtos as $index => $produto_id) {
@@ -121,7 +126,7 @@ class PedidoController extends Controller
     public function update(Request $request, $id)
     {
         $pedido = Pedido::findOrFail($id);
-        
+
         $this->authorize('update', $pedido);
 
         if ($pedido->status !== 'Editando') {
@@ -143,7 +148,7 @@ class PedidoController extends Controller
     public function enviar($id)
     {
         $pedido = Pedido::findOrFail($id);
-        
+
         $this->authorize('enviar', $pedido);
 
         $pedido->update(['status' => 'Enviado']);
@@ -153,24 +158,109 @@ class PedidoController extends Controller
 
     public function recebido($id)
     {
-        $pedido = Pedido::findOrFail($id);
-        
+        $pedido = Pedido::with('itens.produto')->findOrFail($id);
+
         $this->authorize('recebido', $pedido);
+
+        // Usuário deve ser cargo 2
+        if (auth()->user()->cargo != 2) {
+            return redirect()->back()->with('error', 'Ação permitida somente para diretoria.');
+        }
+
+        foreach ($pedido->itens as $item) {
+
+            Estoque::create([
+                'produto_id' => $item->produto_id,
+                'quantidade_entrada' => $item->quantidade,
+                'quantidade_saldo' => $item->quantidade,
+                'quantidade_saida' => 0,
+                'validade' => now()->addMonths(6), // ajustar se houver campo de validade no pedido
+                'escola_id' => $pedido->escola_id,
+                'pedido_id' => $pedido->id,
+            ]);
+        }
 
         $pedido->update(['status' => 'Recebido']);
 
-        return redirect()->route('pedidos.index')->with('success', 'Pedido marcado como recebido!');
+        return redirect()->route('pedidos.index')->with('success', 'Pedido recebido e estoque atualizado!');
     }
+
 
     public function confirmado($id)
-    {
-        $pedido = Pedido::findOrFail($id);
+{
+    $pedido = Pedido::with('itens.produto')->findOrFail($id);
 
-        $this->authorize('confirmar', $pedido);
+    $this->authorize('confirmar', $pedido);
 
-        $pedido->update(['status' => 'Confirmado']);
-
-        return redirect()->route('pedidos.index')->with('success', 'Pedido confirmado com sucesso!');
+    if (auth()->user()->cargo != 1) {
+        return redirect()->back()->with('error', 'Ação permitida somente para administradores municipais.');
     }
+
+    // =============================
+    // 📌 CRIA O REGISTRO DE CONSUMO
+    // =============================
+    $consumo = Consumo::create([
+        'escola_id' => $pedido->escola_id,
+    ]);
+
+    // ========================================
+    // 📌 LOOP PARA BAIXAR ESTOQUE (FIFO)
+    // ========================================
+    foreach ($pedido->itens as $item) {
+
+        $quantidadeNecessaria = $item->quantidade;
+
+        // Estoques FIFO por validade crescente
+        $estoques = Estoque::where('produto_id', $item->produto_id)
+            ->where('quantidade_saldo', '>', 0)
+            ->orderBy('validade')
+            ->get();
+
+        foreach ($estoques as $estoque) {
+
+            if ($quantidadeNecessaria <= 0) break;
+
+            $disponivel = $estoque->quantidade_saldo;
+
+            // Quantidade que realmente será consumida deste estoque
+            $qtdConsumida = min($disponivel, $quantidadeNecessaria);
+
+            // ================================
+            // 📌 1. Atualiza o estoque (baixa)
+            // ================================
+            $estoque->quantidade_saldo -= $qtdConsumida;
+            $estoque->quantidade_saida += $qtdConsumida;
+            $estoque->save();
+
+            // =======================================
+            // 📌 2. Registra item do consumo
+            // =======================================
+            ItemConsumo::create([
+                'consumo_id' => $consumo->id,    // 🔥 agora está correto
+                'estoque_id' => $estoque->id,
+                'quantidade' => $qtdConsumida,
+            ]);
+
+            // diminui o necessário
+            $quantidadeNecessaria -= $qtdConsumida;
+        }
+
+        // =======================================
+        // 📌 Valida estoque insuficiente
+        // =======================================
+        if ($quantidadeNecessaria > 0) {
+            return redirect()->back()
+                ->with('error', "Estoque insuficiente para o produto {$item->produto->nome}.");
+        }
+    }
+
+    // =======================================
+    // 📌 Atualiza o status final do pedido
+    // =======================================
+    $pedido->update(['status' => 'Confirmado']);
+
+    return redirect()->route('pedidos.index')
+        ->with('success', 'Pedido confirmado, consumo registrado e estoque baixado com sucesso!');
 }
 
+}

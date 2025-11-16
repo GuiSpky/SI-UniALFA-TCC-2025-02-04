@@ -11,8 +11,8 @@ class Escola extends Model
 
     protected $fillable = [
         'nome',
-        'id_cidade',
-        'id_bairro',
+        'cidade_id',
+        'bairro_id',
         'estoque_central',
     ];
 
@@ -20,6 +20,6 @@ class Escola extends Model
 
     public function bairro()
     {
-        return $this->belongsTo(Bairro::class, 'id_bairro'); 
+        return $this->belongsTo(Bairro::class); 
     }
 }

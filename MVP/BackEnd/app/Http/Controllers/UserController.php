@@ -63,11 +63,11 @@ class UserController extends Controller
             'telefone' => 'required|string|max:20|unique:users,telefone',
             'password' => 'required|string|min:8',
             'cargo' => 'required|integer|in:1,2,3,4',
-            'id_escola' => 'required|integer|exists:escolas,id',
+            'escola_id' => 'required|integer|exists:escolas,id',
         ], [
             'email.unique' => 'Este e-mail já está cadastrado.',
             'telefone.unique' => 'Este telefone já está cadastrado.',
-            'id_escola.exists' => 'A escola selecionada não existe.',
+            'escola_id.exists' => 'A escola selecionada não existe.',
             'cargo.in' => 'Cargo inválido.',
         ]);
 
@@ -103,7 +103,7 @@ class UserController extends Controller
             'email' => ['required', 'string', 'email', 'max:100', Rule::unique('users')->ignore($user->id)],
             'telefone' => ['required', 'string', 'max:20', Rule::unique('users')->ignore($user->id)],
             'cargo' => 'required|integer|in:1,2,3,4',
-            'id_escola' => 'required|integer|exists:escolas,id',
+            'escola_id' => 'required|integer|exists:escolas,id',
         ]);
 
         if ($request->filled('password')) {
