@@ -6,6 +6,8 @@ use App\Models\Escola;
 use App\Models\Produto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel; // Adicionado para corrigir "Class 'Excel' not found"
+use Barryvdh\DomPDF\Facade\Pdf; // Adicionado para corrigir "Class 'Pdf' not found" (assumindo o pacote comum)
 
 class RelatorioController extends Controller
 {
@@ -20,7 +22,10 @@ class RelatorioController extends Controller
         $titulo   = null;
 
         if ($request->filled('tipo')) {
-            $dados = $this->gerarDados($request, $titulo);
+            // A função gerarDados agora retorna um array com 'dados', 'titulo', etc.
+            // Precisamos extrair a Collection de dados corretamente.
+            $resultado = $this->gerarDados($request, $titulo);
+            $dados = $resultado['dados']; // Agora $dados é a Collection
         }
 
         return view('relatorios.index', compact('escolas', 'produtos', 'dados', 'titulo'));
@@ -30,7 +35,7 @@ class RelatorioController extends Controller
     /**
      * Processa os filtros e retorna os dados.
      */
-    private function gerarDados($request, &$titulo)
+    private function gerarDados(Request $request, &$titulo)
     {
         $request->validate([
             'tipo' => 'required|string',
@@ -73,7 +78,8 @@ class RelatorioController extends Controller
                     $query->where('produtos.id', $request->produto_id);
                 }
 
-                return $query->get();
+                $dados = $query->get();
+                break;
 
 
                 /* --------------------------------------------------------------
@@ -101,7 +107,8 @@ class RelatorioController extends Controller
                     $query->limit($request->limite);
                 }
 
-                return $query->get();
+                $dados = $query->get();
+                break;
 
 
                 /* --------------------------------------------------------------
@@ -120,16 +127,16 @@ class RelatorioController extends Controller
                     ->orderBy('saldo');
 
                 if ($request->filled('limite_estoque')) {
-                    $query->havingRaw('(estoques.quantidade_entrada - estoques.quantidade_saida) < ?', [
-                        $request->limite_estoque
-                    ]);
+                    $query->having('saldo', '<', $request->limite_estoque);
                 }
 
-                return $query->get();
+                $dados = $query->get();
+                break;
 
 
             default:
-                return collect();
+                $dados = collect();
+                break;
         }
 
         return [
@@ -143,7 +150,8 @@ class RelatorioController extends Controller
     public function exportarPDF(Request $request)
     {
         // Reexecuta a geração do relatório com os filtros atuais
-        $dadosRelatorio = $this->gerarDados($request);
+        $titulo = null; // Variável para receber o título
+        $dadosRelatorio = $this->gerarDados($request, $titulo);
 
         // Gera o PDF
         $pdf = Pdf::loadView('relatorios.pdf', $dadosRelatorio);
@@ -153,7 +161,8 @@ class RelatorioController extends Controller
 
     public function exportarExcel(Request $request)
     {
-        $dadosRelatorio = $this->gerarDados($request);
+        $titulo = null; // Variável para receber o título
+        $dadosRelatorio = $this->gerarDados($request, $titulo);
 
         return Excel::download(new \App\Exports\RelatorioExport($dadosRelatorio), 'relatorio.xlsx');
     }

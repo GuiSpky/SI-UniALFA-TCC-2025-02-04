@@ -9,7 +9,7 @@
                     <h1 class="h2 fw-bold mb-1"><i class="bi bi-journal-check me-2"></i>Consumos</h1>
                     <p class="text-muted mb-0">Gerencie os consumos no sistema</p>
                 </div>
-                @if (in_array(Auth::user()->cargo, [1, 4]))
+                @if (in_array(Auth::user()->cargo, [1, 2,4]))
                     <a href="{{ route('consumos.create') }}" class="btn btn-primary btn-sm ms-auto shadow-sm">
                         <i class="bi bi-plus-circle me-1"></i> Novo Consumo
                     </a>

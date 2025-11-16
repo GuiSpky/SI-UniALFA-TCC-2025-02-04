@@ -15,7 +15,6 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 // Inclui as rotas de autenticação do Breeze (login, registro, etc.)
 require __DIR__ . '/auth.php';
@@ -27,9 +26,8 @@ Route::middleware('auth')->group(function () {
     });
 
     // Rota do Dashboard: Acessível para TODOS os usuários logados.
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
 
     // Rotas de Perfil: Acessível para TODOS os usuários logados.
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

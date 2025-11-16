@@ -3,24 +3,46 @@
 namespace App\Exports;
 
 use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class RelatorioExport implements FromArray
+class RelatorioExport implements FromArray, WithHeadings
 {
-    protected $dados;
+    protected $dadosRelatorio;
 
-    public function __construct($dados)
+    public function __construct(array $dadosRelatorio)
     {
-        $this->dados = $dados;
+        $this->dadosRelatorio = $dadosRelatorio;
     }
 
+    /**
+    * @return array
+    */
     public function array(): array
     {
-        $cabecalho = array_keys((array)$this->dados['dados']->first() ?? []);
+        // A função gerarDados retorna um array com a chave 'dados' contendo a Collection
+        // e a chave 'titulo' com o título.
+        // Para exportar, precisamos apenas dos dados do relatório.
+        $dados = $this->dadosRelatorio['dados'];
 
-        $linhas = $this->dados['dados']->map(function ($linha) {
-            return (array)$linha;
+        // Converte a Collection de objetos para um array de arrays
+        return $dados->map(function ($item) {
+            return (array) $item;
         })->toArray();
+    }
 
-        return array_merge([$cabecalho], $linhas);
+    /**
+    * @return array
+    */
+    public function headings(): array
+    {
+        // Pega o primeiro item da Collection para extrair as chaves (cabeçalhos)
+        $dados = $this->dadosRelatorio['dados'];
+
+        if ($dados->isEmpty()) {
+            return [];
+        }
+
+        // Pega as chaves do primeiro objeto/array como cabeçalhos
+        return array_keys((array) $dados->first());
     }
 }
