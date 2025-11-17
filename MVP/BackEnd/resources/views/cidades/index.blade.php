@@ -7,7 +7,7 @@
         <div class="mb-4 fade-in-up">
             <div class="d-flex align-items-center mb-3">
                 <div>
-                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-geo-alt me-2"></i>Cidades</h1>
+                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-buildings me-2"></i>Cidades</h1>
                     <p class="text-muted mb-0">Gerencie as cidades cadastradas no sistema</p>
                 </div>
                 <a href="{{ route('cidades.create') }}" class="btn btn-primary btn-sm ms-auto shadow-sm">
@@ -20,7 +20,7 @@
                 <table class="table table-hover table-striped mb-0 table-bordered custom-table">
                     <thead>
                         <tr class="text-uppercase small fw-bold">
-                            <th>Código IBGE</th>
+                            <th class="col-cidade-id">ID</th>
                             <th>Nome</th>
                             <th>UF</th>
                             <th class="text-end">Ações</th>
@@ -29,13 +29,13 @@
                     <tbody>
                         @forelse ($cidades as $cidade)
                             <tr>
-                                <td>
+                                <td class="col-cidade-id">
                                     <span class="badge bg-primary">
-                                        {{ $cidade->codIbge }}
+                                        #{{ str_pad($cidade->id, 5, '0', STR_PAD_LEFT) }}
                                     </span>
                                 </td>
                                 <td>
-                                    <a href="{{ route('cidade.show', $cidade) }}">
+                                    <a href="{{ route('cidades.show', $cidade) }}">
                                         {{ $cidade->nome }}
                                     </a>
                                 </td>

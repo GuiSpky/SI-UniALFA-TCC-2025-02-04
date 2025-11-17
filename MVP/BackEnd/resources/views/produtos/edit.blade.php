@@ -52,8 +52,14 @@
 
                             <div class="mb-3">
                                 <label for="medida" class="form-label">Medida</label>
-                                <input type="text" class="form-control" id="medida" name="medida"
-                                    value="{{ old('medida', $produto->medida) }}" required>
+                                <select class="form-select" id="medida" name="medida" required>
+                                    @foreach ($medidas as $medida)
+                                        <option value="{{ $medida }}"
+                                            {{ $produto->medida == $medida ? 'selected' : '' }}>
+                                            {{ $medida }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             {{-- Botões --}}

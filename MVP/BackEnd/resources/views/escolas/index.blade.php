@@ -6,7 +6,7 @@
         <div class="mb-4 fade-in-up">
             <div class="d-flex align-items-center mb-3">
                 <div>
-                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-building me-2"></i>Escolas</h1>
+                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-mortarboard-fill me-2"></i>Escolas</h1>
                     <p class="text-muted mb-0">Gerencie as escolas cadastradas no sistema</p>
                 </div>
                 @if (in_array(Auth::user()->cargo, [1]))
@@ -21,10 +21,10 @@
                 <table class="table table-hover table-striped mb-0 table-bordered custom-table">
                     <thead>
                         <tr class="text-uppercase small fw-bold">
-                            <th>ID</th>
+                            <th class="col-escola-id">ID</th>
                             <th>Nome</th>
-                            <th>Bairro</th>
-                            <th>Cidade</th>
+                            <th class="col-escola-bairro">Bairro</th>
+                            <th class="col-escola-cidade">Cidade</th>
                             @if (in_array(Auth::user()->cargo, [1]))
                                 <th class="text-end">Ações</th>
                             @endif
@@ -33,20 +33,20 @@
                     <tbody>
                         @forelse ($escolas as $escola)
                             <tr>
-                                <td>
+                                <td class="col-escola-id">
                                     <span class="badge bg-primary">
-                                        {{ $escola->id }}
+                                        #{{ str_pad($escola->id, 5, '0', STR_PAD_LEFT) }}
                                     </span>
                                 </td>
                                 <td>
-                                    <a href="{{ route('escola.show', $escola) }}">
+                                    <a href="{{ route('escolas.show', $escola) }}">
                                         {{ $escola->nome }}
                                     </a>
                                 </td>
-                                <td>
+                                <td class="col-escola-bairro">
                                     {{ $bairros->where('id', $escola->bairro_id)->pluck('nome')->first() ?? 'N/A' }}
                                 </td>
-                                <td>
+                                <td class="col-escola-cidade">
                                     {{ $cidades->where('id', $escola->cidade_id)->pluck('nome')->first() ?? 'N/A' }}
                                 </td>
                                 @if (in_array(Auth::user()->cargo, [1]))

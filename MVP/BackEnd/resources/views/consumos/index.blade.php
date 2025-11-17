@@ -6,7 +6,7 @@
         <div class="mb-4 fade-in-up">
             <div class="d-flex align-items-center mb-3">
                 <div>
-                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-journal-check me-2"></i>Consumos</h1>
+                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-lightning-charge-fill me-2"></i>Consumos</h1>
                     <p class="text-muted mb-0">Gerencie os consumos no sistema</p>
                 </div>
                 @if (in_array(Auth::user()->cargo, [1, 2,4]))
@@ -22,18 +22,18 @@
                 <table class="table table-hover table-striped mb-0 table-bordered">
                     <thead>
                         <tr class="text-uppercase small fw-bold">
-                            <th>ID</th>
+                            <th class="col-consumos-id">ID</th>
                             <th>Itens</th>
-                            <th>Data de Saída</th>
+                            <th class="col-data-saida">Data de Saída</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($consumos as $consumo)
                             <tr>
-                                <td>
+                                <td class="col-consumos-id">
                                     <a href="{{ route('consumos.show', $consumo) }}"
                                         class="badge bg-primary text-decoration-none id">
-                                        #{{ str_pad($consumo->id, 4, '0', STR_PAD_LEFT) }}
+                                        #{{ str_pad($consumo->id, 5, '0', STR_PAD_LEFT) }}
                                     </a>
                                 </td>
                                 <td>
@@ -47,7 +47,7 @@
                                         <br>
                                     @endforeach
                                 </td>
-                                <td>
+                                <td class="col-data-saida">
                                     <i class="bi bi-calendar me-2"></i>
                                     {{ $consumo->created_at->format('d/m/Y') }}
                                 </td>

@@ -22,7 +22,7 @@
         <div class="card border-2 shadow-sm rounded-3">
             <div class="card-header border-0 py-3 d-flex justify-content-between align-items-center">
                 <h5 class="mb-0 text-secondary">
-                    <i class="bi bi-house-door me-2"></i>{{ $bairro->nome }}
+                    <i class="bi bi-person-badge me-2"></i>{{ $bairro->nome }}
                 </h5>
                 <span class="badge bg-primary-subtle text-primary px-3 py-2 border border-primary-subtle">
                     ID: {{ $bairro->id }}

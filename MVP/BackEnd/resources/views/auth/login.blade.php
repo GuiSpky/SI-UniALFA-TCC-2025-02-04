@@ -4,7 +4,7 @@
             <div class="card border-0 shadow-lg rounded-4 fade-in-up">
                 <div class="card-body p-5">
                     <div class="text-center mb-4">
-                        <i class="bi bi-gem text-primary" style="font-size: 3rem;"></i>
+                        <img src="{{ asset('images/logo_gema.png') }}" alt="Logo" style="height: 120px; width: auto;">
                         <h1 class="h4 fw-bold mt-3">Acesso ao Sistema</h1>
                         <p class="text-muted mb-0">Entre com suas credenciais para continuar</p>
                     </div>

@@ -209,6 +209,10 @@
             transition: background-color 0.3s, color 0.3s, width 0.3s;
             padding: 1rem 0;
             position: fixed;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         .sidebar.dark {
@@ -293,8 +297,67 @@
             /* borda mais forte */
         }
 
-        /* Responsividade */
+        /* Ocultar colunas específicas apenas no CELULAR */
         @media (max-width: 768px) {
+
+            /* USUÁRIOS */
+            .col-id,
+            .col-email,
+            .col-telefone,
+            .col-cargo {
+                display: none !important;
+            }
+
+            /* CIDADES */
+            .col-cidade-id {
+                display: none !important;
+            }
+
+            /* BAIRROS */
+            .col-bairro-id {
+                display: none !important;
+            }
+
+            /* CONSUMOS */
+            .col-data-saida {
+                display: none !important;
+            }
+
+            /* PEDIDOS */
+            .col-pedido-data,
+            .col-pedido-produtos,
+            .col-acoes {
+                display: none !important;
+            }
+
+            /* ESCOLAS */
+            .col-escola-id,
+            .col-escola-bairro,
+            .col-escola-cidade {
+                display: none !important;
+            }
+
+            /* PRODUTOS */
+            .col-produto-id,
+            .col-produto-grupo {
+                display: none !important;
+            }
+
+            /* CARDÁPIOS */
+            .col-cardapio-id,
+            .col-cardapio-acoes {
+                display: none !important;
+            }
+
+            /* ESTOQUE */
+            .col-estoque-id,
+            .col-estoque-data,
+            .col-estoque-validade,
+            .col-estoque-deposito,
+            .col-estoque-pedido {
+                display: none !important;
+            }
+
             .sidebar {
                 position: fixed;
                 left: -260px;
@@ -320,7 +383,33 @@
                 border-radius: 8px;
                 padding: 8px 10px;
             }
+
+            .estoque-filter-container {
+                background: #fff;
+                padding: 10px 12px;
+                border-radius: 10px;
+                border: 1px solid #ddd;
+                margin-bottom: 12px;
+            }
+
+            .estoque-filter-container label {
+                font-size: 0.8rem;
+                margin-bottom: 4px;
+                display: block;
+            }
+
+            .estoque-filter-container select {
+                width: 100%;
+                font-size: 0.9rem;
+                padding: 6px 10px;
+            }
+
+            /* Remove margem exagerada do container principal */
+            .estoque-filter-wrapper {
+                margin-bottom: 10px !important;
+            }
         }
+
 
         .fade-in-up {
             opacity: 0;
@@ -352,54 +441,58 @@
             <ul class="nav flex-column">
                 @auth
                     <li><a href="{{ route('dashboard') }}" class="nav-link {{ Request::is('/') ? 'active' : '' }}"><i
-                                class="bi bi-house"></i>
+                                class="bi bi-house-fill"></i>
                             Home</a></li>
 
                     @if (in_array(Auth::user()->cargo, [1]))
                         <li><a href="{{ route('usuarios.index') }}"
-                                class="nav-link {{ Request::is('usuarios*') ? 'active' : '' }}"><i class="bi bi-people"></i>
+                                class="nav-link {{ Request::is('usuarios*') ? 'active' : '' }}"><i
+                                    class="bi bi-people-fill"></i>
                                 Usuários</a></li>
                         <li><a href="{{ route('cidades.index') }}"
-                                class="nav-link {{ Request::is('cidades*') ? 'active' : '' }}"><i class="bi bi-geo-alt"></i>
+                                class="nav-link {{ Request::is('cidades*') ? 'active' : '' }}"><i
+                                    class="bi bi-buildings"></i>
                                 Cidades</a></li>
                         <li><a href="{{ route('bairros.index') }}"
-                                class="nav-link {{ Request::is('bairros*') ? 'active' : '' }}"><i class="bi bi-map"></i>
+                                class="nav-link {{ Request::is('bairros*') ? 'active' : '' }}"><i
+                                    class="bi bi-geo-alt-fill"></i>
                                 Bairros</a></li>
                         <li><a href="{{ route('relatorios.index') }}"
                                 class="nav-link {{ Request::is('relatorios*') ? 'active' : '' }}"><i
-                                    class="bi bi-card-list"></i>
+                                    class="bi bi-bar-chart-fill"></i>
                                 Relatórios</a></li>
                     @endif
 
                     @if (in_array(Auth::user()->cargo, [1, 2]))
                         <li><a href="{{ route('consumos.index') }}"
                                 class="nav-link {{ Request::is('consumos*') ? 'active' : '' }}"><i
-                                    class="bi bi-journal-arrow-down"></i> Consumos</a></li>
+                                    class="bi bi-lightning-charge-fill"></i> Consumos</a></li>
                         <li><a href="{{ route('pedidos.index') }}"
                                 class="nav-link {{ Request::is('pedidos*') ? 'active' : '' }}"><i
-                                    class="bi bi-journal-text"></i>
+                                    class="bi bi-clipboard-check"></i>
                                 Pedidos</a></li>
                     @endif
 
                     @if (in_array(Auth::user()->cargo, [1, 2, 4]))
                         <li><a href="{{ route('escolas.index') }}"
                                 class="nav-link {{ Request::is('escolas*') ? 'active' : '' }}"><i
-                                    class="bi bi-person-workspace"></i> Escolas</a></li>
+                                    class="bi bi-mortarboard-fill"></i> Escolas</a></li>
                         <li><a href="{{ route('produtos.index') }}"
-                                class="nav-link {{ Request::is('produtos*') ? 'active' : '' }}"><i class="bi bi-egg"></i>
+                                class="nav-link {{ Request::is('produtos*') ? 'active' : '' }}"><i
+                                    class="bi bi-box-seam"></i>
                                 Produtos</a></li>
                     @endif
 
                     @if (in_array(Auth::user()->cargo, [1, 2, 3, 4]))
                         <li><a href="{{ route('cardapios.index') }}"
                                 class="nav-link {{ Request::is('cardapios*') ? 'active' : '' }}"><i
-                                    class="bi bi-menu-button-wide"></i> Cardápios</a></li>
+                                    class="bi bi-list-ul"></i> Cardápios</a></li>
                     @endif
 
                     @if (in_array(Auth::user()->cargo, [1, 2, 3, 4]))
                         <li><a href="{{ route('estoques.index') }}"
                                 class="nav-link {{ Request::is('estoques*') ? 'active' : '' }}"><i
-                                    class="bi bi-shop-window"></i> Estoque</a></li>
+                                    class="bi bi-archive"></i> Estoque</a></li>
                     @endif
                 @endauth
             </ul>
@@ -408,15 +501,22 @@
         <div class="sidebar-footer dropdown">
             <div class="d-flex align-items-center gap-2 dropdown-toggle" data-bs-toggle="dropdown"
                 style="cursor: pointer;">
-                <img src="https://github.com/mdo.png" alt="user">
+                @php
+                    $icons = [
+                        1 => 'bi-award-fill', // Gerente
+                        2 => 'bi-fire', // Cozinheiro-chefe
+                        3 => 'bi-egg-fried', // Cozinheiro
+                        4 => 'bi-clipboard-pulse', // Nutricionista
+                    ];
+
+                    $iconClass = $icons[Auth::user()->cargo] ?? 'bi-person-circle';
+                @endphp
+
+                <i class="bi {{ $iconClass }}" style="font-size: 1.8rem;"></i>
+
                 <span>{{ Auth::user()->name ?? 'Usuário' }}</span>
             </div>
             <ul class="dropdown-menu dropdown-menu-end shadow">
-                <li><a class="dropdown-item" href="#">Perfil</a></li>
-                <li><a class="dropdown-item" href="#">Configurações</a></li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
                 <li>
                     <form action="{{ route('logout') }}" method="POST" class="m-0">
                         @csrf
