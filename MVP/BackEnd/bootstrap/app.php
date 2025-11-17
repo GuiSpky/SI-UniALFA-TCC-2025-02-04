@@ -20,38 +20,40 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
 
-        // 403 - Acesso negado
-        // $exceptions->render(function (HttpException $e, $request) {
-        //     if ($e->getStatusCode() === 403) {
-
-        //         // EVITAR LOOP NO LOGOUT
-        //         if ($request->is('logout') || $request->routeIs('logout')) {
-        //             return redirect()->route('login');
-        //         }
-
-        //         return redirect()->route('dashboard')
-        //             ->with('toast', 'Você não tem permissão para acessar esta página!')
-        //             ->with('toast_icon', '🔒');
-        //     }
-        // });
-
-        // 404 - Página não encontrada
+        /**
+         * 404 - Página não encontrada
+         */
         $exceptions->render(function (HttpException $e, $request) {
+
             if ($e->getStatusCode() === 404) {
-                return redirect()->back(fallback: url('/dashboard'))
+
+                // Nunca quebrar logout
+                if ($request->is('logout') || $request->routeIs('logout')) {
+                    return redirect()->route('login');
+                }
+
+                return redirect('/dashboard')
                     ->with('toast', 'A página solicitada não foi encontrada!')
                     ->with('toast_icon', '💡');
             }
         });
 
-        // 500 - Erro interno
+        /**
+         * 500 - Erro interno do servidor
+         */
         $exceptions->render(function (Throwable $e, $request) {
 
+            // Não sobrescrever erros HTTP válidos
             if ($e instanceof HttpException) {
                 return null;
             }
 
-            return redirect()->back(fallback: url('/dashboard'))
+            // Nunca quebrar logout
+            if ($request->is('logout') || $request->routeIs('logout')) {
+                return redirect()->route('login');
+            }
+
+            return redirect('/dashboard')
                 ->with('toast', 'Ocorreu um erro interno no servidor. Tente novamente mais tarde.')
                 ->with('toast_icon', '⚙️');
         });

@@ -600,18 +600,6 @@
             });
         </script>
     @endif
-{{-- 
-    @if (session('erro'))
-        <script>
-            Swal.fire({
-                title: 'Erro!',
-                text: '{{ session('erro') }}',
-                icon: 'error',
-                confirmButtonText: 'Continuar',
-                confirmButtonColor: '#dc3545'
-            });
-        </script>
-    @endif --}}
 
     @if (session('toast'))
         <script>
