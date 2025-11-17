@@ -6,51 +6,70 @@ use App\Models\Escola;
 use App\Models\Produto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Facades\Excel; // Adicionado para corrigir "Class 'Excel' not found"
-use Barryvdh\DomPDF\Facade\Pdf; // Adicionado para corrigir "Class 'Pdf' not found" (assumindo o pacote comum)
+use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class RelatorioController extends Controller
 {
-    /**
-     * Exibe filtros e resultados (caso existam).
-     */
     public function index(Request $request)
     {
         $escolas  = Escola::orderBy('nome')->get();
         $produtos = Produto::orderBy('nome')->get();
-        $dados    = collect();
-        $titulo   = null;
+
+        $resultado = [
+            'dados'   => collect(),
+            'titulo'  => null,
+            'labels'  => [],
+            'valores' => [],
+        ];
 
         if ($request->filled('tipo')) {
-            // A função gerarDados agora retorna um array com 'dados', 'titulo', etc.
-            // Precisamos extrair a Collection de dados corretamente.
-            $resultado = $this->gerarDados($request, $titulo);
-            $dados = $resultado['dados']; // Agora $dados é a Collection
+            $resultado = $this->gerarDados($request);
         }
 
-        return view('relatorios.index', compact('escolas', 'produtos', 'dados', 'titulo'));
+        return view('relatorios.index', array_merge($resultado, compact('escolas', 'produtos')));
     }
 
 
-    /**
-     * Processa os filtros e retorna os dados.
-     */
-    private function gerarDados(Request $request, &$titulo)
+    /* =====================================================
+    |  APLICA FILTROS COMUNS EM QUALQUER QUERY
+    ===================================================== */
+    private function applyCommonFilters($query, Request $request, $tabelaData = null)
     {
-        $request->validate([
-            'tipo' => 'required|string',
-            'data_inicio' => 'nullable|date',
-            'data_fim' => 'nullable|date|after_or_equal:data_inicio',
-        ]);
+        if ($request->filled('data_inicio') && $request->filled('data_fim')) {
+            $campo = $tabelaData ? "$tabelaData.created_at" : 'created_at';
+            $query->whereBetween($campo, [$request->data_inicio, $request->data_fim]);
+        }
 
+        // Filtro por mês
+        if ($request->filled('mes')) {
+            $campo = $tabelaData ? "$tabelaData.created_at" : 'created_at';
+            $query->whereMonth($campo, $request->mes);
+        }
+
+        // Filtro por ano
+        if ($request->filled('ano')) {
+            $campo = $tabelaData ? "$tabelaData.created_at" : 'created_at';
+            $query->whereYear($campo, $request->ano);
+        }
+
+        return $query;
+    }
+
+
+    /* =====================================================
+    |  GERA RELATÓRIO COMPLETO
+    ===================================================== */
+    private function gerarDados(Request $request)
+    {
         $dados = collect();
         $titulo = '';
 
         switch ($request->tipo) {
 
-            /* --------------------------------------------------------------
+            /* ----------------------------------------
             | RELATÓRIO 1 — CONSUMO POR ESCOLA
-            ---------------------------------------------------------------*/
+            -----------------------------------------*/
             case 'consumo_escolas':
                 $titulo = 'Consumo por Escola';
 
@@ -66,9 +85,7 @@ class RelatorioController extends Controller
                     ->groupBy('escolas.nome')
                     ->orderByDesc('total_consumido');
 
-                if ($request->filled('data_inicio') && $request->filled('data_fim')) {
-                    $query->whereBetween('consumos.created_at', [$request->data_inicio, $request->data_fim]);
-                }
+                $query = $this->applyCommonFilters($query, $request, 'consumos');
 
                 if ($request->filled('escola_id')) {
                     $query->where('escolas.id', $request->escola_id);
@@ -79,13 +96,26 @@ class RelatorioController extends Controller
                 }
 
                 $dados = $query->get();
+
+                // Formatar datas
+                $dados = $dados->map(function ($item) {
+                    foreach ($item as $key => $value) {
+                        if ($value && (str_contains($key, 'data') || str_contains($key, 'created_at') || str_contains($key, 'validade'))) {
+                            try {
+                                $item->$key = \Carbon\Carbon::parse($value)->format('d/m/Y');
+                            } catch (\Exception $e) {
+                            }
+                        }
+                    }
+                    return $item;
+                });
+
                 break;
 
 
-                /* --------------------------------------------------------------
+            /* ----------------------------------------
             | RELATÓRIO 2 — PRODUTOS MAIS SOLICITADOS
-            | Baseado na tabela itens do PEDIDO!
-            ---------------------------------------------------------------*/
+            -----------------------------------------*/
             case 'solicitacoes_produtos':
                 $titulo = 'Produtos Mais Solicitados';
 
@@ -99,21 +129,33 @@ class RelatorioController extends Controller
                     ->groupBy('produtos.nome')
                     ->orderByDesc('total_solicitado');
 
-                if ($request->filled('data_inicio') && $request->filled('data_fim')) {
-                    $query->whereBetween('pedidos.created_at', [$request->data_inicio, $request->data_fim]);
-                }
+                $query = $this->applyCommonFilters($query, $request, 'pedidos');
 
                 if ($request->filled('limite')) {
                     $query->limit($request->limite);
                 }
 
                 $dados = $query->get();
+
+                // Formatar datas
+                $dados = $dados->map(function ($item) {
+                    foreach ($item as $key => $value) {
+                        if ($value && (str_contains($key, 'data') || str_contains($key, 'created_at') || str_contains($key, 'validade'))) {
+                            try {
+                                $item->$key = \Carbon\Carbon::parse($value)->format('d/m/Y');
+                            } catch (\Exception $e) {
+                            }
+                        }
+                    }
+                    return $item;
+                });
+
                 break;
 
 
-                /* --------------------------------------------------------------
-            | RELATÓRIO 3 — ESTOQUE CRÍTICO
-            ---------------------------------------------------------------*/
+            /* ----------------------------------------
+            | RELATÓRIO 3 — ESTOQUE CRÍTICO / A VENCER
+            -----------------------------------------*/
             case 'estoque_critico':
                 $titulo = 'Estoque Crítico';
 
@@ -130,40 +172,55 @@ class RelatorioController extends Controller
                     $query->having('saldo', '<', $request->limite_estoque);
                 }
 
+                // Filtro: produtos vencidos
+                if ($request->filled('vencidos') && $request->vencidos == 1) {
+                    $query->where('estoques.validade', '<', now());
+                }
+
+                // Filtro: vencendo em X dias
+                if ($request->filled('vencendo_dias')) {
+                    $query->where('estoques.validade', '<=', now()->addDays($request->vencendo_dias));
+                }
+
                 $dados = $query->get();
-                break;
 
+                // Formatar datas
+                $dados = $dados->map(function ($item) {
+                    foreach ($item as $key => $value) {
+                        if ($value && (str_contains($key, 'data') || str_contains($key, 'created_at') || str_contains($key, 'validade'))) {
+                            try {
+                                $item->$key = \Carbon\Carbon::parse($value)->format('d/m/Y');
+                            } catch (\Exception $e) {
+                            }
+                        }
+                    }
+                    return $item;
+                });
 
-            default:
-                $dados = collect();
                 break;
         }
 
         return [
             'dados' => $dados,
             'titulo' => $titulo,
-            'labels' => $dados->pluck(array_keys((array) $dados->first())[0] ?? '')->toArray(),
-            'valores' => $dados->pluck(array_keys((array) $dados->first())[1] ?? '')->toArray(),
+            'labels' => $dados->pluck(array_keys((array)$dados->first())[0] ?? '')->toArray(),
+            'valores' => $dados->pluck(array_keys((array)$dados->first())[1] ?? '')->toArray(),
         ];
     }
 
+
+    /* -------------------- EXPORTAÇÕES ------------------- */
+
     public function exportarPDF(Request $request)
     {
-        // Reexecuta a geração do relatório com os filtros atuais
-        $titulo = null; // Variável para receber o título
-        $dadosRelatorio = $this->gerarDados($request, $titulo);
-
-        // Gera o PDF
-        $pdf = Pdf::loadView('relatorios.pdf', $dadosRelatorio);
-
+        $result = $this->gerarDados($request);
+        $pdf = Pdf::loadView('relatorios.pdf', $result);
         return $pdf->download('relatorio.pdf');
     }
 
     public function exportarExcel(Request $request)
     {
-        $titulo = null; // Variável para receber o título
-        $dadosRelatorio = $this->gerarDados($request, $titulo);
-
-        return Excel::download(new \App\Exports\RelatorioExport($dadosRelatorio), 'relatorio.xlsx');
+        $result = $this->gerarDados($request);
+        return Excel::download(new \App\Exports\RelatorioExport($result), 'relatorio.xlsx');
     }
 }
