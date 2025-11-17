@@ -32,31 +32,24 @@ return Application::configure(basePath: dirname(__DIR__))
                     return redirect()->route('login');
                 }
 
-                return redirect('/dashboard')
+                return redirect('/')
                     ->with('toast', 'A página solicitada não foi encontrada!')
                     ->with('toast_icon', '💡');
             }
+
+            if ($e->getStatusCode() === 500) {
+
+                // Nunca quebrar logout
+                if ($request->is('logout') || $request->routeIs('logout')) {
+                    return redirect()->route('login');
+                }
+
+                return redirect('/')
+                    ->with('toast', 'Ocorreu um erro interno no servidor. Tente novamente mais tarde')
+                    ->with('toast_icon', '⚙️');
+            }
         });
 
-        /**
-         * 500 - Erro interno do servidor
-         */
-        $exceptions->render(function (Throwable $e, $request) {
-
-            // Não sobrescrever erros HTTP válidos
-            if ($e instanceof HttpException) {
-                return null;
-            }
-
-            // Nunca quebrar logout
-            if ($request->is('logout') || $request->routeIs('logout')) {
-                return redirect()->route('login');
-            }
-
-            return redirect('/dashboard')
-                ->with('toast', 'Ocorreu um erro interno no servidor. Tente novamente mais tarde.')
-                ->with('toast_icon', '⚙️');
-        });
 
     })
     ->create();
