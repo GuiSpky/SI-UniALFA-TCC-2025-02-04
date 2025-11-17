@@ -8,6 +8,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         :root {
@@ -423,6 +424,12 @@
                 transform: translateY(0);
             }
         }
+
+        .swal2-icon {
+            border: none !important;
+            box-shadow: none !important;
+            background: transparent !important;
+        }
     </style>
 </head>
 
@@ -605,6 +612,47 @@
             });
         </script>
     @endif
+
+    @if (session('toast_error'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+            });
+
+            Toast.fire({
+                icon: 'error',
+                title: "{{ session('toast_error') }}"
+            });
+        </script>
+    @endif
+    @if (session('toast'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: true
+            });
+
+            Toast.fire({
+                icon: false,
+                title: "{{ addslashes(session('toast')) }}",
+                didOpen: (toast) => {
+                    const icon = document.createElement("div");
+                    icon.innerHTML = "{{ session('toast_icon') }}";
+                    icon.style.fontSize = "26px";
+                    icon.style.marginRight = "10px";
+                    toast.querySelector(".swal2-title").before(icon);
+                }
+            });
+        </script>
+    @endif
+
 </body>
 
 </html>
