@@ -36,13 +36,6 @@
                                     </ul>
                                 </div>
                             @endif
-                            
-                            {{-- Código IBGE --}}
-                            <div class="mb-3">
-                                <label for="codIbge" class="form-label">Código IBGE</label>
-                                <input type="number" class="form-control" id="codIbge" name="codIbge"
-                                    value="{{ old('codIbge', $cidade->codIbge) }}" required>
-                            </div>
 
                             {{-- Nome --}}
                             <div class="mb-3">

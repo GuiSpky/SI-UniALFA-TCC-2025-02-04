@@ -6,7 +6,7 @@
         <div class="mb-4 fade-in-up">
             <div class="d-flex align-items-center mb-3">
                 <div>
-                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-journal-check me-2"></i>Pedidos</h1>
+                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-clipboard-check me-2"></i>Pedidos</h1>
                     <p class="text-muted mb-0">Gerencie os pedidos cadastrados no sistema</p>
                 </div>
                 @if (in_array(Auth::user()->cargo, [2]))
@@ -22,24 +22,25 @@
                 <table class="table table-hover table-striped mb-0 table-bordered">
                     <thead>
                         <tr class="text-uppercase small fw-bold">
-                            <th>Número do Pedido</th>
+                            <th class="col-pedido-id">Número do Pedido</th>
                             <th>Escola</th>
-                            <th>Data do Pedido</th>
+                            <th class="col-pedido-data">Data do Pedido</th>
                             <th>Status</th>
-                            <th>Produtos</th>
-                            <th class="align-ite-center">Ações</th>
+                            <th class="col-pedido-produtos">Produtos</th>
+                            <th class="col-acoes align-ite-center">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($pedidos as $pedido)
                             <tr>
-                                <td>
-                                    <a class="badge bg-primary" href="{{ route('pedidos.show', $pedido) }}">
-                                        {{ $pedido->id }}
+                                <td class="col-pedido-id">
+                                    <a class="badge bg-primary text-decoration-none id"
+                                        href="{{ route('pedidos.show', $pedido) }}">
+                                        #{{ str_pad($pedido->id, 5, '0', STR_PAD_LEFT) }}
                                     </a>
                                 </td>
                                 <td>{{ $pedido->escola->nome ?? '—' }}</td>
-                                <td>{{ $pedido->created_at->format('d/m/Y') }}</td>
+                                <td class="col-pedido-data">{{ $pedido->created_at->format('d/m/Y') }}</td>
                                 <td>
                                     <span
                                         class="badge
@@ -50,13 +51,13 @@
                                         {{ $pedido->status }}
                                     </span>
                                 </td>
-                                <td>
+                                <td class="col-pedido-produtos">
                                     @foreach ($pedido->itens as $item)
                                         {{ $item->produto->nome }} ({{ $item->quantidade }}
                                         {{ $produtos->where('id', $item->produto->id)->pluck('medida')->first() ?? 'N/A' }})<br>
                                     @endforeach
                                 </td>
-                                <td class="text-end">
+                                <td class="col-acoes text-end">
                                     @if ($pedido->status == 'Editando')
                                         @can('update', $pedido)
                                             <a href="{{ route('pedidos.edit', $pedido) }}"

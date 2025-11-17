@@ -7,7 +7,7 @@
         <div class="mb-4 fade-in-up">
             <div class="d-flex align-items-center mb-3">
                 <div>
-                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-person-workspace me-2"></i>Produtos</h1>
+                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-box-seam me-2"></i>Produtos</h1>
                     <p class="text-muted mb-0">Gerencie as produtos cadastrados</p>
                 </div>
                 @if (in_array(Auth::user()->cargo, [1, 4]))
@@ -21,9 +21,9 @@
                 <table class="table table-hover table-striped mb-0 table-bordered custom-table">
                     <thead>
                         <tr class="text-uppercase small fw-bold">
-                            <th>Id</th>
+                            <th class="col-produto-id">Id</th>
                             <th>Nome</th>
-                            <th>Grupo</th>
+                            <th class="col-produto-grupo">Grupo</th>
                             <th>Medida</th>
                             @if (in_array(Auth::user()->cargo, [1, 4]))
                                 <th class="text-end">Ações</th>
@@ -33,17 +33,17 @@
                     <tbody>
                         @forelse ($produtos as $produto)
                             <tr>
-                                <td>
+                                <td class="col-produto-id">
                                     <span class="badge bg-primary">
-                                        {{ $produto->id }}
+                                        #{{ str_pad($produto->id, 5, '0', STR_PAD_LEFT) }}
                                     </span>
                                 </td>
                                 <td>
-                                    <a href="{{ route('produto.show', $produto) }}">
+                                    <a href="{{ route('produtos.show', $produto) }}">
                                         {{ $produto->nome }}
                                     </a>
                                 </td>
-                                <td>
+                                <td class="col-produto-grupo">
                                     <x-grupo-label :value="$produto->grupo" />
                                 </td>
                                 <td>

@@ -11,7 +11,7 @@
                     <i class="bi bi-arrow-left me-2"></i>Voltar
                 </a>
                 <div>
-                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-person-fill me-2"></i>Detalhes do Escola</h1>
+                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-mortarboard-fill me-2"></i>Detalhes do Escola</h1>
                     <p class="text-muted mb-0">Informações detalhadas do escola</p>
                 </div>
             </div>

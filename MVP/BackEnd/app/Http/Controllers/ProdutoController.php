@@ -16,24 +16,59 @@ class ProdutoController extends Controller
         4 => 'Fibras',
     ];
 
+    private $medidas = [
+        "Pacote 250g",
+        "Pacote 500g",
+        "Pacote 1kg",
+        "Pacote 5kg",
+        "Saco 25kg",
+        "Saco 50kg",
+        "Caixa 10kg",
+        "Caixa 12kg",
+        "Caixa 15kg",
+        "Garrafa 200ml",
+        "Garrafa 500ml",
+        "Garrafa 900ml",
+        "Garrafa 1L",
+        "Garrafa 2L",
+        "Lata 300ml",
+        "Caixa 1L",
+        "Unidade",
+        "Dúzia",
+        "Pacote",
+        "Caixa",
+        "Lata",
+        "Pote",
+        "Bandeja",
+        "Pacote 1kg congelado",
+        "Caixa térmica",
+        "Saco 800g",
+        "Peça"
+    ];
+
+
     public function index(Request $request)
     {
         $perPage = $request->input('per_page', 10);
         $produtos = Produto::paginate($perPage);
-        return view('produtos.index', compact('perPage','produtos'));
+        return view('produtos.index', compact('perPage', 'produtos'));
     }
 
     public function create()
     {
-        return view('produtos.create', ['grupos' => $this->grupos]);
+        return view('produtos.create', [
+            'grupos' => $this->grupos,
+            'medidas' => $this->medidas
+        ]);
     }
+
 
     public function store(Request $request)
     {
         $dados = $request->validate([
             'nome' => 'required|string|max:200|unique:produtos,nome',
             'grupo' => 'required|integer|in:1,2,3,4',
-            'medida' => 'required|string',
+            'medida' => ['required', Rule::in($this->medidas)],
         ], [
             'nome.required' => 'Nome deve ser informado.',
             'medida.required' => 'Medida deve ser informado.',
@@ -55,12 +90,13 @@ class ProdutoController extends Controller
     {
         $produto = Produto::findOrFail($id);
 
-
         return view('produtos.edit', [
             'produto' => $produto,
             'grupos' => $this->grupos,
+            'medidas' => $this->medidas
         ]);
     }
+
 
 
     public function update(Request $request, string $id)
@@ -70,7 +106,9 @@ class ProdutoController extends Controller
         $dados = $request->validate([
             'nome' => ['required', 'string', 'max:200', Rule::unique('produtos')->ignore($id)],
             'grupo' => 'required|integer|in:1,2,3,4',
+            'medida' => ['required', Rule::in($this->medidas)],
         ], [
+            'medida.required' => 'Medida deve ser informada.',
             'nome.required' => 'Nome deve ser informado.',
             'nome.unique' => 'Produto já cadastrado.',
         ]);

@@ -10,7 +10,7 @@
                     <i class="bi bi-arrow-left me-2"></i>Voltar
                 </a>
                 <div>
-                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-person-fill me-2"></i>Detalhes do Pedido</h1>
+                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-clipboard-check me-2"></i>Detalhes do Pedido</h1>
                     <p class="text-muted mb-0">Informações detalhadas do pedido</p>
                 </div>
             </div>

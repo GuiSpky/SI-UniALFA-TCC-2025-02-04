@@ -10,7 +10,7 @@
                     <i class="bi bi-arrow-left me-2"></i>Voltar
                 </a>
                 <div>
-                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-person-fill me-2"></i>Detalhes do Cidade</h1>
+                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-buildings me-2"></i>Detalhes do Cidade</h1>
                     <p class="text-muted mb-0">Informações detalhadas do cidade</p>
                 </div>
             </div>
@@ -26,10 +26,6 @@
             </div>
             <div class="card-body">
                 <div class="row mb-3">
-                    <div class="col-md-6 mb-3">
-                        <p class="mb-1 text-muted small">Código IBGE</p>
-                        <p class="fw-semibold">{{ $cidade->codIbge }}</p>
-                    </div>
                     <div class="col-md-6 mb-3">
                         <p class="mb-1 text-muted small">Nome</p>
                         <p class="fw-semibold">{{ $cidade->nome }}</p>

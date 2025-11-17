@@ -6,7 +6,7 @@
         <div class="mb-4 fade-in-up">
             <div class="d-flex align-items-center mb-3">
                 <div>
-                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-map me-2"></i>Estoque</h1>
+                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-archive me-2"></i>Estoque</h1>
                     <p class="text-muted mb-0">Gerencie o estoque no sistema</p>
                 </div>
                 @if (Auth::user()->cargo == 1)
@@ -18,19 +18,21 @@
             </div>
         </div>
         @if (Auth::user()->cargo == 1)
-            <form method="GET" class="d-flex align-items-center mb-3">
-                <label for="escola_id" class="me-2 fw-semibold">Filtrar por escola:</label>
+            <div class="estoque-filter-wrapper">
+                <form method="GET" class="estoque-filter-container">
 
-                <select name="escola_id" id="escola_id" class="form-select w-auto" onchange="this.form.submit()">
+                    <label for="escola_id" class="fw-semibold">Filtrar por escola:</label>
 
-                    @foreach ($escolas as $escola)
-                        <option value="{{ $escola->id }}" {{ $escolaSelecionada == $escola->id ? 'selected' : '' }}>
-                            {{ $escola->nome }}
-                        </option>
-                    @endforeach
+                    <select name="escola_id" id="escola_id" class="form-select" onchange="this.form.submit()">
+                        @foreach ($escolas as $escola)
+                            <option value="{{ $escola->id }}" {{ $escolaSelecionada == $escola->id ? 'selected' : '' }}>
+                                {{ $escola->nome }}
+                            </option>
+                        @endforeach
+                    </select>
 
-                </select>
-            </form>
+                </form>
+            </div>
         @endif
 
         <div class="card shadow-sm border-2 shadow-sm rounded-3">
@@ -38,22 +40,23 @@
                 <table class="table table-hover table-striped mb-0 table-bordered custom-table">
                     <thead>
                         <tr class="text-uppercase small fw-bold">
-                            <th>ID</th>
+                            <th class="col-estoque-id">ID</th>
                             <th>Produto</th>
                             <th>Saldo</th>
-                            <th>Data Entrada</th>
-                            <th>Pedido</th>
-                            <th>Validade</th>
-                            <th>Depósito</th>
+                            <th class="col-estoque-data">Data Entrada</th>
+                            <th class="col-estoque-pedido">Pedido</th>
+                            <th class="col-estoque-validade">Validade</th>
+                            <th class="col-estoque-deposito">Depósito</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($estoque as $item)
                             <tr>
-                                <td>
-                                    <span class="badge bg-primary">{{ $item->id }}</span>
+                                <td class="col-estoque-id">
+                                    <span class="badge bg-primary">
+                                        #{{ str_pad($item->id, 5, '0', STR_PAD_LEFT) }}
+                                    </span>
                                 </td>
-
                                 <td>
                                     <a href="{{ route('estoques.show', $item) }}">
                                         {{ $produtos->where('id', $item->produto_id)->pluck('nome')->first() ?? 'N/A' }}
@@ -65,9 +68,9 @@
                                     {{ $produtos->where('id', $item->produto_id)->pluck('medida')->first() ?? 'N/A' }}
                                 </td>
 
-                                <td>{{ \Carbon\Carbon::parse($item->data)->format('d/m/Y') }}</td>
+                                <td class="col-estoque-data">{{ \Carbon\Carbon::parse($item->data)->format('d/m/Y') }}</td>
 
-                                <td>
+                                <td class="col-estoque-pedido">
                                     @if ($item->pedido_id)
                                         <a href="{{ route('pedidos.show', $item->pedido_id) }}">
                                             {{ $item->pedido_id }}
@@ -77,9 +80,11 @@
                                     @endif
                                 </td>
 
-                                <td>{{ \Carbon\Carbon::parse($item->validade)->format('d/m/Y') }}</td>
+                                <td class="col-estoque-validade">
+                                    {{ \Carbon\Carbon::parse($item->validade)->format('d/m/Y') }}</td>
 
-                                <td>{{ $escolas->where('id', $item->escola_id)->first()->nome ?? 'Sem escola' }}</td>
+                                <td class="col-estoque-deposito">
+                                    {{ $escolas->where('id', $item->escola_id)->first()->nome ?? 'Sem escola' }}</td>
 
                             </tr>
                         @empty
