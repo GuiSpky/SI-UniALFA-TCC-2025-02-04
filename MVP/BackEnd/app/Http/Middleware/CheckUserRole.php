@@ -39,7 +39,10 @@ class CheckUserRole
         // 6. Se o loop terminar e o usuário não tiver nenhum dos cargos permitidos,
         //    ele é barrado. Redirecionamos para o dashboard com uma mensagem de erro.
         //    A função abort(403) também é uma ótima opção, pois retorna "Acesso Negado".
-        return redirect()->route('dashboard')->with('erro', 'Você não tem permissão para acessar esta página.');
+        return redirect()->route('dashboard')
+    ->with('toast', 'Você não tem permissão para acessar esta página!')
+    ->with('toast_icon', '🔒');
+
         // ou: abort(403, 'ACESSO NÃO AUTORIZADO.');
     }
 

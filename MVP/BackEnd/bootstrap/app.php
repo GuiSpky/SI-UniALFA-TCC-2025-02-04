@@ -3,7 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -13,15 +13,43 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
 
-        // Middleware global que você já usa
-        $middleware->append(\App\Http\Middleware\HandlePageExpired::class);
-
-        // Alias de middleware
         $middleware->alias([
             'role' => \App\Http\Middleware\CheckUserRole::class,
         ]);
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
+
+        /**
+         * 404 - Página não encontrada
+         */
+        $exceptions->render(function (HttpException $e, $request) {
+
+            if ($e->getStatusCode() === 404) {
+
+                // Nunca quebrar logout
+                if ($request->is('logout') || $request->routeIs('logout')) {
+                    return redirect()->route('login');
+                }
+
+                return redirect('/')
+                    ->with('toast', 'A página solicitada não foi encontrada!')
+                    ->with('toast_icon', '💡');
+            }
+
+            if ($e->getStatusCode() === 500) {
+
+                // Nunca quebrar logout
+                if ($request->is('logout') || $request->routeIs('logout')) {
+                    return redirect()->route('login');
+                }
+
+                return redirect('/')
+                    ->with('toast', 'Ocorreu um erro interno no servidor. Tente novamente mais tarde')
+                    ->with('toast_icon', '⚙️');
+            }
+        });
+
 
     })
     ->create();
