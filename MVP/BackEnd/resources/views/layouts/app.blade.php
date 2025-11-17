@@ -600,7 +600,7 @@
             });
         </script>
     @endif
-
+{{-- 
     @if (session('erro'))
         <script>
             Swal.fire({
@@ -611,24 +611,8 @@
                 confirmButtonColor: '#dc3545'
             });
         </script>
-    @endif
+    @endif --}}
 
-    @if (session('toast_error'))
-        <script>
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-            });
-
-            Toast.fire({
-                icon: 'error',
-                title: "{{ session('toast_error') }}"
-            });
-        </script>
-    @endif
     @if (session('toast'))
         <script>
             const Toast = Swal.mixin({
