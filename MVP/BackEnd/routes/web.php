@@ -22,7 +22,7 @@ require __DIR__ . '/auth.php';
 Route::middleware('auth')->group(function () {
 
     // Rota do Dashboard: Acessível para TODOS os usuários logados.
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/home', [DashboardController::class, 'index'])->name('dashboard');
 
 
     // Rotas de Perfil: Acessível para TODOS os usuários logados.
@@ -138,5 +138,13 @@ Route::middleware('auth')->group(function () {
         // Rotas Estoque
         Route::get('/estoque', [EstoqueController::class, 'index'])->name('estoques.index');
         Route::get('/estoque/{id}', [EstoqueController::class, 'show'])->name('estoques.show');
+    });
+
+    // erro 404
+    Route::fallback(function () {
+        return redirect()
+            ->route('dashboard')
+            ->with('toast', 'A página solicitada não foi encontrada!')
+            ->with('toast_icon', '💡');
     });
 });
