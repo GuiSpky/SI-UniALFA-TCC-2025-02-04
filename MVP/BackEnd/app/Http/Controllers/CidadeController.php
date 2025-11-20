@@ -65,7 +65,7 @@ class CidadeController extends Controller
                 'max:100',
                 Rule::unique('cidades')
                     ->where('uf', $request->uf)
-                    ->ignore($cidade->id)
+                    ->ignore($request->id)
             ],
             'uf' => 'required|string|max:2',
         ], [

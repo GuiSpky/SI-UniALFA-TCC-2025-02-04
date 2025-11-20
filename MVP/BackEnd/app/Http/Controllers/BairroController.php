@@ -39,7 +39,7 @@ class BairroController extends Controller
                 'max:100',
                 Rule::unique('bairros')
                     ->where('cidade_id', $request->cidade_id)
-                    ->ignore($bairro->id)
+                    ->ignore($request->id)
             ],
             'cidade_id' => 'required|integer|exists:cidades,id',
         ], [

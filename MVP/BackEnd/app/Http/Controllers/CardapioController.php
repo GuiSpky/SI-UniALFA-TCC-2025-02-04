@@ -110,7 +110,6 @@ class CardapioController extends Controller
     }
 }
 
-
     public function destroy(string $id)
     {
         try {
