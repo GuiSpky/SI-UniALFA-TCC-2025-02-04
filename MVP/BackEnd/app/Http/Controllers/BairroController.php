@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\BairroResource;
 use App\Models\Bairro;
 use App\Models\Cidade;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 
 class BairroController extends Controller
@@ -32,7 +33,14 @@ class BairroController extends Controller
     public function store(Request $request)
     {
         $dados = $request->validate([
-            'nome' => 'required|string|max:100|unique:bairros,nome',
+            'nome' => [
+                'required',
+                'string',
+                'max:100',
+                Rule::unique('bairros')
+                    ->where('cidade_id', $request->cidade_id)
+                    ->ignore($bairro->id)
+            ],
             'cidade_id' => 'required|integer|exists:cidades,id',
         ], [
             'nome.unique' => 'Bairro já está cadastrado.',
@@ -68,7 +76,14 @@ class BairroController extends Controller
         $bairro = Bairro::findOrFail($id);
 
         $validated = $request->validate([
-            'nome' => 'required|string|max:100',
+            'nome' => [
+                'required',
+                'string',
+                'max:100',
+                Rule::unique('bairros')
+                    ->where('cidade_id', $request->cidade_id)
+                    ->ignore($bairro->id)
+            ],
             'cidade_id' => 'required|integer|exists:cidades,id',
         ]);
 
