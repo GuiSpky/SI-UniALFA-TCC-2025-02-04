@@ -21,11 +21,11 @@
                 <table class="table table-hover table-striped mb-0 table-bordered custom-table">
                     <thead>
                         <tr class="text-uppercase small fw-bold">
-                            <th>Id</th>
+                            <th class="col-id">Id</th>
                             <th>Nome</th>
-                            <th>Email</th>
-                            <th>Telefone</th>
-                            <th>Cargo</th>
+                            <th class="col-email">Email</th>
+                            <th class="col-telefone">Telefone</th>
+                            <th class="col-cargo">Cargo</th>
                             <th>Local de trabalho</th>
                             <th class="text-end">Ações</th>
                         </tr>
@@ -33,19 +33,19 @@
                     <tbody>
                         @forelse ($users as $user)
                             <tr>
-                                <td>
+                                <td class="col-id">
                                     <span class="badge bg-primary">
-                                        {{ $user->id }}
+                                        #{{ str_pad($user->id, 5, '0', STR_PAD_LEFT) }}
                                     </span>
                                 </td>
                                 <td>
-                                    <a href="{{ route('usuario.show', $user) }}">
+                                    <a href="{{ route('usuarios.show', $user) }}">
                                         {{ $user->name }}
                                     </a>
                                 </td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->telefone }}</td>
-                                <td><x-cargo-label :value="$user->cargo" /></td>
+                                <td class="col-email">{{ $user->email }}</td>
+                                <td class="col-telefone">{{ $user->telefone }}</td>
+                                <td class="col-cargo"><x-cargo-label :value="$user->cargo" /></td>
                                 <td>{{ $user->escola->nome ?? 'Não vinculado' }}</td>
                                 </td>
                                 <td class="text-end">

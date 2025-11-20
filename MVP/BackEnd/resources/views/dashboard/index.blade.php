@@ -17,7 +17,7 @@
                 <div class="card shadow-sm border-2 p-3">
                     <div class="d-flex align-items-center">
                         <div class="rounded-circle bg-primary text-white p-3 me-3">
-                            <i class="bi bi-journal-arrow-down fs-3"></i>
+                            <i class="bi bi-lightning-charge fs-3"></i>
                         </div>
                         <div>
                             <h5 class="fw-bold mb-0">{{ $totalConsumos }}</h5>
@@ -31,7 +31,7 @@
                 <div class="card shadow-sm border-2 p-3">
                     <div class="d-flex align-items-center">
                         <div class="rounded-circle bg-success text-white p-3 me-3">
-                            <i class="bi bi-journal-text fs-3"></i>
+                            <i class="bi bi-clipboard-check fs-3"></i>
                         </div>
                         <div>
                             <h5 class="fw-bold mb-0">{{ $totalPedidos }}</h5>
@@ -45,7 +45,7 @@
                 <div class="card shadow-sm border-2 p-3">
                     <div class="d-flex align-items-center">
                         <div class="rounded-circle bg-warning text-white p-3 me-3">
-                            <i class="bi bi-egg fs-3"></i>
+                            <i class="bi bi-box-seam fs-3"></i>
                         </div>
                         <div>
                             <h5 class="fw-bold mb-0">{{ $totalProdutos }}</h5>

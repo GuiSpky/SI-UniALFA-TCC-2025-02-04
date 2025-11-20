@@ -11,7 +11,7 @@
                     <i class="bi bi-arrow-left me-2"></i>Voltar
                 </a>
                 <div>
-                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-person-plus-fill me-2"></i>Nova Cidade</h1>
+                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-buildings me-2"></i>Nova Cidade</h1>
                     <p class="text-muted mb-0">Preencha os dados para cadastrar uma nova cidade</p>
                 </div>
             </div>
@@ -32,11 +32,6 @@
                         @endif
                         <form action="{{ route('cidades.store') }}" method="POST">
                             @csrf
-
-                            <div class="mb-3">
-                                <label for="codIbge" class="form-label">Codigo Ibge</label>
-                                <input type="number" class="form-control" id="codIbge" name="codIbge" required>
-                            </div>
 
                             <div class="mb-3">
                                 <label for="nome" class="form-label">Nome</label>

@@ -11,7 +11,6 @@ class Cidade extends Model
     use HasFactory;
 
     protected $fillable = [
-        'codIbge',
         'nome',
         'uf',
     ];

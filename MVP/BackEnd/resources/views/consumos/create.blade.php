@@ -8,7 +8,7 @@
             <div class="d-flex align-items-center mb-3">
                 <div>
                     <h1 class="h2 fw-bold mb-1">
-                        <i class="bi bi-journal-arrow-down me-2"></i>Novo Consumo
+                        <i class="bi bi-lightning-charge-fill me-2"></i>Novo Consumo
                     </h1>
                     <p class="text-muted mb-0">Selecione os lotes e quantidades consumidas</p>
                 </div>

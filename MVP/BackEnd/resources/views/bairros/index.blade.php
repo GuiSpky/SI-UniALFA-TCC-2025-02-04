@@ -6,7 +6,7 @@
         <div class="mb-4 fade-in-up">
             <div class="d-flex align-items-center mb-3">
                 <div>
-                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-map me-2"></i>Bairros</h1>
+                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-geo-alt-fill me-2"></i>Bairros</h1>
                     <p class="text-muted mb-0">Gerencie os bairros cadastrados no sistema</p>
                 </div>
                 <a href="{{ route('bairros.create') }}" class="btn btn-primary btn-sm ms-auto shadow-sm">
@@ -19,7 +19,7 @@
                 <table class="table table-hover table-striped mb-0 table-bordered custom-table">
                     <thead>
                         <tr class="text-uppercase small fw-bold">
-                            <th>ID</th>
+                            <th class="col-bairro-id">ID</th>
                             <th>Nome</th>
                             <th>Cidade</th>
                             <th class="text-end">Ações</th>
@@ -28,13 +28,13 @@
                     <tbody>
                         @forelse ($bairros as $bairro)
                             <tr>
-                                <td>
+                                <td class="col-bairro-id">
                                     <span class="badge bg-primary">
-                                        {{ $bairro->id }}
+                                        #{{ str_pad($bairro->id, 5, '0', STR_PAD_LEFT) }}
                                     </span>
                                 </td>
                                 <td>
-                                    <a href="{{ route('bairro.show', $bairro) }}">
+                                    <a href="{{ route('bairros.show', $bairro) }}">
                                         {{ $bairro->nome }}
                                     </a>
                                 </td>

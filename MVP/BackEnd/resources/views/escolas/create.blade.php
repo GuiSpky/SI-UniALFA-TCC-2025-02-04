@@ -11,7 +11,7 @@
                     <i class="bi bi-arrow-left me-2"></i>Voltar
                 </a>
                 <div>
-                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-person-plus-fill me-2"></i>Nova Escola</h1>
+                    <h1 class="h2 fw-bold mb-1"><i class="bi bi-mortarboard-fill me-2"></i>Nova Escola</h1>
                     <p class="text-muted mb-0">Preencha os dados para cadastrar uma nova escola</p>
                 </div>
             </div>

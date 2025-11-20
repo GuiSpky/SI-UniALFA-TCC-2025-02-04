@@ -58,11 +58,9 @@ class CidadeController extends Controller
     public function store(Request $request)
     {
         $dados = $request->validate([
-            'codIbge' => 'required|Integer',
             'nome' => 'required|string',
             'uf' => 'required|string|max:2',
         ], [
-            'codIbge.required' => "Código IBGE deve ser inserido",
             'nome.required' => "Nome deve ser informado",
             'uf.required' => "UF não informado",
             'nome.unique' => "Cidade já cadastrada",
@@ -100,7 +98,6 @@ class CidadeController extends Controller
         $cidade = Cidade::findOrFail($id);
 
         $dados = $request->validate([
-            'codIbge' => 'required|integer',
             'nome' => 'required|string',
             'uf' => 'required|string|max:2',
         ]);
