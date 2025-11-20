@@ -32,7 +32,6 @@ return Application::configure(basePath: dirname(__DIR__))
                 return redirect()->route('login');
             }
 
-            // ERRO 500 - Interno do Servidor
             if ($e->getStatusCode() === 404) {
                 return redirect()
                     ->route('dashboard')
