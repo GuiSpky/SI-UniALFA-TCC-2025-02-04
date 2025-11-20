@@ -212,8 +212,8 @@
             position: fixed;
             overflow-y: auto;
             overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
+            top: 0;
+            left: 0;
         }
 
         .sidebar.dark {
@@ -274,6 +274,10 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            position: sticky;
+            bottom: 0;
+            z-index: 10;
+            background: inherit;
         }
 
         .sidebar.light .sidebar-footer {
@@ -298,10 +302,53 @@
             /* borda mais forte */
         }
 
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 1rem 0;
+        }
+
+        .sidebar-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: inherit;
+            padding: 1rem;
+        }
+
         /* Ocultar colunas específicas apenas no CELULAR */
         @media (max-width: 768px) {
 
             /* USUÁRIOS */
+            h1.h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .card {
+                padding: 1rem !important;
+            }
+
+            canvas {
+                max-width: 100% !important;
+                height: auto !important;
+            }
+
+            .table-responsive-mobile {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .table-responsive-mobile table {
+                min-width: 600px;
+            }
+
+            .col-md-4,
+            .col-md-6 {
+                margin-bottom: 1rem;
+            }
+
             .col-id,
             .col-email,
             .col-telefone,
@@ -439,12 +486,12 @@
 
     <!-- Sidebar -->
     <aside class="sidebar light" id="sidebar">
-        <div>
-            <div class="sidebar-header">
-                <img src="{{ asset('images/logo_gema.png') }}" alt="Logo" style="height: 40px; width: auto;">
-                <span style="font-size: 1.2rem; font-weight: 600;">GEMA</span>
-            </div>
+        <div class="sidebar-header">
+            <img src="{{ asset('images/logo_gema.png') }}" alt="Logo" style="height: 40px; width: auto;">
+            <span style="font-size: 1.2rem; font-weight: 600;">GEMA</span>
+        </div>
 
+        <div class="sidebar-content">
             <ul class="nav flex-column">
                 @auth
                     <li><a href="{{ route('dashboard') }}" class="nav-link {{ Request::is('/') ? 'active' : '' }}"><i

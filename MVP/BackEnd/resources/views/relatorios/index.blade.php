@@ -34,12 +34,12 @@
 
                 {{-- PERÍODO --}}
                 <div class="row mb-3">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label class="form-label">Data Inicial</label>
                         <input type="date" class="form-control" name="data_inicio" value="{{ request('data_inicio') }}">
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label class="form-label">Data Final</label>
                         <input type="date" class="form-control" name="data_fim" value="{{ request('data_fim') }}">
                     </div>
