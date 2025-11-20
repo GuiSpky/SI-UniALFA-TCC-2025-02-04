@@ -21,7 +21,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \App\Http\Middleware\CheckUserRole::class,
         ]);
-
     })
 
     ->withExceptions(function (Exceptions $exceptions) {
@@ -31,6 +30,14 @@ return Application::configure(basePath: dirname(__DIR__))
             // Evita bloquear logout
             if ($request->is('logout') || $request->routeIs('logout')) {
                 return redirect()->route('login');
+            }
+
+            // ERRO 500 - Interno do Servidor
+            if ($e->getStatusCode() === 404) {
+                return redirect()
+                    ->route('dashboard')
+                    ->with('toast', 'A página solicitada não foi encontrada!')
+                    ->with('toast_icon', '💡');
             }
 
             // ERRO 500 - Interno do Servidor
@@ -49,7 +56,6 @@ return Application::configure(basePath: dirname(__DIR__))
 
             return null;
         });
-
     })
 
     ->create();

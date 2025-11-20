@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Carbon;
 
 class RelatorioController extends Controller
 {
@@ -15,6 +16,7 @@ class RelatorioController extends Controller
     {
         $escolas  = Escola::orderBy('nome')->get();
         $produtos = Produto::orderBy('nome')->get();
+        $hoje = Carbon::today();
 
         $resultado = [
             'dados'   => collect(),
@@ -22,6 +24,22 @@ class RelatorioController extends Controller
             'labels'  => [],
             'valores' => [],
         ];
+
+        if ($request->data_inicio > $hoje) {
+            return redirect('relatorios')
+                ->withInput()
+                ->with('toast', 'A data inicial não pode ser maior que a data atual!')
+                ->with('toast_icon', '🗓️');
+        }
+
+        // Verifica data inicial maior que data final
+        if ($request->data_inicio > $request->data_fim) {
+            return redirect('relatorios')
+                ->withInput()
+                ->with('toast', 'A data inicial não pode ser maior que a data final!')
+                ->with('toast_icon', '🗓️');
+        }
+
 
         if ($request->filled('tipo')) {
             $resultado = $this->gerarDados($request);
@@ -41,17 +59,7 @@ class RelatorioController extends Controller
             $query->whereBetween($campo, [$request->data_inicio, $request->data_fim]);
         }
 
-        // Filtro por mês
-        if ($request->filled('mes')) {
-            $campo = $tabelaData ? "$tabelaData.created_at" : 'created_at';
-            $query->whereMonth($campo, $request->mes);
-        }
 
-        // Filtro por ano
-        if ($request->filled('ano')) {
-            $campo = $tabelaData ? "$tabelaData.created_at" : 'created_at';
-            $query->whereYear($campo, $request->ano);
-        }
 
         return $query;
     }
@@ -64,6 +72,7 @@ class RelatorioController extends Controller
     {
         $dados = collect();
         $titulo = '';
+
 
         switch ($request->tipo) {
 
@@ -80,12 +89,15 @@ class RelatorioController extends Controller
                     ->join('produtos', 'produtos.id', '=', 'estoques.produto_id')
                     ->select(
                         'escolas.nome as escola',
+                        'produtos.nome as produto',
+                        'produtos.medida',
                         DB::raw('SUM(item_consumos.quantidade) as total_consumido')
                     )
-                    ->groupBy('escolas.nome')
+                    ->groupBy('escolas.nome', 'produtos.nome', 'produtos.medida')
                     ->orderByDesc('total_consumido');
 
                 $query = $this->applyCommonFilters($query, $request, 'consumos');
+
 
                 if ($request->filled('escola_id')) {
                     $query->where('escolas.id', $request->escola_id);
@@ -97,18 +109,14 @@ class RelatorioController extends Controller
 
                 $dados = $query->get();
 
-                // Formatar datas
                 $dados = $dados->map(function ($item) {
-                    foreach ($item as $key => $value) {
-                        if ($value && (str_contains($key, 'data') || str_contains($key, 'created_at') || str_contains($key, 'validade'))) {
-                            try {
-                                $item->$key = \Carbon\Carbon::parse($value)->format('d/m/Y');
-                            } catch (\Exception $e) {
-                            }
-                        }
-                    }
+                    $item->total_consumido = $item->total_consumido . ' ' . $item->medida;
+
+                    unset($item->medida);
+
                     return $item;
                 });
+
 
                 break;
 

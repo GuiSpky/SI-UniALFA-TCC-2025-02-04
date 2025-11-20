@@ -44,7 +44,7 @@
                         <input type="date" class="form-control" name="data_fim" value="{{ request('data_fim') }}">
                     </div>
 
-                    <div class="col-md-2">
+                    {{-- <div class="col-md-2">
                         <label class="form-label">Mês</label>
                         <select name="mes" class="form-select">
                             <option value="">—</option>
@@ -62,7 +62,7 @@
                                 <option value="{{ $ano }}" {{ request('ano')==$ano?'selected':'' }}>{{ $ano }}</option>
                             @endforeach
                         </select>
-                    </div>
+                    </div> --}}
                 </div>
 
                 {{-- ========================= --}}
@@ -76,7 +76,7 @@
                             <select name="escola_id" class="form-select">
                                 <option value="">Todas</option>
                                 @foreach ($escolas as $escola)
-                                <option value="{{ $escola->id }}" 
+                                <option value="{{ $escola->id }}"
                                     {{ request('escola_id')==$escola->id?'selected':'' }}>
                                     {{ $escola->nome }}
                                 </option>
@@ -89,7 +89,7 @@
                             <select name="produto_id" class="form-select">
                                 <option value="">Todos</option>
                                 @foreach ($produtos as $produto)
-                                <option value="{{ $produto->id }}" 
+                                <option value="{{ $produto->id }}"
                                     {{ request('produto_id')==$produto->id?'selected':'' }}>
                                     {{ $produto->nome }}
                                 </option>

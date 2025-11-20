@@ -140,11 +140,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/estoque/{id}', [EstoqueController::class, 'show'])->name('estoques.show');
     });
 
-    // erro 404
+
+});
+
+// erro 404
     Route::fallback(function () {
         return redirect()
             ->route('dashboard')
             ->with('toast', 'A página solicitada não foi encontrada!')
             ->with('toast_icon', '💡');
     });
-});
