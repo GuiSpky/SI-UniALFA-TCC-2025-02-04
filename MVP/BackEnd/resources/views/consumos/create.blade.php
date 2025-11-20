@@ -47,9 +47,9 @@
                                     <option value="">Selecione um lote</option>
                                     @foreach ($estoques as $e)
                                         <option value="{{ $e->id }}">
-                                            {{ $e->produto->nome }} — Lote {{ $e->id }}
-                                            — Val: {{ date('d/m/Y', strtotime($e->validade)) }}
-                                            — Saldo: {{ $e->quantidade_saldo }}
+                                            {{ $e->produto->nome }} - Lote {{ $e->id }}
+                                            - Val: {{ date('d/m/Y', strtotime($e->validade)) }}
+                                            - Saldo: {{ $e->quantidade_saldo }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -91,9 +91,9 @@
                     <option value="">Selecione um lote</option>
                     @foreach ($estoques as $e)
                         <option value="{{ $e->id }}">
-                            {{ $e->produto->nome }} — Lote {{ $e->id }}
-                            — Val: {{ date('d/m/Y', strtotime($e->validade)) }}
-                            — Saldo: {{ $e->quantidade_saldo }}
+                            {{ $e->produto->nome }} - Lote {{ $e->id }}
+                            - Val: {{ date('d/m/Y', strtotime($e->validade)) }}
+                            - Saldo: {{ $e->quantidade_saldo }}
                         </option>
                     @endforeach
                 </select>
