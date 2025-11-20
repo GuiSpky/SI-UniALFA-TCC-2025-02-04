@@ -10,13 +10,13 @@ A idealização deste projeto veio a partir da análise da nescecidade de uma me
 ## Passos para inicialização do projeto.
 
 Acesse a pasta SI-UniALFA-TCC-2025-02-04/MVP/BackEnd pelo terminal.
-rode os seguintes comandos:
-composer i
-npm i
-npm run build
-copy .env.example .env
-php artisan key:generate
-php artisan migrate --seed
-php artisan serve
+rode os seguintes comandos: <br>
+composer i <br>
+npm i <br>
+npm run build <br>
+copy .env.example .env <br>
+php artisan key:generate <br>
+php artisan migrate --seed <br>
+php artisan serve <br>
 
 Com esses comandos o projeto esta pronto para utilização em produção e teste.
