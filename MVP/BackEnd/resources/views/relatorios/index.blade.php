@@ -26,9 +26,13 @@
                         <option value="solicitacoes_produtos" {{ request('tipo')=='solicitacoes_produtos'?'selected':'' }}>
                             Produtos Mais Solicitados
                         </option>
+                        <option value="movimentacao_itens" {{ request('tipo')=='movimentacao_itens'?'selected':'' }}>
+                            Movimentação de Itens
+                        </option>
                         <option value="estoque_critico" {{ request('tipo')=='estoque_critico'?'selected':'' }}>
                             Estoque Crítico / Vencimentos
                         </option>
+
                     </select>
                 </div>
 
