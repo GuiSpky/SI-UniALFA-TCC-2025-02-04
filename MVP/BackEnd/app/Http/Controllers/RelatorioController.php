@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Schema;
 
 class RelatorioController extends Controller
 {
@@ -132,9 +133,10 @@ class RelatorioController extends Controller
                     ->join('pedidos', 'pedidos.id', '=', 'item_pedidos.pedido_id')
                     ->select(
                         'produtos.nome as produto',
+                        'produtos.medida',
                         DB::raw('SUM(item_pedidos.quantidade) as total_solicitado')
                     )
-                    ->groupBy('produtos.nome')
+                    ->groupBy('produtos.nome', 'produtos.medida')
                     ->orderByDesc('total_solicitado');
 
                 $query = $this->applyCommonFilters($query, $request, 'pedidos');
@@ -147,6 +149,8 @@ class RelatorioController extends Controller
 
                 // Formatar datas
                 $dados = $dados->map(function ($item) {
+                    $item->total_solicitado = $item->total_solicitado . ' ' . $item->medida;
+
                     foreach ($item as $key => $value) {
                         if ($value && (str_contains($key, 'data') || str_contains($key, 'created_at') || str_contains($key, 'validade'))) {
                             try {
@@ -155,6 +159,7 @@ class RelatorioController extends Controller
                             }
                         }
                     }
+                    unset($item->medida);
                     return $item;
                 });
 
@@ -171,10 +176,11 @@ class RelatorioController extends Controller
                     ->join('produtos', 'produtos.id', '=', 'estoques.produto_id')
                     ->select(
                         'produtos.nome as produto',
+                        'produtos.medida',
                         DB::raw('(estoques.quantidade_entrada - estoques.quantidade_saida) AS saldo'),
                         'estoques.validade'
                     )
-                    ->orderBy('saldo');
+                    ->orderBy('saldo',);
 
                 if ($request->filled('limite_estoque')) {
                     $query->having('saldo', '<', $request->limite_estoque);
@@ -194,6 +200,8 @@ class RelatorioController extends Controller
 
                 // Formatar datas
                 $dados = $dados->map(function ($item) {
+                    $item->saldo = $item->saldo . ' ' . $item->medida;
+
                     foreach ($item as $key => $value) {
                         if ($value && (str_contains($key, 'data') || str_contains($key, 'created_at') || str_contains($key, 'validade'))) {
                             try {
@@ -202,10 +210,63 @@ class RelatorioController extends Controller
                             }
                         }
                     }
+                    unset($item->medida);
+
                     return $item;
                 });
 
                 break;
+
+       /* ----------------------------------------
+| RELATÓRIO 4 — MOVIMENTAÇÃO DE ITENS (APENAS PEDIDOS)
+-----------------------------------------*/
+case 'movimentacao_itens':
+    $titulo = 'Movimentação de Itens (Pedidos)';
+
+    // Somente PEDIDOS → saída da Merenda para Escola
+    $pedidos = DB::table('item_pedidos')
+        ->join('pedidos', 'pedidos.id', '=', 'item_pedidos.pedido_id')
+        ->join('produtos', 'produtos.id', '=', 'item_pedidos.produto_id')
+        ->join('escolas', 'escolas.id', '=', 'pedidos.escola_id')
+        ->select(
+            'pedidos.created_at as data',
+            'produtos.nome as produto',
+            DB::raw('"Merenda" as escola_origem'),
+            'escolas.nome as escola_destino',
+            'item_pedidos.quantidade as quantidade',
+            'produtos.medida'
+        );
+
+    // Filtros globais
+    $pedidos = $this->applyCommonFilters($pedidos, $request, 'pedidos');
+
+    if ($request->filled('produto_id')) {
+        $pedidos->where('produtos.id', $request->produto_id);
+    }
+
+    if ($request->filled('escola_id')) {
+        $pedidos->where('escolas.id', $request->escola_id);
+    }
+
+    // Obter dados
+    $dados = $pedidos->orderBy('pedidos.created_at', 'asc')->get();
+
+    // Formatar datas e unir quantidade + medida
+    $dados = $dados->map(function ($item) {
+        if (!empty($item->data)) {
+            $item->data = \Carbon\Carbon::parse($item->data)->format('d/m/Y H:i');
+        }
+
+        if (isset($item->medida)) {
+            $item->quantidade = $item->quantidade . ' ' . $item->medida;
+        }
+
+        unset($item->medida);
+        return $item;
+    });
+
+    break;
+
         }
 
         return [
