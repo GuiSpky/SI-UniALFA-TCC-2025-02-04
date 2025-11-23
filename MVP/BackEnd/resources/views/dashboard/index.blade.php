@@ -13,7 +13,8 @@
         {{-- CARDS PRINCIPAIS --}}
         <div class="row g-4">
 
-            <div class="col-md-4">
+            {{-- Itens Consumidos --}}
+            <div class="col-md-{{ Auth::user()->cargo == 1 ? 4 : 6 }}">
                 <div class="card shadow-sm border-2 p-3">
                     <div class="d-flex align-items-center">
                         <div class="rounded-circle bg-primary text-white p-3 me-3">
@@ -27,7 +28,8 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            {{-- Pedidos Realizados --}}
+            <div class="col-md-{{ Auth::user()->cargo == 1 ? 4 : 6 }}">
                 <div class="card shadow-sm border-2 p-3">
                     <div class="d-flex align-items-center">
                         <div class="rounded-circle bg-success text-white p-3 me-3">
@@ -41,21 +43,25 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <div class="card shadow-sm border-2 p-3">
-                    <div class="d-flex align-items-center">
-                        <div class="rounded-circle bg-warning text-white p-3 me-3">
-                            <i class="bi bi-box-seam fs-3"></i>
-                        </div>
-                        <div>
-                            <h5 class="fw-bold mb-0">{{ $totalProdutos }}</h5>
-                            <small class="text-muted">Produtos Cadastrados</small>
+            {{-- Produtos Cadastrados – SOMENTE gerente --}}
+            @if (Auth::user()->cargo == 1)
+                <div class="col-md-4">
+                    <div class="card shadow-sm border-2 p-3">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-warning text-white p-3 me-3">
+                                <i class="bi bi-box-seam fs-3"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-0">{{ $totalProdutos }}</h5>
+                                <small class="text-muted">Produtos Cadastrados</small>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
 
         </div>
+
 
 
         {{-- GRÁFICO 7 DIAS --}}

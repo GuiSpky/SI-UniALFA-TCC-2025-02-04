@@ -8,6 +8,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         :root {
@@ -211,8 +212,8 @@
             position: fixed;
             overflow-y: auto;
             overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
+            top: 0;
+            left: 0;
         }
 
         .sidebar.dark {
@@ -273,6 +274,10 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            position: sticky;
+            bottom: 0;
+            z-index: 10;
+            background: inherit;
         }
 
         .sidebar.light .sidebar-footer {
@@ -297,10 +302,53 @@
             /* borda mais forte */
         }
 
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 1rem 0;
+        }
+
+        .sidebar-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: inherit;
+            padding: 1rem;
+        }
+
         /* Ocultar colunas específicas apenas no CELULAR */
         @media (max-width: 768px) {
 
             /* USUÁRIOS */
+            h1.h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .card {
+                padding: 1rem !important;
+            }
+
+            canvas {
+                max-width: 100% !important;
+                height: auto !important;
+            }
+
+            .table-responsive-mobile {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .table-responsive-mobile table {
+                min-width: 600px;
+            }
+
+            .col-md-4,
+            .col-md-6 {
+                margin-bottom: 1rem;
+            }
+
             .col-id,
             .col-email,
             .col-telefone,
@@ -423,6 +471,12 @@
                 transform: translateY(0);
             }
         }
+
+        .swal2-icon {
+            border: none !important;
+            box-shadow: none !important;
+            background: transparent !important;
+        }
     </style>
 </head>
 
@@ -432,12 +486,12 @@
 
     <!-- Sidebar -->
     <aside class="sidebar light" id="sidebar">
-        <div>
-            <div class="sidebar-header">
-                <img src="{{ asset('images/logo_gema.png') }}" alt="Logo" style="height: 40px; width: auto;">
-                <span style="font-size: 1.2rem; font-weight: 600;">GEMA</span>
-            </div>
+        <div class="sidebar-header">
+            <img src="{{ asset('images/logo_gema.png') }}" alt="Logo" style="height: 40px; width: auto;">
+            <span style="font-size: 1.2rem; font-weight: 600;">GEMA</span>
+        </div>
 
+        <div class="sidebar-content">
             <ul class="nav flex-column">
                 @auth
                     <li><a href="{{ route('dashboard') }}" class="nav-link {{ Request::is('/') ? 'active' : '' }}"><i
@@ -594,17 +648,30 @@
         </script>
     @endif
 
-    @if (session('erro'))
+    @if (session('toast'))
         <script>
-            Swal.fire({
-                title: 'Erro!',
-                text: '{{ session('erro') }}',
-                icon: 'error',
-                confirmButtonText: 'Continuar',
-                confirmButtonColor: '#dc3545'
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: true
+            });
+
+            Toast.fire({
+                icon: false,
+                title: "{{ addslashes(session('toast')) }}",
+                didOpen: (toast) => {
+                    const icon = document.createElement("div");
+                    icon.innerHTML = "{{ session('toast_icon') }}";
+                    icon.style.fontSize = "26px";
+                    icon.style.marginRight = "10px";
+                    toast.querySelector(".swal2-title").before(icon);
+                }
             });
         </script>
     @endif
+
 </body>
 
 </html>

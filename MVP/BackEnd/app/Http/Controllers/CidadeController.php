@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CidadeResource;
 use App\Models\Cidade;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CidadeController extends Controller
 {
@@ -45,7 +46,7 @@ class CidadeController extends Controller
         $perPage = $request->input('per_page', 10);
 
         $cidades = Cidade::paginate($perPage);
-        return view('cidades.index', compact('perPage','cidades'));
+        return view('cidades.index', compact('perPage', 'cidades'));
     }
 
     public function create()
@@ -58,7 +59,14 @@ class CidadeController extends Controller
     public function store(Request $request)
     {
         $dados = $request->validate([
-            'nome' => 'required|string',
+            'nome' => [
+                'required',
+                'string',
+                'max:100',
+                Rule::unique('cidades')
+                    ->where('uf', $request->uf)
+                    ->ignore($request->id)
+            ],
             'uf' => 'required|string|max:2',
         ], [
             'nome.required' => "Nome deve ser informado",
@@ -79,9 +87,9 @@ class CidadeController extends Controller
         $cidade = Cidade::findOrFail($id); // Encontra o recurso ou lança um erro 404
 
         return view('cidades.show', [
-        'cidade' => $cidade,
-        'ufs' => $this->ufs, // envia a lista de UFs
-    ]);
+            'cidade' => $cidade,
+            'ufs' => $this->ufs, // envia a lista de UFs
+        ]);
     }
 
     public function edit($id)
@@ -98,7 +106,14 @@ class CidadeController extends Controller
         $cidade = Cidade::findOrFail($id);
 
         $dados = $request->validate([
-            'nome' => 'required|string',
+            'nome' => [
+                'required',
+                'string',
+                'max:100',
+                Rule::unique('cidades')
+                    ->where('uf', $request->uf)
+                    ->ignore($cidade->id)
+            ],
             'uf' => 'required|string|max:2',
         ]);
 
@@ -118,7 +133,7 @@ class CidadeController extends Controller
         $cidade->delete();
 
         // Retorna apenas uma mensagem de sucesso
-        return redirect('/cidades');
+        return redirect('/cidades')->with('sucesso', 'Cidade removida com sucesso!');
     }
 
     public function count()

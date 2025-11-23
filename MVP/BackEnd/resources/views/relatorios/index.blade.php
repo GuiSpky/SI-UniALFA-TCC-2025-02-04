@@ -26,25 +26,29 @@
                         <option value="solicitacoes_produtos" {{ request('tipo')=='solicitacoes_produtos'?'selected':'' }}>
                             Produtos Mais Solicitados
                         </option>
+                        <option value="movimentacao_itens" {{ request('tipo')=='movimentacao_itens'?'selected':'' }}>
+                            Movimentação de Itens
+                        </option>
                         <option value="estoque_critico" {{ request('tipo')=='estoque_critico'?'selected':'' }}>
                             Estoque Crítico / Vencimentos
                         </option>
+
                     </select>
                 </div>
 
                 {{-- PERÍODO --}}
                 <div class="row mb-3">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label class="form-label">Data Inicial</label>
                         <input type="date" class="form-control" name="data_inicio" value="{{ request('data_inicio') }}">
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label class="form-label">Data Final</label>
                         <input type="date" class="form-control" name="data_fim" value="{{ request('data_fim') }}">
                     </div>
 
-                    <div class="col-md-2">
+                    {{-- <div class="col-md-2">
                         <label class="form-label">Mês</label>
                         <select name="mes" class="form-select">
                             <option value="">—</option>
@@ -62,7 +66,7 @@
                                 <option value="{{ $ano }}" {{ request('ano')==$ano?'selected':'' }}>{{ $ano }}</option>
                             @endforeach
                         </select>
-                    </div>
+                    </div> --}}
                 </div>
 
                 {{-- ========================= --}}
@@ -76,7 +80,7 @@
                             <select name="escola_id" class="form-select">
                                 <option value="">Todas</option>
                                 @foreach ($escolas as $escola)
-                                <option value="{{ $escola->id }}" 
+                                <option value="{{ $escola->id }}"
                                     {{ request('escola_id')==$escola->id?'selected':'' }}>
                                     {{ $escola->nome }}
                                 </option>
@@ -89,7 +93,7 @@
                             <select name="produto_id" class="form-select">
                                 <option value="">Todos</option>
                                 @foreach ($produtos as $produto)
-                                <option value="{{ $produto->id }}" 
+                                <option value="{{ $produto->id }}"
                                     {{ request('produto_id')==$produto->id?'selected':'' }}>
                                     {{ $produto->nome }}
                                 </option>

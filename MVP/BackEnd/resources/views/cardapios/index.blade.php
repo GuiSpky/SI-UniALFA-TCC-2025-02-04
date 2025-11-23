@@ -53,7 +53,7 @@
                                         class="bi bi-calendar me-2"></i>{{ \Carbon\Carbon::parse($cardapio->data)->format('d/m/Y') }}
                                 </td>
                                 @if (in_array(Auth::user()->cargo, [1, 4]))
-                                    <td class="col-cardapio-acoes text-end">
+                                    <td class="text-end">
                                         <a href="{{ route('cardapios.edit', $cardapio->id) }}"
                                             class="btn btn-outline-primary btn-sm" title="Editar">
                                             <i class="bi bi-pencil"></i>
@@ -63,13 +63,14 @@
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-outline-danger btn-sm" type="submit"
-                                                onclick="return confirm('Deseja realmente apagar este cardapio?')"
+                                                onclick="return confirm('Deseja realmente apagar esta escola?')"
                                                 title="Apagar">
                                                 <i class="bi bi-trash"></i>
                                             </button>
+                                        </form>
+                                    </td>
                                 @endif
-                                </form>
-                                </td>
+
                             </tr>
                         @empty
                             <tr>
@@ -83,7 +84,7 @@
                 </table>
             </div>
         </div>
-       <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+        <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
             <!-- Itens por página (à esquerda) -->
             <form method="GET" class="d-flex align-items-center mb-2 mb-md-0">
                 <label for="per_page" class="me-2 mb-0 fw-semibold">Itens por página:</label>

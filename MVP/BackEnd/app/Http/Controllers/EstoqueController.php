@@ -67,19 +67,36 @@ class EstoqueController extends Controller
         }
 
         $dados = $request->validate([
-            'produto_id' => 'required|integer',
-            'quantidade_entrada' => 'required|integer|min:1',
-            'validade' => 'required|date',
-            'escola_id' => 'required|integer',
+            'escola_id' => 'required|integer|exists:escolas,id',
+
+            'produto_id' => 'required|array',
+            'produto_id.*' => 'required|integer|exists:produtos,id',
+
+            'quantidade_entrada' => 'required|array',
+            'quantidade_entrada.*' => 'required|integer|min:1',
+
+            'validade' => 'required|array',
+            'validade.*' => 'required|date',
         ]);
 
-        $dados['quantidade_saldo'] = $dados['quantidade_entrada'];
-        $dados['quantidade_saida'] = 0;
+        // Loop salvando cada linha adicionada
+        foreach ($dados['produto_id'] as $i => $produto) {
 
-        Estoque::create($dados);
+            Estoque::create([
+                'produto_id'        => $dados['produto_id'][$i],
+                'quantidade_entrada' => $dados['quantidade_entrada'][$i],
+                'quantidade_saldo'  => $dados['quantidade_entrada'][$i],
+                'quantidade_saida'  => 0,
+                'validade'          => $dados['validade'][$i],
+                'escola_id'         => $dados['escola_id'],
+            ]);
+        }
 
-        return redirect()->route('estoques.index')->with('sucesso', 'Cadastro realizado com sucesso!');
+        return redirect()
+            ->route('estoques.index')
+            ->with('sucesso', 'Entrada(s) cadastrada(s) com sucesso!');
     }
+
 
 
     /**

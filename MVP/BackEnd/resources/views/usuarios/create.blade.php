@@ -45,7 +45,7 @@
 
                             <div class="mb-3">
                                 <label for="telefone" class="form-label">Telefone</label>
-                                <input type="tel" class="form-control" id="telefone" name="telefone" required>
+                                <input type="tel" class="form-control" id="telefone" name="telefone" maxlength="15" required>
                             </div>
 
                             <div class="mb-3">
@@ -70,14 +70,6 @@
                                 </select>
                             </div>
 
-                            {{-- <div class="mb-3">
-                            <label for="permissao" class="form-label">Permissão</label>
-                            <select class="form-select" id="permissao" name="permissao" required>
-                                <option value="Usuário">Usuário</option>
-                                <option value="Administrador">Administrador</option>
-                            </select>
-                            </div> --}}
-
                             <div class="mb-3">
                                 <label for="password" class="form-label">Senha</label>
                                 <input type="password" class="form-control" id="password" name="password" required>
@@ -91,5 +83,19 @@
                 </div>
             </div>
         </div>
+        <script>
+            const tel = document.getElementById('telefone');
+
+            tel.addEventListener('input', function() {
+                let v = this.value.replace(/\D/g, ""); // Remove tudo que não é número
+
+                // Aplica a máscara (99) 99999-9999
+                if (v.length > 0) v = "(" + v;
+                if (v.length > 3) v = v.slice(0, 3) + ") " + v.slice(3);
+                if (v.length > 10) v = v.slice(0, 10) + "-" + v.slice(10, 14);
+
+                this.value = v.slice(0, 15); // limita no máximo
+            });
+        </script>
     </div>
 @endsection
