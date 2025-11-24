@@ -217,56 +217,56 @@ class RelatorioController extends Controller
 
                 break;
 
-       /* ----------------------------------------
-| RELATÓRIO 4 — MOVIMENTAÇÃO DE ITENS (APENAS PEDIDOS)
------------------------------------------*/
-case 'movimentacao_itens':
-    $titulo = 'Movimentação de Itens (Pedidos)';
+            /* ----------------------------------------
+            | RELATÓRIO 4 — MOVIMENTAÇÃO DE ITENS (APENAS PEDIDOS)
+            -----------------------------------------*/
+            case 'movimentacao_itens':
+                $titulo = 'Movimentação de Itens (Pedidos)';
 
-    // Somente PEDIDOS → saída da Merenda para Escola
-    $pedidos = DB::table('item_pedidos')
-        ->join('pedidos', 'pedidos.id', '=', 'item_pedidos.pedido_id')
-        ->join('produtos', 'produtos.id', '=', 'item_pedidos.produto_id')
-        ->join('escolas', 'escolas.id', '=', 'pedidos.escola_id')
-        ->select(
-            'pedidos.created_at as data',
-            'produtos.nome as produto',
-            DB::raw('"Merenda" as escola_origem'),
-            'escolas.nome as escola_destino',
-            'item_pedidos.quantidade as quantidade',
-            'produtos.medida'
-        );
+                // Somente PEDIDOS → saída da Merenda para Escola
+                $pedidos = DB::table('item_pedidos')
+                    ->join('pedidos', 'pedidos.id', '=', 'item_pedidos.pedido_id')
+                    ->join('produtos', 'produtos.id', '=', 'item_pedidos.produto_id')
+                    ->join('escolas', 'escolas.id', '=', 'pedidos.escola_id')
+                    ->where('pedidos.status', 'Recebido')
+                    ->select(
+                        'pedidos.created_at as data',
+                        'produtos.nome as produto',
+                        DB::raw('"Merenda" as escola_origem'),
+                        'escolas.nome as escola_destino',
+                        'item_pedidos.quantidade as quantidade',
+                        'produtos.medida'
+                    );
 
-    // Filtros globais
-    $pedidos = $this->applyCommonFilters($pedidos, $request, 'pedidos');
+                // Filtros globais
+                $pedidos = $this->applyCommonFilters($pedidos, $request, 'pedidos');
 
-    if ($request->filled('produto_id')) {
-        $pedidos->where('produtos.id', $request->produto_id);
-    }
+                if ($request->filled('produto_id')) {
+                    $pedidos->where('produtos.id', $request->produto_id);
+                }
 
-    if ($request->filled('escola_id')) {
-        $pedidos->where('escolas.id', $request->escola_id);
-    }
+                if ($request->filled('escola_id')) {
+                    $pedidos->where('escolas.id', $request->escola_id);
+                }
 
-    // Obter dados
-    $dados = $pedidos->orderBy('pedidos.created_at', 'asc')->get();
+                // Obter dados
+                $dados = $pedidos->orderBy('pedidos.created_at', 'asc')->get();
 
-    // Formatar datas e unir quantidade + medida
-    $dados = $dados->map(function ($item) {
-        if (!empty($item->data)) {
-            $item->data = \Carbon\Carbon::parse($item->data)->format('d/m/Y H:i');
-        }
+                // Formatar datas e unir quantidade + medida
+                $dados = $dados->map(function ($item) {
+                    if (!empty($item->data)) {
+                        $item->data = \Carbon\Carbon::parse($item->data)->format('d/m/Y H:i');
+                    }
 
-        if (isset($item->medida)) {
-            $item->quantidade = $item->quantidade . ' ' . $item->medida;
-        }
+                    if (isset($item->medida)) {
+                        $item->quantidade = $item->quantidade . ' ' . $item->medida;
+                    }
 
-        unset($item->medida);
-        return $item;
-    });
+                    unset($item->medida);
+                    return $item;
+                });
 
-    break;
-
+                break;
         }
 
         return [

@@ -200,7 +200,7 @@ class PedidoController extends Controller
     // 📌 CRIA O REGISTRO DE CONSUMO
     // =============================
     $consumo = Consumo::create([
-        'escola_id' => $pedido->escola_id,
+        'escola_id' => 1,
     ]);
 
     // ========================================
