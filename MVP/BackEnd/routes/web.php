@@ -70,6 +70,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/escolas/{id}', [EscolaController::class, 'update'])->name('escolas.update');
         Route::delete('/escolas/{id}', [EscolaController::class, 'destroy'])->name('escolas.destroy');
         Route::post('/escolas', [EscolaController::class, 'store'])->name('escolas.store');
+        Route::get('/escolas/create', [EscolaController::class, 'create'])->name('escolas.create');
 
         // Rotas Relatório
         Route::get('/relatorios', [RelatorioController::class, 'index'])->name('relatorios.index');

@@ -7,13 +7,14 @@ use App\Models\ItemConsumo;
 use App\Models\Pedido;
 use App\Models\Produto;
 use App\Models\Estoque;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $user = Auth()->user();
+        $user = Auth::user();
 
         // Caso o usuário NÃO seja gerente, filtrar pela escola dele
         $filtrarPorEscola = in_array($user->cargo, [2, 3, 4]);
@@ -32,7 +33,7 @@ class DashboardController extends Controller
         if ($filtrarPorEscola) {
             $totalPedidos = Pedido::where('escola_id', $escolaId)->count();
         } else {
-            $totalPedidos = Pedido::count();
+            $totalPedidos = Pedido::where('status', 'Confirmado')->count();
         }
 
         $totalProdutos = Produto::count();

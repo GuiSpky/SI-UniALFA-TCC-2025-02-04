@@ -41,30 +41,27 @@
                                 class="nav-link {{ Request::is('cidades*') ? 'active' : '' }}"><i
                                     class="bi bi-buildings"></i>
                                 Cidades</a></li>
+
                         <li><a href="{{ route('bairros.index') }}"
                                 class="nav-link {{ Request::is('bairros*') ? 'active' : '' }}"><i
                                     class="bi bi-geo-alt-fill"></i>
                                 Bairros</a></li>
-                        <li><a href="{{ route('relatorios.index') }}"
-                                class="nav-link {{ Request::is('relatorios*') ? 'active' : '' }}"><i
-                                    class="bi bi-bar-chart-fill"></i>
-                                Relatórios</a></li>
+                    @endif
+
+                    @if (in_array(Auth::user()->cargo, [1, 4]))
+                        <li><a href="{{ route('escolas.index') }}"
+                                class="nav-link {{ Request::is('escolas*') ? 'active' : '' }}"><i
+                                    class="bi bi-mortarboard-fill"></i> Escolas</a></li>
                     @endif
 
                     @if (in_array(Auth::user()->cargo, [1, 2]))
-                        <li><a href="{{ route('consumos.index') }}"
-                                class="nav-link {{ Request::is('consumos*') ? 'active' : '' }}"><i
-                                    class="bi bi-lightning-charge-fill"></i> Consumos</a></li>
                         <li><a href="{{ route('pedidos.index') }}"
                                 class="nav-link {{ Request::is('pedidos*') ? 'active' : '' }}"><i
                                     class="bi bi-clipboard-check"></i>
                                 Pedidos</a></li>
                     @endif
 
-                    @if (in_array(Auth::user()->cargo, [1, 2, 4]))
-                        <li><a href="{{ route('escolas.index') }}"
-                                class="nav-link {{ Request::is('escolas*') ? 'active' : '' }}"><i
-                                    class="bi bi-mortarboard-fill"></i> Escolas</a></li>
+                    @if (in_array(Auth::user()->cargo, [1, 4]))
                         <li><a href="{{ route('produtos.index') }}"
                                 class="nav-link {{ Request::is('produtos*') ? 'active' : '' }}"><i
                                     class="bi bi-box-seam"></i>
@@ -81,6 +78,19 @@
                         <li><a href="{{ route('estoques.index') }}"
                                 class="nav-link {{ Request::is('estoques*') ? 'active' : '' }}"><i
                                     class="bi bi-archive"></i> Estoque</a></li>
+                    @endif
+
+                    @if (in_array(Auth::user()->cargo, [1, 2]))
+                        <li><a href="{{ route('consumos.index') }}"
+                                class="nav-link {{ Request::is('consumos*') ? 'active' : '' }}"><i
+                                    class="bi bi-lightning-charge-fill"></i> Consumos</a></li>
+                    @endif
+
+                    @if (in_array(Auth::user()->cargo, [1]))
+                        <li><a href="{{ route('relatorios.index') }}"
+                                class="nav-link {{ Request::is('relatorios*') ? 'active' : '' }}"><i
+                                    class="bi bi-bar-chart-fill"></i>
+                                Relatórios</a></li>
                     @endif
                 @endauth
             </ul>

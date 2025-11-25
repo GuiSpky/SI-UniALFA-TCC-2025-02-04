@@ -6,6 +6,7 @@ use App\Models\Consumo;
 use App\Models\Estoque;
 use App\Models\ItemConsumo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -18,7 +19,7 @@ class ConsumoController extends Controller
 
             $consumos = Consumo::with('itens.estoque.produto')
                 ->whereHas('itens.estoque', function ($q) {
-                    $q->where('escola_id', auth()->user()->escola_id);
+                    $q->where('escola_id', Auth::user()->escola_id);
                 })
                 ->orderByDesc('created_at')
                 ->paginate($perPage);

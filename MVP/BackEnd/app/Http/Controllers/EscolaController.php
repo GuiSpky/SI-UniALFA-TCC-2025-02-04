@@ -70,7 +70,7 @@ class EscolaController extends Controller
 
     public function show(string $id)
     {
-        $escola = Escola::findOrFail($id); 
+        $escola = Escola::findOrFail($id);
         $cidade = Cidade::all();
         $bairro = Bairro::all();
 

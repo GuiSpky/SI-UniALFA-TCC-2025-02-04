@@ -15,7 +15,7 @@ class CardapioController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->input('per_page', 10);
-        $cardapios = Cardapio::with(['itens.produto'])->paginate($perPage);
+        $cardapios = Cardapio::with(['itens.produto'])->orderBy('data', 'desc')->paginate($perPage);
         return view('cardapios.index', compact('perPage','cardapios'));
     }
 

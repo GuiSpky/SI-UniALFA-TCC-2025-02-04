@@ -99,7 +99,7 @@
                 <!-- Paginação -->
                 @if ($escolas->hasPages())
                     <div class="card-footer d-flex justify-content-center py-3">
-                        {{ $produtos->links('pagination::bootstrap-5') }}
+                        {{ $escolas->links('pagination::bootstrap-5') }}
                     </div>
                 @endif
             </div>
