@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
         EstoqueSeeder::class,
         CardapioSeeder::class,
         PedidoSeeder::class,
-        // ConsumoSeeder::class,
+        ConsumoSeeder::class,
         ]);
         User::factory()->create([
             'name' => 'Test User',
