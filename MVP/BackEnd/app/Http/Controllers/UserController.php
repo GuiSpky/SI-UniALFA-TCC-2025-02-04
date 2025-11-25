@@ -23,12 +23,10 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        // Usa o Model User
         $perPage = $request->input('per_page', 10);
         $users = Usuario::paginate($perPage);
         $escolas = Escola::all();
 
-        // Renomeia a variável para o plural correto ('users')
         return view('usuarios.index', compact('perPage','users', 'escolas'));
 
     }
@@ -56,7 +54,6 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        // Validação (sem alterações)
         $validated = $request->validate([
             'name' => 'required|string|max:100',
             'email' => 'required|string|email|max:100|unique:users,email',
@@ -77,13 +74,10 @@ class UserController extends Controller
             Usuario::create($validated);
             return redirect('/usuarios')->with('sucesso', 'Usuário cadastrado com sucesso!');
         } catch (\Exception $e) {
-            // Chamada ao Log corrigida (sem a barra invertida)
             Log::error('Falha ao cadastrar usuário: ' . $e->getMessage());
             return redirect()->back()->withInput()->with('erro', 'Falha ao cadastrar o usuário. Tente novamente.');
         }
     }
-
-    // ... (os métodos show e edit não precisam de mudança)
 
     public function show(string $id)
     {
@@ -115,7 +109,6 @@ class UserController extends Controller
             $user->update($validated);
             return redirect('/usuarios')->with('sucesso', 'Usuário atualizado com sucesso!');
         } catch (\Exception $e) {
-            // Chamada ao Log corrigida (sem a barra invertida)
             Log::error('Falha ao atualizar usuário: ' . $e->getMessage());
             return redirect()->back()->withInput()->with('erro', 'Falha ao atualizar usuário. Tente novamente.');
         }
@@ -124,7 +117,6 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         try {
-            // Usa o Model User
             $user = Usuario::findOrFail($id);
             $user->delete();
             return redirect('/usuarios')->with('sucesso', 'Usuário excluído com sucesso!');

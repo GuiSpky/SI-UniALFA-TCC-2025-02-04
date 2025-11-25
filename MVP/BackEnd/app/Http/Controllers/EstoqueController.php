@@ -10,9 +10,6 @@ use Illuminate\Http\Request;
 
 class EstoqueController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $user = auth()->user();
@@ -21,7 +18,7 @@ class EstoqueController extends Controller
         $produtos = Produto::all();
         $escolas  = Escola::all();
 
-        // 📌 Cargo 1 → pode filtrar por qualquer escola
+        // Filtro para o gerente
         if ($user->cargo == 1) {
 
             $escolaSelecionada = $request->input('escola_id', $user->escola_id);
@@ -32,7 +29,7 @@ class EstoqueController extends Controller
             return view('estoques.index', compact('perPage', 'estoque', 'produtos', 'escolas', 'escolaSelecionada'));
         }
 
-        // 📌 Cargo 2 → só vê sua própria escola
+        // Demais cargos apenas ver escola de origem
         $estoque = Estoque::where('escola_id', $user->escola_id)
             ->paginate($perPage);
 
@@ -55,10 +52,6 @@ class EstoqueController extends Controller
         return view('estoques.create', compact('escolas', 'produtos'));
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         if (auth()->user()->cargo != 1) {
@@ -97,11 +90,6 @@ class EstoqueController extends Controller
             ->with('sucesso', 'Entrada(s) cadastrada(s) com sucesso!');
     }
 
-
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $estoque = Estoque::with(['produto', 'escola', 'pedido'])->findOrFail($id);

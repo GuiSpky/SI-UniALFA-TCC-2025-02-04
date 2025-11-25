@@ -61,7 +61,6 @@ class EscolaController extends Controller
         $cidades = Cidade::all();
         $bairros = Bairro::all();
 
-        // return($escola);
         return view('escolas.edit', [
             'escola' => $escola,
             'cidades' => $cidades,
@@ -71,7 +70,7 @@ class EscolaController extends Controller
 
     public function show(string $id)
     {
-        $escola = Escola::findOrFail($id); // Encontra o recurso ou lança um erro 404
+        $escola = Escola::findOrFail($id); 
         $cidade = Cidade::all();
         $bairro = Bairro::all();
 

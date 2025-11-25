@@ -37,9 +37,6 @@ class PedidoController extends Controller
         return view('pedidos.index', compact('perPage', 'pedidos', 'produtos'));
     }
 
-    /** ----------------------------------------------
-     *  🔒 Função auxiliar para bloquear acessos ilegais
-     *  ---------------------------------------------- */
     private function bloquearAcesso($pedido, $user)
     {
         // Cargo 1 NÃO pode ver pedidos com status Editando
@@ -187,80 +184,59 @@ class PedidoController extends Controller
 
 
     public function confirmado($id)
-{
-    $pedido = Pedido::with('itens.produto')->findOrFail($id);
+    {
+        $pedido = Pedido::with('itens.produto')->findOrFail($id);
 
-    $this->authorize('confirmar', $pedido);
+        $this->authorize('confirmar', $pedido);
 
-    if (auth()->user()->cargo != 1) {
-        return redirect()->back()->with('error', 'Ação permitida somente para administradores municipais.');
-    }
-
-    // =============================
-    // 📌 CRIA O REGISTRO DE CONSUMO
-    // =============================
-    $consumo = Consumo::create([
-        'escola_id' => 1,
-    ]);
-
-    // ========================================
-    // 📌 LOOP PARA BAIXAR ESTOQUE (FIFO)
-    // ========================================
-    foreach ($pedido->itens as $item) {
-
-        $quantidadeNecessaria = $item->quantidade;
-
-        // Estoques FIFO por validade crescente
-        $estoques = Estoque::where('produto_id', $item->produto_id)
-            ->where('quantidade_saldo', '>', 0)
-            ->orderBy('validade')
-            ->get();
-
-        foreach ($estoques as $estoque) {
-
-            if ($quantidadeNecessaria <= 0) break;
-
-            $disponivel = $estoque->quantidade_saldo;
-
-            // Quantidade que realmente será consumida deste estoque
-            $qtdConsumida = min($disponivel, $quantidadeNecessaria);
-
-            // ================================
-            // 📌 1. Atualiza o estoque (baixa)
-            // ================================
-            $estoque->quantidade_saldo -= $qtdConsumida;
-            $estoque->quantidade_saida += $qtdConsumida;
-            $estoque->save();
-
-            // =======================================
-            // 📌 2. Registra item do consumo
-            // =======================================
-            ItemConsumo::create([
-                'consumo_id' => $consumo->id,    // 🔥 agora está correto
-                'estoque_id' => $estoque->id,
-                'quantidade' => $qtdConsumida,
-            ]);
-
-            // diminui o necessário
-            $quantidadeNecessaria -= $qtdConsumida;
+        if (auth()->user()->cargo != 1) {
+            return redirect()->back()->with('error', 'Ação permitida somente para administradores municipais.');
         }
 
-        // =======================================
-        // 📌 Valida estoque insuficiente
-        // =======================================
-        if ($quantidadeNecessaria > 0) {
-            return redirect()->back()
-                ->with('error', "Estoque insuficiente para o produto {$item->produto->nome}.");
+        $consumo = Consumo::create([
+            'escola_id' => 1,
+        ]);
+
+        foreach ($pedido->itens as $item) {
+
+            $quantidadeNecessaria = $item->quantidade;
+
+            $estoques = Estoque::where('produto_id', $item->produto_id)
+                ->where('quantidade_saldo', '>', 0)
+                ->orderBy('validade')
+                ->get();
+
+            foreach ($estoques as $estoque) {
+
+                if ($quantidadeNecessaria <= 0) break;
+
+                $disponivel = $estoque->quantidade_saldo;
+
+                $qtdConsumida = min($disponivel, $quantidadeNecessaria);
+
+                $estoque->quantidade_saldo -= $qtdConsumida;
+                $estoque->quantidade_saida += $qtdConsumida;
+                $estoque->save();
+
+                ItemConsumo::create([
+                    'consumo_id' => $consumo->id,
+                    'estoque_id' => $estoque->id,
+                    'quantidade' => $qtdConsumida,
+                ]);
+
+                // diminui o necessário
+                $quantidadeNecessaria -= $qtdConsumida;
+            }
+
+            if ($quantidadeNecessaria > 0) {
+                return redirect()->back()
+                    ->with('error', "Estoque insuficiente para o produto {$item->produto->nome}.");
+            }
         }
+
+        $pedido->update(['status' => 'Confirmado']);
+
+        return redirect()->route('pedidos.index')
+            ->with('success', 'Pedido confirmado, consumo registrado e estoque baixado com sucesso!');
     }
-
-    // =======================================
-    // 📌 Atualiza o status final do pedido
-    // =======================================
-    $pedido->update(['status' => 'Confirmado']);
-
-    return redirect()->route('pedidos.index')
-        ->with('success', 'Pedido confirmado, consumo registrado e estoque baixado com sucesso!');
-}
-
 }

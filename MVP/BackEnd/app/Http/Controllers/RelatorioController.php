@@ -49,10 +49,6 @@ class RelatorioController extends Controller
         return view('relatorios.index', array_merge($resultado, compact('escolas', 'produtos')));
     }
 
-
-    /* =====================================================
-    |  APLICA FILTROS COMUNS EM QUALQUER QUERY
-    ===================================================== */
     private function applyCommonFilters($query, Request $request, $tabelaData = null)
     {
         if ($request->filled('data_inicio') && $request->filled('data_fim')) {
@@ -65,10 +61,7 @@ class RelatorioController extends Controller
         return $query;
     }
 
-
-    /* =====================================================
-    |  GERA RELATÓRIO COMPLETO
-    ===================================================== */
+    // Gerar relatório
     private function gerarDados(Request $request)
     {
         $dados = collect();
@@ -77,9 +70,7 @@ class RelatorioController extends Controller
 
         switch ($request->tipo) {
 
-            /* ----------------------------------------
-            | RELATÓRIO 1 — CONSUMO POR ESCOLA
-            -----------------------------------------*/
+            // Relatório: consumo por Escola
             case 'consumo_escolas':
                 $titulo = 'Consumo por Escola';
 
@@ -122,9 +113,7 @@ class RelatorioController extends Controller
                 break;
 
 
-            /* ----------------------------------------
-            | RELATÓRIO 2 — PRODUTOS MAIS SOLICITADOS
-            -----------------------------------------*/
+            // Relatório: Produtos mais Solicitados
             case 'solicitacoes_produtos':
                 $titulo = 'Produtos Mais Solicitados';
 
@@ -165,10 +154,7 @@ class RelatorioController extends Controller
 
                 break;
 
-
-            /* ----------------------------------------
-            | RELATÓRIO 3 — ESTOQUE CRÍTICO / A VENCER
-            -----------------------------------------*/
+            // Relatório: Estoques Criticos / Validade
             case 'estoque_critico':
                 $titulo = 'Estoque Crítico';
 
@@ -217,13 +203,10 @@ class RelatorioController extends Controller
 
                 break;
 
-            /* ----------------------------------------
-            | RELATÓRIO 4 — MOVIMENTAÇÃO DE ITENS (APENAS PEDIDOS)
-            -----------------------------------------*/
+            // Rekatório: Movimentação de itens
             case 'movimentacao_itens':
                 $titulo = 'Movimentação de Itens (Pedidos)';
 
-                // Somente PEDIDOS → saída da Merenda para Escola
                 $pedidos = DB::table('item_pedidos')
                     ->join('pedidos', 'pedidos.id', '=', 'item_pedidos.pedido_id')
                     ->join('produtos', 'produtos.id', '=', 'item_pedidos.produto_id')

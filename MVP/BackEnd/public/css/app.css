@@ -1,0 +1,466 @@
+:root {
+    --bg-dark: #1f2937;
+    /* Cinza escuro para o fundo da página (Tailwind gray-800) */
+    --bg-light: #f3f4f6;
+    /* Cinza claro para o fundo da página (Tailwind gray-100) */
+    --text-dark: #fff;
+    /* Texto claro */
+    --text-light: #1f2937;
+    /* Texto escuro */
+
+    --sidebar-width: 260px;
+    --sidebar-bg-dark: #111827;
+    --sidebar-bg-light: #f8f9fa;
+    --sidebar-text-dark: #fff;
+    --sidebar-text-light: #000;
+}
+
+/* Clarear textos secundários (ex: .text-muted) no modo escuro */
+body.dark .text-muted {
+    color: #cbd5e1 !important;
+    /* tom claro e suave */
+}
+
+body.dark .table td,
+body.dark .table th,
+body.dark .table a {
+    color: #f1f5f9 !important;
+    /* tom claro */
+}
+
+/* Links na tabela (modo escuro) */
+body.dark .table a:hover {
+    color: #60a5fa !important;
+    /* azul suave ao passar o mouse */
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    min-height: 100vh;
+    display: flex;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.id {
+    font-size: 0.9rem;
+}
+
+body.dark {
+    background-color: var(--bg-dark);
+    color: var(--text-dark);
+}
+
+body.light {
+    background-color: var(--bg-light);
+    color: var(--text-light);
+}
+
+/* Estilo para elementos que precisam de fundo/borda em modo escuro/claro */
+.card,
+.table {
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+body.dark .card {
+    background-color: #1f2937;
+    /* Fundo do card em modo escuro */
+    color: var(--text-dark);
+    border-color: #374151;
+    /* Borda do card em modo escuro */
+}
+
+body.light .card {
+    background-color: #ffffff;
+    /* Fundo do card em modo claro */
+    color: var(--text-light);
+    border-color: #e5e7eb;
+    /* Borda do card em modo claro */
+}
+
+body.dark .table {
+    --bs-table-bg: #1f2937;
+    --bs-table-color: var(--text-dark);
+    --bs-table-border-color: #374151;
+}
+
+body.dark .table-striped>tbody>tr:nth-of-type(odd)>* {
+    --bs-table-bg-type: #2d3748;
+    /* linha ímpar mais escura */
+}
+
+body.dark .table-striped>tbody>tr:nth-of-type(even) {
+    background-color: #1f2937 !important;
+    /* linha par mais clara */
+}
+
+body.dark .table-hover>tbody>tr:hover {
+    background-color: #374151 !important;
+    /* destaque forte no hover */
+}
+
+body.dark .table thead th {
+    background-color: #111827 !important;
+    /* cabeçalho mais contrastado */
+    color: #f9fafb !important;
+    /* texto branco */
+    border-bottom: 2px solid #4b5563 !important;
+}
+
+body.dark .form-control,
+body.dark .form-select {
+    background-color: #374151;
+    color: var(--text-dark);
+    border-color: #4b5563;
+}
+
+body.dark .form-control:focus,
+body.dark .form-select:focus {
+    background-color: #374151;
+    color: var(--text-dark);
+    border-color: #6b7280;
+    box-shadow: 0 0 0 0.25rem rgba(107, 114, 128, 0.25);
+}
+
+body.dark .btn-outline-secondary {
+    color: var(--text-dark);
+    border-color: #6b7280;
+}
+
+body.dark .btn-outline-secondary:hover {
+    background-color: #6b7280;
+    color: var(--text-dark);
+}
+
+body.dark .modal-content {
+    background-color: #1f2937;
+    color: var(--text-dark);
+    border: 1px solid #374151;
+}
+
+body.dark .modal-header,
+body.dark .modal-footer {
+    border-color: #374151;
+}
+
+body.dark .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* Coerência de estilo para links e botões */
+.sidebar.dark .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar.light .nav-link:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.sidebar .nav-link.active {
+    background-color: #0d6efd;
+    color: white !important;
+    /* Forçar branco para o link ativo */
+}
+
+body.dark .nav-link {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+body.light .nav-link {
+    color: #333;
+}
+
+/* Estilo para o cabeçalho do sidebar */
+.sidebar.dark .sidebar-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar.light .sidebar-header {
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Estilo para o rodapé do sidebar */
+.sidebar.dark .sidebar-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar.light .sidebar-footer {
+    border-top: 1px solid #dee2e6;
+}
+
+/* Sidebar */
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: background-color 0.3s, color 0.3s, width 0.3s;
+    padding: 1rem 0;
+    position: fixed;
+    overflow-y: auto;
+    overflow-x: hidden;
+    top: 0;
+    left: 0;
+}
+
+.sidebar.dark {
+    background-color: var(--sidebar-bg-dark);
+    color: var(--sidebar-text-dark);
+}
+
+.sidebar.light {
+    background-color: var(--sidebar-bg-light);
+    color: var(--sidebar-text-light);
+    border-right: 1px solid #dee2e6;
+}
+
+.sidebar .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin: 2px 10px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.sidebar.dark .nav-link {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.sidebar.light .nav-link {
+    color: #333;
+}
+
+.sidebar .nav-link:hover {
+    background-color: rgba(13, 110, 253, 0.1);
+}
+
+.sidebar .nav-link.active {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.sidebar .sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    padding: 0 16px 1rem 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar.light .sidebar-header {
+    border-color: #dee2e6;
+}
+
+.sidebar-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    background: inherit;
+}
+
+.sidebar.light .sidebar-footer {
+    border-color: #dee2e6;
+}
+
+.sidebar-footer img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.main-content {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    padding: 2rem;
+    transition: margin-left 0.3s;
+}
+
+body.dark .table> :not(caption)>*>* {
+    border-color: #4b5563 !important;
+    /* borda mais forte */
+}
+
+.sidebar-content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 1rem 0;
+}
+
+.sidebar-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: inherit;
+    padding: 1rem;
+}
+
+/* Ocultar colunas específicas apenas no CELULAR */
+@media (max-width: 768px) {
+
+    /* USUÁRIOS */
+    h1.h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .card {
+        padding: 1rem !important;
+    }
+
+    canvas {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    .table-responsive-mobile {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table-responsive-mobile table {
+        min-width: 600px;
+    }
+
+    .col-md-4,
+    .col-md-6 {
+        margin-bottom: 1rem;
+    }
+
+    .col-id,
+    .col-email,
+    .col-telefone,
+    .col-cargo {
+        display: none !important;
+    }
+
+    /* CIDADES */
+    .col-cidade-id {
+        display: none !important;
+    }
+
+    /* BAIRROS */
+    .col-bairro-id {
+        display: none !important;
+    }
+
+    /* CONSUMOS */
+    .col-data-saida {
+        display: none !important;
+    }
+
+    /* PEDIDOS */
+    .col-pedido-data,
+    .col-pedido-produtos,
+    .col-acoes {
+        display: none !important;
+    }
+
+    /* ESCOLAS */
+    .col-escola-id,
+    .col-escola-bairro,
+    .col-escola-cidade {
+        display: none !important;
+    }
+
+    /* PRODUTOS */
+    .col-produto-id,
+    .col-produto-grupo {
+        display: none !important;
+    }
+
+    /* CARDÁPIOS */
+    .col-cardapio-id,
+    .col-cardapio-acoes {
+        display: none !important;
+    }
+
+    /* ESTOQUE */
+    .col-estoque-id,
+    .col-estoque-data,
+    .col-estoque-validade,
+    .col-estoque-deposito,
+    .col-estoque-pedido {
+        display: none !important;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -260px;
+        z-index: 1050;
+    }
+
+    .sidebar.show {
+        left: 0;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .toggle-btn {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1060;
+        background-color: #0d6efd;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 10px;
+    }
+
+    .estoque-filter-container {
+        background: #fff;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        margin-bottom: 12px;
+    }
+
+    .estoque-filter-container label {
+        font-size: 0.8rem;
+        margin-bottom: 4px;
+        display: block;
+    }
+
+    .estoque-filter-container select {
+        width: 100%;
+        font-size: 0.9rem;
+        padding: 6px 10px;
+    }
+
+    /* Remove margem exagerada do container principal */
+    .estoque-filter-wrapper {
+        margin-bottom: 10px !important;
+    }
+}
+
+
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.swal2-icon {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}

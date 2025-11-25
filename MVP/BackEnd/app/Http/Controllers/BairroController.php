@@ -51,14 +51,13 @@ class BairroController extends Controller
             Bairro::create($dados);
             return redirect('/bairros')->with('sucesso', 'Bairro cadastrado com sucesso!');
         } catch (\Exception $e) {
-            // Pode ser útil logar o erro: \Log::error('Erro ao cadastrar bairro: ' . $e->getMessage());
             return redirect()->back()->withInput()->with('erro', 'Falha ao cadastrar o bairro. Tente novamente.');
         }
     }
 
     public function show(string $id)
     {
-        $bairro = Bairro::findOrFail($id); // Encontra o recurso ou lança um erro 404
+        $bairro = Bairro::findOrFail($id); 
         $cidades = Cidade::all();
 
         return view('bairros.show', compact('bairro', 'cidades'));

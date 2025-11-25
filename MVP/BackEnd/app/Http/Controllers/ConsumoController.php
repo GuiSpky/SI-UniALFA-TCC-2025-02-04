@@ -30,9 +30,6 @@ class ConsumoController extends Controller
         }
     }
 
-
-
-
     public function create()
     {
         try {
@@ -71,7 +68,6 @@ class ConsumoController extends Controller
 
                 $estoque = Estoque::findOrFail($estoqueId);
 
-                // Bloqueio de segurança
                 if ($estoque->escola_id !== auth()->user()->escola_id) {
                     throw new \Exception("Você não tem permissão para consumir itens desta escola.");
                 }

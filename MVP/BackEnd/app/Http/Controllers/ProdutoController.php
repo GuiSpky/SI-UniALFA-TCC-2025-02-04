@@ -62,7 +62,6 @@ class ProdutoController extends Controller
         ]);
     }
 
-
     public function store(Request $request)
     {
         $dados = $request->validate([
@@ -81,7 +80,7 @@ class ProdutoController extends Controller
 
     public function show(string $id)
     {
-        $produto = Produto::findOrFail($id); // Encontra o recurso ou lança um erro 404
+        $produto = Produto::findOrFail($id);
 
         return view('produtos.show', ['produto' => $produto]);
     }
@@ -96,8 +95,6 @@ class ProdutoController extends Controller
             'medidas' => $this->medidas
         ]);
     }
-
-
 
     public function update(Request $request, string $id)
     {
@@ -117,7 +114,6 @@ class ProdutoController extends Controller
             $produto->update($dados);
             return redirect('/produtos')->with('sucesso', 'Produto atualizado com sucesso!');
         } catch (\Exception $e) {
-            // Chamada ao Log corrigida (sem a barra invertida)
             Log::error('Falha ao atualizar produto: ' . $e->getMessage());
             return redirect()->back()->withInput()->with('erro', 'Falha ao atualizar produto. Tente novamente.');
         }
@@ -125,14 +121,13 @@ class ProdutoController extends Controller
 
     public function destroy(string $id)
     {
-        $produto = Produto::findOrFail($id); // Encontra o recurso ou lança um erro 404
+        $produto = Produto::findOrFail($id);
 
 
         try {
             $produto->delete();
             return redirect('/produtos')->with('sucesso', 'Produto removido com sucesso!');
         } catch (\Exception $e) {
-            // Chamada ao Log corrigida (sem a barra invertida)
             Log::error('Falha ao remover produto: ' . $e->getMessage());
             return redirect()->back()->withInput()->with('erro', 'Falha ao remover produto. Tente novamente.');
         }

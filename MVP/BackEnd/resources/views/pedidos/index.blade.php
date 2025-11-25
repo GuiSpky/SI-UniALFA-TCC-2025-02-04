@@ -27,7 +27,7 @@
                             <th class="col-pedido-data">Data do Pedido</th>
                             <th>Status</th>
                             <th class="col-pedido-produtos">Produtos</th>
-                            <th class="col-acoes align-ite-center">Ações</th>
+                            <th class="col-acoes-pedido align-ite-center">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -57,7 +57,7 @@
                                         {{ $produtos->where('id', $item->produto->id)->pluck('medida')->first() ?? 'N/A' }})<br>
                                     @endforeach
                                 </td>
-                                <td class="col-acoes text-end">
+                                <td class="col-acoes-pedido text-end">
                                     @if ($pedido->status == 'Editando')
                                         @can('update', $pedido)
                                             <a href="{{ route('pedidos.edit', $pedido) }}"

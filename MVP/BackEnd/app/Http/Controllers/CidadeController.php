@@ -84,11 +84,11 @@ class CidadeController extends Controller
 
     public function show(string $id)
     {
-        $cidade = Cidade::findOrFail($id); // Encontra o recurso ou lança um erro 404
+        $cidade = Cidade::findOrFail($id);
 
         return view('cidades.show', [
             'cidade' => $cidade,
-            'ufs' => $this->ufs, // envia a lista de UFs
+            'ufs' => $this->ufs,
         ]);
     }
 
@@ -127,12 +127,10 @@ class CidadeController extends Controller
 
     public function destroy(string $id)
     {
-        $cidade = Cidade::findOrFail($id); // Encontra o recurso ou lança um erro 404
+        $cidade = Cidade::findOrFail($id);
 
-        // Exclui o ambiente
         $cidade->delete();
 
-        // Retorna apenas uma mensagem de sucesso
         return redirect('/cidades')->with('sucesso', 'Cidade removida com sucesso!');
     }
 

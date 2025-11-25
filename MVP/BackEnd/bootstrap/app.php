@@ -32,13 +32,6 @@ return Application::configure(basePath: dirname(__DIR__))
                 return redirect()->route('login');
             }
 
-            if ($e->getStatusCode() === 404) {
-                return redirect()
-                    ->route('dashboard')
-                    ->with('toast', 'A página solicitada não foi encontrada!')
-                    ->with('toast_icon', '💡');
-            }
-
             // ERRO 500 - Interno do Servidor
             if ($e->getStatusCode() === 500) {
                 return redirect()->route('dashboard')

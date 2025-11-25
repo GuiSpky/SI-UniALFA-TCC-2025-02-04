@@ -79,11 +79,10 @@ class CardapioController extends Controller
     $dados = $request->validate([
         'receita' => 'required|string|max:255',
         'data' => 'required|date|after_or_equal:today',
-        'produtos' => 'required|array', // produtos devem vir em array
+        'produtos' => 'required|array',
     ]);
 
     try {
-        // Atualiza os dados básicos do cardápio
         $cardapio->update([
             'receita' => $dados['receita'],
             'data' => $dados['data'],

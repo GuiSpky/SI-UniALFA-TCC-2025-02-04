@@ -19,9 +19,7 @@ class DashboardController extends Controller
         $filtrarPorEscola = in_array($user->cargo, [2, 3, 4]);
         $escolaId = $user->escola_id;
 
-        // ===============================
-        // TOTAL DE CONSUMOS
-        // ===============================
+        // Card de total de Consumo
         if ($filtrarPorEscola) {
             $totalConsumos = ItemConsumo::whereHas('consumo', function ($q) use ($escolaId) {
                 $q->where('escola_id', $escolaId);
@@ -30,23 +28,15 @@ class DashboardController extends Controller
             $totalConsumos = ItemConsumo::sum('quantidade');
         }
 
-        // ===============================
-        // TOTAL DE PEDIDOS
-        // ===============================
+        // Card de total de Pedidos
         if ($filtrarPorEscola) {
             $totalPedidos = Pedido::where('escola_id', $escolaId)->count();
         } else {
             $totalPedidos = Pedido::count();
         }
 
-        // ===============================
-        // TOTAL DE PRODUTOS → ocultado no Blade
-        // ===============================
         $totalProdutos = Produto::count();
 
-        // ===============================
-        // MAIS CONSUMIDOS
-        // ===============================
         $maisConsumidos = ItemConsumo::select('estoque_id', DB::raw('SUM(quantidade) as total'))
             ->when($filtrarPorEscola, function ($q) use ($escolaId) {
                 $q->whereHas('consumo', function ($cons) use ($escolaId) {
@@ -59,9 +49,7 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        // ===============================
-        // CONSUMO ÚLTIMOS 7 DIAS
-        // ===============================
+        // Grafico Consumo
         $consumoDias = ItemConsumo::select(
             DB::raw('DATE(created_at) as dia'),
             DB::raw('SUM(quantidade) as total')
@@ -76,9 +64,7 @@ class DashboardController extends Controller
             ->orderBy('dia')
             ->get();
 
-        // ===============================
-        // LOTES VENCENDO
-        // ===============================
+        // Lotes com vencimento próximo
         $lotesVencendo = Estoque::when($filtrarPorEscola, function ($q) use ($escolaId) {
             $q->where('escola_id', $escolaId);
         })
